@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#0d0d1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lexikon">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d0d1a'/><text y='.9em' font-size='80' x='10'>🇩🇪</text></svg>">
+<title>Lexikon — A1→B2 German</title>
+<style>
+:root{
+  --bg:#0d0d1a;--bg2:#13132a;--panel:#161630;--panel2:#1c1c3a;--accent:#0f3460;
+  --cyan:#00d4ff;--cyan2:#00a8cc;--gold:#ffd700;--gold2:#ffab00;
+  --text:#f0f0f0;--dim:#6b7a99;--mid:#9aa5bf;
+  --danger:#ff4757;--success:#2ed573;--warn:#ffa502;--purple:#9b59b6;
+  --a1:#2ed573;--a2:#00d4ff;--b1:#ffd700;--b2:#ff6b9d;
+  --mono:ui-monospace,'Cascadia Code','SF Mono','Fira Code','Consolas','Courier New',monospace;
+  --sans:system-ui,-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --r:14px;--rs:8px;--nh:64px;--sh:0 4px 24px rgba(0,0,0,.4);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+body{display:flex;flex-direction:column;overflow:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+#app{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:480px;margin:0 auto;width:100%;position:relative}
+.screen{display:none;flex-direction:column;flex:1;overflow-y:auto;padding:18px 15px calc(var(--nh)+18px);scroll-behavior:smooth}
+.screen.active{display:flex;animation:sIn .2s ease}
+@keyframes sIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* NAV */
+#nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:var(--nh);background:rgba(13,13,26,.96);backdrop-filter:blur(20px);display:flex;border-top:1px solid rgba(255,255,255,.06);z-index:1000}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--dim);cursor:pointer;transition:color .2s,transform .1s;font-family:var(--sans);font-size:8.5px;font-weight:700;letter-spacing:.8px;padding:8px 0 12px;text-transform:uppercase}
+.nb:active{transform:scale(.92)}.nb svg{width:20px;height:20px;transition:transform .2s}
+.nb.active{color:var(--cyan)}.nb.active svg{transform:translateY(-1px)}
+
+/* CARDS */
+.card{background:var(--panel);border-radius:var(--r);border:1px solid rgba(255,255,255,.06);padding:15px;margin-bottom:11px;transition:border-color .2s}
+.card:hover{border-color:rgba(255,255,255,.1)}
+.cg{background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(0,0,0,0) 60%);border-color:rgba(0,212,255,.18)}
+.csm{background:var(--panel);border-radius:var(--rs);border:1px solid rgba(255,255,255,.06);padding:11px;margin-bottom:8px}
+
+/* TYPE */
+.stitle{font-size:21px;font-weight:800;margin-bottom:18px;letter-spacing:-.5px}
+.slabel{font-size:9.5px;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:9px}
+.wd{font-family:var(--mono);font-size:25px;font-weight:700;color:var(--cyan);letter-spacing:-.5px;line-height:1.2}
+.wdsm{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cyan)}
+.tr{font-size:13px;color:var(--mid);font-style:italic}
+.sent{font-size:13.5px;line-height:1.8;color:var(--text)}
+.gtag{display:inline-flex;align-items:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:6px;padding:3px 9px;font-family:var(--mono);font-size:10.5px;color:var(--cyan);flex-shrink:0}
+.gtext{background:linear-gradient(135deg,var(--cyan),#7b8cff 50%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 18px;border-radius:var(--rs);border:none;cursor:pointer;font-family:var(--sans);font-size:13.5px;font-weight:600;transition:all .15s;text-decoration:none;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.bp{background:var(--cyan);color:#000;box-shadow:0 0 18px rgba(0,212,255,.25)}.bp:hover{background:#1de0ff;box-shadow:0 0 26px rgba(0,212,255,.4)}
+.bs{background:var(--accent);color:var(--text)}.bs:hover{background:#1a4a80}
+.bd{background:var(--danger);color:#fff}
+.bsuc{background:var(--success);color:#000}
+.bg{background:transparent;color:var(--mid);border:1px solid rgba(255,255,255,.1)}.bg:hover{color:var(--text);border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.bfw{width:100%}.blg{padding:14px 22px;font-size:15px;border-radius:var(--r)}.bsm{padding:6px 11px;font-size:11.5px;border-radius:6px}
+button{cursor:pointer;font-family:var(--sans)}
+
+/* INPUTS */
+input[type=text],input[type=number],input[type=password],textarea,select{background:var(--panel2);border:1px solid rgba(255,255,255,.1);border-radius:var(--rs);color:var(--text);font-family:var(--sans);font-size:13.5px;padding:10px 13px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
+textarea{resize:vertical;min-height:76px;line-height:1.6}
+select{appearance:none;cursor:pointer}
+label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-weight:500}
+.fg{margin-bottom:13px}
+
+/* PROGRESS */
+.pb{height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.pf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--cyan2));transition:width .6s cubic-bezier(.4,0,.2,1)}
+.pf.gold{background:linear-gradient(90deg,var(--gold),var(--gold2))}.pf.green{background:linear-gradient(90deg,var(--success),#00c853)}
+.pf.a1{background:var(--a1)}.pf.a2{background:var(--a2)}.pf.b1{background:var(--b1)}.pf.b2{background:var(--b2)}
+
+/* LEVEL BADGE */
+.lvlbadge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,215,0,.1);border:1.5px solid rgba(255,215,0,.35);border-radius:20px;padding:4px 11px;font-size:11.5px;font-weight:700;color:var(--gold)}
+
+/* FLIP CARD */
+.fwrap{perspective:1400px;width:100%;min-height:340px;cursor:pointer;user-select:none;-webkit-user-select:none;position:relative}
+.fc{position:relative;width:100%;min-height:340px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);will-change:transform}
+.fc.flipped{transform:rotateY(180deg)}
+.ff{position:absolute;width:100%;min-height:340px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--panel);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:24px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.ff.front{background:linear-gradient(135deg,var(--panel),rgba(0,212,255,.04))}
+.ff.back{transform:rotateY(180deg);align-items:flex-start;justify-content:flex-start;gap:9px;overflow:hidden}
+.swfb{position:absolute;top:14px;font-size:12px;font-weight:800;border-radius:5px;padding:4px 12px;opacity:0;transition:opacity .12s;pointer-events:none;z-index:10;letter-spacing:1px}
+.swno{left:13px;color:var(--danger);border:2px solid var(--danger)}.swyes{right:13px;color:var(--success);border:2px solid var(--success)}
+.swfb.show{opacity:1}
+
+/* MCQ */
+.mop{width:100%;background:var(--panel);border:2px solid rgba(255,255,255,.08);border-radius:var(--rs);padding:13px 15px;text-align:left;font-family:var(--mono);font-size:13.5px;color:var(--text);cursor:pointer;transition:all .15s;margin-bottom:8px;display:block}
+.mop:hover:not(:disabled){border-color:var(--cyan);background:rgba(0,212,255,.06);transform:translateX(3px)}
+.mop.correct{border-color:var(--success);background:rgba(46,213,115,.1);color:var(--success)}
+.mop.wrong{border-color:var(--danger);background:rgba(255,71,87,.1);color:var(--danger)}
+.mop:disabled{cursor:not-allowed}
+
+/* TYPING */
+.tans{font-family:var(--mono);font-size:17px;text-align:center;letter-spacing:1px;padding:15px;border-radius:var(--r);border:2px solid rgba(255,255,255,.1);background:var(--panel2);color:var(--text);width:100%;transition:border-color .2s}
+.tans:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(0,212,255,.12)}
+.tans.ok{border-color:var(--success);box-shadow:0 0 0 4px rgba(46,213,115,.12)}
+.tans.ng{border-color:var(--danger);box-shadow:0 0 0 4px rgba(255,71,87,.12)}
+
+/* BOSS */
+.btimer{position:relative;width:56px;height:56px;flex-shrink:0}
+.btimer svg{transform:rotate(-90deg);display:block}
+.trbg{stroke:rgba(255,255,255,.08)}.trfill{stroke:var(--cyan);stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s}
+.trfill.urg{stroke:var(--danger)}.trtxt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan);transition:color .3s}
+.trtxt.urg{color:var(--danger)}
+
+/* XP */
+.xprow{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:11px 15px;margin-bottom:13px}
+
+/* DECKS */
+.dcard{background:var(--panel);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:15px;margin-bottom:9px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.dcard::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,0),rgba(0,212,255,.04));opacity:0;transition:opacity .2s}
+.dcard:hover{border-color:rgba(0,212,255,.3);transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.3)}.dcard:hover::before{opacity:1}
+.dcard.locked{opacity:.45;cursor:not-allowed;transform:none}
+
+/* FOLDER */
+.fhdr{display:flex;align-items:center;gap:7px;padding:9px 3px 7px;cursor:pointer;font-weight:700;font-size:12.5px;color:var(--gold);letter-spacing:.5px;border-bottom:1px solid rgba(255,215,0,.12);margin-bottom:7px;transition:opacity .15s}
+.fhdr:hover{opacity:.8}
+
+/* STORY */
+.sbox{background:rgba(0,212,255,.05);border-left:3px solid rgba(0,212,255,.35);border-radius:0 var(--rs) var(--rs) 0;padding:11px 13px;font-size:12.5px;line-height:1.75;color:var(--mid);font-style:italic}
+
+/* AUDIO */
+.abtn{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--cyan);cursor:pointer;transition:all .15s;font-size:15px;flex-shrink:0}
+.abtn:hover{background:rgba(0,212,255,.18);box-shadow:0 0 12px rgba(0,212,255,.2)}
+
+/* MODES */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mcard{background:var(--panel);border:2px solid rgba(255,255,255,.07);border-radius:var(--r);padding:14px 10px;cursor:pointer;text-align:center;transition:all .16s;position:relative;overflow:hidden}
+.mcard:hover{border-color:rgba(0,212,255,.35);transform:translateY(-2px)}.mcard.sel{border-color:var(--cyan);background:rgba(0,212,255,.07)}
+
+/* FILL */
+.blinp{border:none;border-bottom:2px solid var(--cyan);background:transparent;color:var(--cyan);font-family:var(--mono);font-size:13.5px;width:105px;outline:none;text-align:center;padding:0 3px;transition:border-color .2s}
+.blinp.ok{border-color:var(--success);color:var(--success)}.blinp.ng{border-color:var(--danger);color:var(--danger)}
+.wchip{background:var(--panel2);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 13px;font-family:var(--mono);font-size:12.5px;cursor:pointer;transition:all .12s;color:var(--text)}
+.wchip:hover{border-color:var(--cyan);color:var(--cyan)}.wchip.used{opacity:.35;text-decoration:line-through;pointer-events:none}
+
+/* SPARKLINE */
+.spark{display:flex;align-items:flex-end;gap:3px;height:30px}
+.sbar{flex:1;min-width:5px;border-radius:2px 2px 0 0;background:var(--panel2)}.sbar.g{background:var(--success)}.sbar.w{background:var(--warn)}.sbar.b{background:var(--danger)}
+
+/* WORD-LIST */
+.wli{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:opacity .15s}
+.wli:hover{opacity:.75}.wli:last-child{border-bottom:none}
+.divider{height:1px;background:rgba(255,255,255,.06);margin:13px 0}
+
+/* SUMMARY */
+.sstat{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}.sstat:last-child{border-bottom:none}
+.sval{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--cyan)}
+
+/* TABS */
+.tabs{display:flex;gap:3px;background:rgba(255,255,255,.04);border-radius:var(--rs);padding:3px;margin-bottom:15px}
+.tabbtn{flex:1;padding:7px 5px;border:none;border-radius:5px;background:transparent;color:var(--dim);font-family:var(--sans);font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.tabbtn.active{background:var(--accent);color:var(--text)}
+
+/* LEVEL CARD */
+.lvlcard{border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;border:2px solid transparent}
+.lvlcard:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.lvlcard.locked{opacity:.5;cursor:not-allowed;transform:none;filter:grayscale(.6)}
+.lvlcard[data-lv=A1]{background:linear-gradient(135deg,rgba(46,213,115,.1),rgba(46,213,115,.02));border-color:rgba(46,213,115,.25)}
+.lvlcard[data-lv=A2]{background:linear-gradient(135deg,rgba(0,212,255,.1),rgba(0,212,255,.02));border-color:rgba(0,212,255,.25)}
+.lvlcard[data-lv=B1]{background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.02));border-color:rgba(255,215,0,.25)}
+.lvlcard[data-lv=B2]{background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(255,107,157,.02));border-color:rgba(255,107,157,.25)}
+.lvltag{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1}
+.lvltag.A1{color:var(--a1)}.lvltag.A2{color:var(--a2)}.lvltag.B1{color:var(--b1)}.lvltag.B2{color:var(--b2)}
+
+/* MODAL */
+#mo{position:fixed;inset:0;background:rgba(0,0,0,.76);backdrop-filter:blur(4px);z-index:2000;display:none;align-items:center;justify-content:center;padding:15px;animation:fi .15s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+#mb{background:var(--panel);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:22px;width:100%;max-width:440px;max-height:88vh;overflow-y:auto;box-shadow:var(--sh);animation:mi .2s cubic-bezier(.4,0,.2,1)}
+@keyframes mi{from{transform:translateY(10px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--nh)+13px);left:50%;transform:translateX(-50%) translateY(14px);background:rgba(22,22,48,.98);border:1px solid rgba(255,255,255,.14);border-radius:var(--rs);padding:10px 18px;font-size:12.5px;font-weight:600;color:var(--text);z-index:9999;opacity:0;transition:all .22s cubic-bezier(.4,0,.2,1);white-space:nowrap;max-width:88vw;pointer-events:none;box-shadow:0 8px 22px rgba(0,0,0,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* WOTD */
+.wotd{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(155,89,182,.06));border:1px solid rgba(0,212,255,.18);border-radius:var(--r);padding:16px;margin-bottom:11px;cursor:pointer;position:relative;overflow:hidden}
+.wotd::before{content:'';position:absolute;top:-25px;right:-25px;width:70px;height:70px;background:radial-gradient(circle,rgba(0,212,255,.12),transparent 70%);border-radius:50%;pointer-events:none}
+
+/* DAILY CHALLENGE */
+.dc-banner{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,107,157,.05));border:1px solid rgba(255,215,0,.25);border-radius:var(--r);padding:14px 16px;margin-bottom:11px;cursor:pointer;transition:border-color .2s,transform .1s;position:relative;overflow:hidden}
+.dc-banner:hover{border-color:rgba(255,215,0,.4)}.dc-banner:active{transform:scale(.98)}
+.dc-banner.done{border-color:rgba(46,213,115,.3);background:linear-gradient(135deg,rgba(46,213,115,.07),rgba(0,0,0,0))}
+.dc-banner::before{content:'';position:absolute;top:-20px;right:-20px;width:60px;height:60px;background:radial-gradient(circle,rgba(255,215,0,.1),transparent 70%);border-radius:50%;pointer-events:none}
+.dc-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.35);border-radius:20px;padding:3px 10px;font-size:10.5px;font-weight:700;color:var(--gold)}
+.dc-pill.done{background:rgba(46,213,115,.15);border-color:rgba(46,213,115,.35);color:var(--success)}
+
+/* CONFETTI */
+.cw{position:fixed;top:0;left:0;right:0;height:100vh;pointer-events:none;overflow:hidden;z-index:9998}
+.cp{position:absolute;top:-20px;width:8px;height:8px;border-radius:2px;animation:cfall linear forwards}
+@keyframes cfall{0%{transform:translateY(0) rotateZ(0deg);opacity:1}100%{transform:translateY(110vh) rotateZ(720deg);opacity:0}}
+@keyframes xpp{0%{transform:translateY(0) scale(.6);opacity:0}40%{transform:translateY(-11px) scale(1.12);opacity:1}100%{transform:translateY(-22px) scale(.9);opacity:0}}
+.xp-pop{position:fixed;font-family:var(--mono);font-size:13.5px;font-weight:700;color:var(--gold);pointer-events:none;animation:xpp 1s ease forwards;z-index:9997}
+
+/* SEARCH */
+.sbox-wrap{position:relative;margin-bottom:11px}.sbox-wrap input{padding-left:34px}
+.sbox-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;pointer-events:none;z-index:1}
+
+/* KBD */
+.kbd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:1px 5px;font-family:var(--mono);font-size:9px;color:var(--mid)}
+
+/* CHART */
+.chbar{flex:1;background:linear-gradient(to top,var(--cyan2),var(--cyan));border-radius:3px 3px 0 0;min-width:8px;transition:height .5s ease;position:relative;cursor:default}
+.chbar:hover::after{content:attr(data-v);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:2px 5px;font-size:10px;white-space:nowrap;margin-bottom:3px;color:var(--text)}
+
+/* EMPTY */
+.empty{text-align:center;padding:32px 16px;color:var(--dim)}.empty .ei{font-size:38px;margin-bottom:9px}.empty p{font-size:13px;line-height:1.65}
+
+/* BROWSE */
+.brow-word{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s;border-radius:4px}
+.brow-word:hover{background:rgba(255,255,255,.03);padding-left:5px}.brow-word:last-child{border-bottom:none}
+.brow-lv{font-size:9px;font-weight:700;border-radius:4px;padding:2px 5px;letter-spacing:.5px;flex-shrink:0}
+.brow-lv.A1{background:rgba(46,213,115,.15);color:var(--a1)}.brow-lv.A2{background:rgba(0,212,255,.15);color:var(--a2)}
+.brow-lv.B1{background:rgba(255,215,0,.15);color:var(--b1)}.brow-lv.B2{background:rgba(255,107,157,.15);color:var(--b2)}
+
+/* LOADING */
+.ldots::after{content:'...';animation:ld 1.2s steps(3,end) infinite}
+@keyframes ld{0%{content:'.'}33%{content:'..'}66%{content:'...'}}
+
+/* EMOJI PICK */
+.epick{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}
+.ebtn{background:rgba(255,255,255,.04);border:2px solid transparent;border-radius:10px;padding:6px 10px;font-size:16px;cursor:pointer;transition:all .15s;line-height:1}
+.ebtn.active{border-color:var(--cyan);background:rgba(0,212,255,.1);transform:scale(1.08)}.ebtn:hover{background:rgba(255,255,255,.09);transform:scale(1.04)}
+
+@media(max-width:360px){.wd{font-size:20px}.mgrid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.fc,.screen,.cp,.xp-pop{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HOME -->
+<div class="screen active" id="screen-home">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div><div style="font-size:25px;font-weight:900;letter-spacing:-1px" class="gtext">Lexikon</div><div style="font-size:10.5px;color:var(--dim);margin-top:1px" id="hgreet">Your German vocab companion</div></div>
+    <div style="font-size:15px;font-weight:700;display:flex;align-items:center;gap:3px" id="hstreak">🔥 0</div>
+  </div>
+  <div class="xprow">
+    <div class="lvlbadge" id="hlvl">Novice</div>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-bottom:4px"><span id="hxptxt">0 XP</span><span id="hxpnxt">500 to Wanderer</span></div>
+      <div class="pb" style="height:7px"><div class="pf gold" id="hxpfill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- WOTD -->
+  <div class="wotd" id="hwotd" onclick="wotdClick()">
+    <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--cyan);margin-bottom:6px">✨ WORD OF THE DAY</div>
+    <div class="wdsm" id="hwword" style="margin-bottom:2px">Loading…</div>
+    <div id="hwtr" class="tr" style="font-size:11.5px"></div>
+  </div>
+
+  <!-- DAILY CHALLENGE -->
+  <div class="dc-banner" id="hdc" onclick="openDailyChallenge()">
+    <div style="display:flex;align-items:center;gap:11px;flex:1;min-width:0">
+      <div style="font-size:26px" id="hdc-icon">🎯</div>
+      <div style="min-width:0">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase">Daily Challenge</div>
+        <div style="font-size:13px;font-weight:600;margin-top:2px" id="hdc-label">Loading…</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px" id="hdc-streak"></div>
+      </div>
+    </div>
+    <div id="hdc-badge" style="flex-shrink:0"></div>
+  </div>
+
+  <!-- LEVELS -->
+  <div class="slabel">Your Progress</div>
+  <div id="hlvlcards"></div>
+
+  <!-- DUE -->
+  <div class="card cg" style="margin-bottom:11px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+      <div style="font-weight:700;font-size:14.5px">📅 Today's Queue</div>
+      <div id="hdue" style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--cyan)">0</div>
+    </div>
+    <div style="font-size:11.5px;color:var(--dim);margin-bottom:9px" id="hduelbl">cards due for review</div>
+    <div class="pb" style="height:7px"><div class="pf" id="hdayfill" style="width:0%"></div></div>
+    <button class="btn bp bfw blg" style="margin-top:13px" onclick="startStudyHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      Start Studying
+    </button>
+  </div>
+
+  <!-- STATS ROW -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:11px">
+    <div class="card" style="margin:0;text-align:center;padding:13px 7px"><div id="hwords" style="font-family:var(--mono);font-size:21px;font-weight:700;color:var(--cyan)">0</div><div style="font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Studied</div></div>
+    <div class="card" style="margin:0;text-align:center;padding:13px 7px"><div id="hmastered" style="font-family:var(--mono);font-size:21px;font-weight:700;color:var(--success)">0</div><div style="font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Mastered</div></div>
+    <div class="card" style="margin:0;text-align:center;padding:13px 7px"><div id="htotal" style="font-family:var(--mono);font-size:21px;font-weight:700;color:var(--gold)">0</div><div style="font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Total Words</div></div>
+  </div>
+
+  <div id="hbadges"></div>
+</div>
+
+<!-- STUDY -->
+<div class="screen" id="screen-study">
+  <div id="ss-setup">
+    <div class="stitle">Study</div>
+    <div class="fg"><label>Level</label><select id="ss-lv" onchange="onLvlChange()"></select></div>
+    <div class="fg"><label>Deck</label><select id="ss-deck"></select></div>
+    <div class="slabel" style="margin-top:14px">Mode</div>
+    <div class="mgrid" id="mgrid">
+      <div class="mcard sel" data-mode="flashcard" onclick="selMode('flashcard',this)"><div style="font-size:24px;margin-bottom:6px">🃏</div><div style="font-size:11.5px;font-weight:700">Flashcard</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Swipe to rate</div></div>
+      <div class="mcard" data-mode="mcq" onclick="selMode('mcq',this)"><div style="font-size:24px;margin-bottom:6px">🎯</div><div style="font-size:11.5px;font-weight:700">Multiple Choice</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">4-option quiz</div></div>
+      <div class="mcard" data-mode="typing" onclick="selMode('typing',this)"><div style="font-size:24px;margin-bottom:6px">⌨️</div><div style="font-size:11.5px;font-weight:700">Typing</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Active recall</div></div>
+      <div class="mcard" data-mode="build" onclick="selMode('build',this)"><div style="font-size:24px;margin-bottom:6px">✍️</div><div style="font-size:11.5px;font-weight:700">Build Sentence</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">AI-evaluated</div></div>
+      <div class="mcard" data-mode="story" onclick="selMode('story',this)"><div style="font-size:24px;margin-bottom:6px">📖</div><div style="font-size:11.5px;font-weight:700">Fill-the-Story</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Cloze passage</div></div>
+      <div class="mcard" data-mode="listen" onclick="selMode('listen',this)"><div style="font-size:24px;margin-bottom:6px">🎧</div><div style="font-size:11.5px;font-weight:700">Listening</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Dictation mode</div></div>
+      <div class="mcard" data-mode="boss" onclick="selMode('boss',this)" style="grid-column:span 2;border-color:rgba(255,71,87,.2)"><div style="font-size:24px;margin-bottom:6px">💀</div><div style="font-size:11.5px;font-weight:700;color:var(--danger)">Boss Round</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">10 cards · 8s timer · 2× XP</div></div>
+    </div>
+    <div class="fg" style="margin-top:14px"><label>Cards per session</label>
+      <select id="ss-limit">
+        <option value="10">10 cards</option><option value="20" selected>20 cards</option><option value="30">30 cards</option><option value="50">50 cards</option><option value="0">All due cards</option>
+      </select>
+    </div>
+    <button class="btn bp bfw blg" onclick="beginSession()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Begin Session</button>
+  </div>
+
+  <div id="ss-session" style="display:none;flex-direction:column;flex:1;gap:9px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <button class="btn bg bsm" onclick="endSession()" style="padding:6px 9px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+      <div id="ses-prog" style="font-size:11.5px;color:var(--dim);font-family:var(--mono)">1/20</div>
+      <div id="ses-xp" style="font-family:var(--mono);font-size:12.5px;color:var(--gold);font-weight:700">0 XP</div>
+    </div>
+    <div class="pb" style="height:4px"><div class="pf" id="ses-pfill" style="width:0%"></div></div>
+    <div id="boss-wrap" style="display:none;align-items:center;gap:11px;padding:7px 11px;background:rgba(255,71,87,.07);border:1px solid rgba(255,71,87,.2);border-radius:var(--rs)">
+      <div class="btimer"><svg width="56" height="56" viewBox="0 0 56 56"><circle class="trbg" cx="28" cy="28" r="23" fill="none" stroke-width="5"/><circle class="trfill" id="trcircle" cx="28" cy="28" r="23" fill="none" stroke-width="5" stroke-dasharray="144.51" stroke-dashoffset="0"/></svg><div class="trtxt" id="trtxt">8</div></div>
+      <div><div style="font-size:11.5px;color:var(--danger);font-weight:800;letter-spacing:1px">BOSS ROUND</div><div style="font-size:10.5px;color:var(--dim);margin-top:1px">2× XP multiplier</div></div>
+    </div>
+    <div id="mode-flashcard" style="display:none"></div>
+    <div id="mode-mcq" style="display:none"></div>
+    <div id="mode-typing" style="display:none"></div>
+    <div id="mode-build" style="display:none"></div>
+    <div id="mode-story" style="display:none"></div>
+    <div id="mode-listen" style="display:none"></div>
+    <div id="kbhints" style="text-align:center"></div>
+    <div id="ses-act" style="margin-top:auto;padding-top:7px"></div>
+  </div>
+
+  <div id="ss-sum" style="display:none;flex-direction:column">
+    <div style="text-align:center;padding:18px 0 12px">
+      <div style="font-size:50px;margin-bottom:9px" id="sum-e">🎉</div>
+      <div style="font-size:24px;font-weight:900;letter-spacing:-.5px" class="gtext">Session Complete!</div>
+    </div>
+    <div class="card">
+      <div class="sstat"><span>Cards Reviewed</span><span class="sval" id="sum-r">0</span></div>
+      <div class="sstat"><span>Accuracy</span><span class="sval" id="sum-a">0%</span></div>
+      <div class="sstat"><span>XP Earned</span><span class="sval" id="sum-x" style="color:var(--gold)">0</span></div>
+      <div class="sstat"><span>Mastered</span><span class="sval" id="sum-m" style="color:var(--success)">0</span></div>
+      <div class="sstat"><span>Streak</span><span class="sval" id="sum-s" style="color:var(--warn)">🔥0</span></div>
+    </div>
+    <div id="sum-badges" style="margin-bottom:13px;display:flex;flex-wrap:wrap;gap:6px"></div>
+    <button class="btn bp bfw blg" onclick="backToSetup()">Study Again</button>
+    <button class="btn bg bfw" style="margin-top:7px" onclick="showScreen('home')">← Home</button>
+  </div>
+</div>
+
+<!-- BROWSE (Vocabulary Library) -->
+<div class="screen" id="screen-decks">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+    <div class="stitle" style="margin:0">Vocabulary</div>
+    <button class="btn bp bsm" onclick="showAddCard()">+ Add Card</button>
+  </div>
+  <div class="tabs" id="brow-tabs">
+    <button class="tabbtn active" onclick="browTab('levels',this)">By Level</button>
+    <button class="tabbtn" onclick="browTab('browse',this)">Browse All</button>
+    <button class="tabbtn" onclick="browTab('decks',this)">Custom Decks</button>
+  </div>
+  <div id="brow-levels"></div>
+  <div id="brow-browse" style="display:none">
+    <div class="sbox-wrap"><input type="text" id="brow-search" placeholder="Search 4500+ words…" oninput="browSearch(this.value)"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px" id="brow-lvlfilter">
+      <button class="bsm btn bg brow-lf active" data-lv="all" onclick="browFilter('all',this)">All</button>
+      <button class="bsm btn bg brow-lf" data-lv="A1" onclick="browFilter('A1',this)" style="color:var(--a1);border-color:rgba(46,213,115,.3)">A1</button>
+      <button class="bsm btn bg brow-lf" data-lv="A2" onclick="browFilter('A2',this)" style="color:var(--a2);border-color:rgba(0,212,255,.3)">A2</button>
+      <button class="bsm btn bg brow-lf" data-lv="B1" onclick="browFilter('B1',this)" style="color:var(--b1);border-color:rgba(255,215,0,.3)">B1</button>
+      <button class="bsm btn bg brow-lf" data-lv="B2" onclick="browFilter('B2',this)" style="color:var(--b2);border-color:rgba(255,107,157,.3)">B2</button>
+    </div>
+    <div id="brow-results"></div>
+  </div>
+  <div id="brow-decks" style="display:none">
+    <div id="custom-deck-list"></div>
+    <div class="divider"></div>
+    <div class="slabel">Import / Export</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <button class="btn bg bsm bfw" onclick="showImport()">📥 Import</button>
+      <button class="btn bg bsm bfw" onclick="exportData()">📤 Export JSON</button>
+      <button class="btn bg bsm bfw" onclick="exportAnki()">📄 Anki Export</button>
+      <button class="btn bg bsm bfw" onclick="showAddDeck()">📁 New Deck</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="screen" id="screen-progress">
+  <div class="stitle">Progress</div>
+  <div class="card cg">
+    <div style="display:flex;align-items:center;gap:13px;margin-bottom:13px">
+      <div style="font-size:40px;line-height:1" id="plvlicon">🌱</div>
+      <div style="flex:1"><div id="plvlname" style="font-size:19px;font-weight:900" class="gtext">Novice</div><div id="pxptxt" style="font-size:11.5px;color:var(--dim);margin-top:1px">0 XP total</div></div>
+    </div>
+    <div style="font-size:10.5px;color:var(--dim);margin-bottom:6px" id="pnxtlbl">500 XP to Wanderer</div>
+    <div class="pb" style="height:9px;border-radius:5px"><div class="pf gold" id="pxpfill" style="width:0%"></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">
+    <div class="card" style="margin:0;text-align:center"><div id="pstreak" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--warn)">🔥0</div><div style="font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Streak</div></div>
+    <div class="card" style="margin:0;text-align:center"><div id="psessions" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--cyan)">0</div><div style="font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Sessions</div></div>
+    <div class="card" style="margin:0;text-align:center"><div id="pacc" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--success)">—</div><div style="font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Accuracy</div></div>
+    <div class="card" style="margin:0;text-align:center"><div id="pmastered" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gold)">0</div><div style="font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Mastered</div></div>
+  </div>
+
+  <!-- Level breakdown -->
+  <div class="slabel">Level Breakdown</div>
+  <div id="plvlbreakdown" style="margin-bottom:13px"></div>
+
+  <!-- Activity -->
+  <div class="slabel">7-Day Activity</div>
+  <div class="card" style="padding:11px 15px">
+    <div id="pchart" style="display:flex;align-items:flex-end;gap:4px;height:56px;margin-bottom:3px"></div>
+    <div id="pchartlbl" style="display:flex;gap:4px;font-size:8.5px;color:var(--dim)"></div>
+  </div>
+
+  <div class="slabel" style="margin-top:4px">Badges</div>
+  <div id="pbadges" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:15px"></div>
+
+  <div class="slabel">Recent Sessions</div>
+  <div id="phist"></div>
+
+  <div class="slabel">Level Roadmap</div>
+  <div class="card" id="proadmap"></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" id="screen-settings">
+  <div class="stitle">Settings</div>
+  <div class="card"><div class="slabel">Study</div>
+    <div class="fg"><label>Daily Goal (new cards)</label><input type="number" id="set-nl" min="1" max="200" value="20" onchange="saveSetting('newLimit',+this.value)"></div>
+    <div class="fg"><label>Default Mode</label><select id="set-dm" onchange="saveSetting('defaultMode',this.value)"><option value="mixed">Mixed (Auto-rotate)</option><option value="flashcard">Flashcard</option><option value="mcq">Multiple Choice</option><option value="typing">Typing</option><option value="build">Build-a-Sentence</option><option value="story">Fill-the-Story</option><option value="listen">Listening</option></select></div>
+    <div class="fg" style="margin:0"><label style="display:flex;align-items:center;gap:9px;cursor:pointer"><input type="checkbox" id="set-sound" onchange="saveSetting('sound',this.checked)" style="width:auto;accent-color:var(--cyan)"><span>Sound effects</span></label></div>
+  </div>
+  <div class="card"><div class="slabel">Text-to-Speech</div>
+    <div class="fg"><label>Voice</label><select id="set-voice" onchange="saveSetting('ttsVoice',this.value)"></select></div>
+    <div class="fg"><label>Speed</label><select id="set-spd" onchange="saveSetting('ttsSpeed',this.value)"><option value="1">Normal</option><option value="0.6">Slow</option><option value="1.4">Fast</option></select></div>
+    <button class="btn bg bsm" onclick="testTTS()">🔊 Test Voice</button>
+  </div>
+  <div class="card"><div class="slabel">Claude API — AI Features</div>
+    <div style="font-size:11.5px;color:var(--mid);margin-bottom:11px;line-height:1.6">Enables AI story hook generation and sentence evaluation. Key stored only in your browser.</div>
+    <div class="fg"><label>API Key</label><input type="password" id="set-key" placeholder="sk-ant-…" oninput="debSaveKey(this.value)"></div>
+    <div id="keystatus" style="font-size:11.5px;margin-top:3px"></div>
+  </div>
+  <div class="card"><div class="slabel">Notifications</div><button class="btn bg bsm bfw" onclick="reqNotif()">🔔 Enable Study Reminders</button></div>
+  <div class="card"><div class="slabel">Data</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+      <button class="btn bg bsm bfw" onclick="exportData()">📤 Export</button>
+      <button class="btn bg bsm bfw" onclick="document.getElementById('impfile').click()">📥 Import</button>
+      <input type="file" id="impfile" accept=".json" style="display:none" onchange="importFile(this)">
+      <button class="btn bd bsm bfw" style="grid-column:span 2" onclick="confirmReset()">🗑️ Reset All Data</button>
+    </div>
+  </div>
+  <div style="text-align:center;padding:11px 0;font-size:10.5px;color:var(--dim)">Lexikon v3.0 · 4,500+ German words · Fully offline</div>
+</div>
+
+</div><!-- end #app -->
+
+<nav id="nav">
+  <button class="nb active" id="nav-home" onclick="showScreen('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" stroke-linecap="round" stroke-linejoin="round"/></svg>HOME</button>
+  <button class="nb" id="nav-study" onclick="showScreen('study')"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>STUDY</button>
+  <button class="nb" id="nav-decks" onclick="showScreen('decks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/></svg>VOCAB</button>
+  <button class="nb" id="nav-progress" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke-linecap="round" stroke-linejoin="round"/></svg>PROGRESS</button>
+  <button class="nb" id="nav-settings" onclick="showScreen('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>SETTINGS</button>
+</nav>
+
+<div id="mo" onclick="closeMo(event)"><div id="mb" onclick="event.stopPropagation()"><div id="mc"></div></div></div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════════════
+// LEXIKON v3 — 4,500+ German Words, A1→B2 Progression
+// ═══════════════════════════════════════════════════════════════
+
+// ── VOCABULARY DATA ──────────────────────────────────────────
+// Format: [word, translation, grammar_note, optional_story_hook]
+// Grammar: nm=der, nf=die, nn=das, v=verb, sv=sep.verb, rv=refl.verb, adj, adv, prep, conj, interj, phr, num
+const VD = {
+A1:{xp:0,color:'#2ed573',title:'A1 — Beginner',desc:'Core survival vocabulary — greetings, numbers, daily life',decks:{
+'Greetings & Phrases':[
+['Hallo','Hello','interj','The warmest two syllables in German — round mouth, open heart.'],
+['Guten Morgen','Good morning','phr','Literally "good morning" — drei Wörter, drei Silben, guten Morgen!'],
+['Guten Tag','Good day / Hello','phr'],['Guten Abend','Good evening','phr'],['Gute Nacht','Good night','phr'],
+['Tschüss','Bye / Goodbye','interj'],['Auf Wiedersehen','Goodbye (formal)','interj','Literally "until seeing again" — a poetic farewell.'],
+['Auf Wiederhören','Goodbye (on phone)','interj'],['Bis bald','See you soon','phr'],['Bis später','See you later','phr'],
+['Bis morgen','See you tomorrow','phr'],['Wie geht es Ihnen?','How are you? (formal)','phr'],
+['Wie geht es dir?','How are you? (informal)','phr'],['Wie geht\'s?','How\'s it going?','phr'],
+['Gut, danke','Fine, thank you','phr'],['Sehr gut','Very good','phr'],['Es geht','So-so / It\'s okay','phr'],
+['Nicht so gut','Not so good','phr'],['Danke','Thank you','interj'],['Danke schön','Thank you very much','interj'],
+['Vielen Dank','Many thanks','phr'],['Bitte','Please / You\'re welcome','interj'],['Bitte schön','Here you go / You\'re welcome','phr'],
+['Entschuldigung','Excuse me / Sorry','interj'],['Es tut mir leid','I am sorry','phr','TUT-mir-LIED — it "does sorrow" to me. Feel the guilt in every word.'],
+['Verzeihung','Pardon / Forgive me','interj'],['Kein Problem','No problem','phr'],['Natürlich','Of course / Naturally','adv'],
+['Genau','Exactly / Precisely','adv'],['Ja','Yes','interj'],['Nein','No','interj'],['Vielleicht','Maybe / Perhaps','adv'],
+['Ich weiß nicht','I don\'t know','phr'],['Ich verstehe nicht','I don\'t understand','phr'],
+['Wie bitte?','Pardon? / What did you say?','phr'],['Können Sie das wiederholen?','Can you repeat that?','phr'],
+['Langsamer bitte','Slower please','phr'],['Sprechen Sie Deutsch?','Do you speak German?','phr'],
+['Ich spreche kein Deutsch','I don\'t speak German','phr'],['Ich spreche ein bisschen Deutsch','I speak a little German','phr'],
+['Wie heißen Sie?','What is your name? (formal)','phr'],['Wie heißt du?','What is your name? (informal)','phr'],
+['Ich heiße…','My name is…','phr'],['Woher kommen Sie?','Where are you from? (formal)','phr'],
+['Ich komme aus…','I am from…','phr'],['Wie alt sind Sie?','How old are you?','phr'],
+['Ich bin … Jahre alt','I am … years old','phr'],['Freut mich','Nice to meet you','phr'],
+['Herzlich willkommen','Warm welcome','phr'],['Viel Spaß','Have fun','phr'],['Viel Erfolg','Good luck / Success','phr'],
+['Alles Gute','All the best','phr'],['Herzlichen Glückwunsch','Congratulations','phr'],['Gesundheit','Bless you (after sneezing)','interj'],
+],
+'Numbers & Counting':[
+['null','zero','num'],['eins','one','num'],['zwei','two','num'],['drei','three','num'],['vier','four','num'],
+['fünf','five','num'],['sechs','six','num'],['sieben','seven','num'],['acht','eight','num'],['neun','nine','num'],
+['zehn','ten','num'],['elf','eleven','num'],['zwölf','twelve','num'],['dreizehn','thirteen','num'],
+['vierzehn','fourteen','num'],['fünfzehn','fifteen','num'],['sechzehn','sixteen','num'],['siebzehn','seventeen','num'],
+['achtzehn','eighteen','num'],['neunzehn','nineteen','num'],['zwanzig','twenty','num'],
+['einundzwanzig','twenty-one','num'],['zweiundzwanzig','twenty-two','num'],['dreißig','thirty','num'],
+['vierzig','forty','num'],['fünfzig','fifty','num'],['sechzig','sixty','num'],['siebzig','seventy','num'],
+['achtzig','eighty','num'],['neunzig','ninety','num'],['hundert','one hundred','num'],['tausend','one thousand','num'],
+['eine Million','one million','num'],['erste','first','num'],['zweite','second','num'],['dritte','third','num'],
+['vierte','fourth','num'],['fünfte','fifth','num'],['halb','half','num'],['ein Viertel','a quarter','num'],
+['doppelt','double','adj'],['einmal','once','adv'],['zweimal','twice','adv'],['dreimal','three times','adv'],
+],
+'Days, Months & Time':[
+['Montag','Monday','nm'],['Dienstag','Tuesday','nm'],['Mittwoch','Wednesday','nm','MITT-woch = midweek. Wednesday sits perfectly in the middle of the week like a fulcrum.'],
+['Donnerstag','Thursday','nm','DONNER = thunder. Thor\'s day — German-style, with thunderclaps.'],
+['Freitag','Friday','nm'],['Samstag','Saturday','nm'],['Sonntag','Sunday','nm','SONN-tag = Sun day. Sunlight streaming through curtains, no alarm clock.'],
+['Januar','January','nm'],['Februar','February','nm'],['März','March','nm'],
+['April','April','nm'],['Mai','May','nm'],['Juni','June','nm'],
+['Juli','July','nm'],['August','August','nm'],['September','September','nm'],
+['Oktober','October','nm'],['November','November','nm'],['Dezember','December','nm'],
+['die Zeit','time','nf'],['die Uhr','clock / watch / o\'clock','nf'],['die Stunde','hour','nf'],
+['die Minute','minute','nf'],['die Sekunde','second','nf'],['der Tag','day','nm'],
+['die Nacht','night','nf'],['der Morgen','morning','nm'],['der Nachmittag','afternoon','nm'],
+['der Abend','evening','nm'],['die Woche','week','nf'],['der Monat','month','nm'],
+['das Jahr','year','nn'],['heute','today','adv'],['gestern','yesterday','adv'],
+['morgen','tomorrow / morning','adv'],['übermorgen','day after tomorrow','adv'],['vorgestern','day before yesterday','adv'],
+['jetzt','now','adv'],['sofort','immediately','adv'],['früh','early','adj/adv'],['spät','late','adj/adv'],
+['immer','always','adv'],['oft','often','adv'],['manchmal','sometimes','adv'],['selten','rarely','adv'],
+['nie','never','adv'],['zuerst','first / firstly','adv'],['dann','then','adv'],['endlich','finally','adv'],
+['bald','soon','adv'],['gestern Abend','last night / yesterday evening','phr'],
+],
+'People & Family':[
+['die Mutter','mother','nf','MUT-ter — she gives you courage (Mut = courage). The bravest person you know.'],
+['der Vater','father','nm'],['die Eltern','parents','nf · pl only'],['die Schwester','sister','nf'],
+['der Bruder','brother','nm'],['die Tochter','daughter','nf'],['der Sohn','son','nm'],
+['das Kind','child','nn · pl: Kinder'],['die Familie','family','nf'],['die Frau','woman / wife','nf'],
+['der Mann','man / husband','nm'],['die Großmutter','grandmother','nf'],['der Großvater','grandfather','nm'],
+['die Oma','grandma','nf'],['der Opa','grandpa','nm'],['die Tante','aunt','nf'],['der Onkel','uncle','nm'],
+['die Nichte','niece','nf'],['der Neffe','nephew','nm'],['die Cousine','female cousin','nf'],
+['der Cousin','male cousin','nm'],['das Baby','baby','nn'],['das Mädchen','girl','nn · (neuter! article = das)'],
+['der Junge','boy','nm'],['die Person','person','nf'],['der Mensch','person / human being','nm'],
+['die Freundin','female friend / girlfriend','nf'],['der Freund','male friend / boyfriend','nm'],
+['der Kollege','male colleague','nm'],['die Kollegin','female colleague','nf'],
+['der Chef','boss (m)','nm'],['die Chefin','boss (f)','nf'],
+['der Nachbar','neighbour (m)','nm'],['die Nachbarin','neighbour (f)','nf'],
+['die Schwiegermutter','mother-in-law','nf'],['der Schwiegervater','father-in-law','nm'],
+['der Zwilling','twin','nm · pl: Zwillinge'],
+],
+'Body & Health':[
+['der Kopf','head','nm'],['das Gesicht','face','nn'],['das Haar','hair','nn · pl: Haare'],
+['das Auge','eye','nn · pl: Augen'],['die Nase','nose','nf'],['der Mund','mouth','nm'],
+['der Zahn','tooth','nm · pl: Zähne'],['das Ohr','ear','nn · pl: Ohren'],['der Hals','neck / throat','nm'],
+['die Schulter','shoulder','nf'],['der Arm','arm','nm'],['der Ellbogen','elbow','nm'],
+['die Hand','hand','nf · pl: Hände'],['der Finger','finger','nm'],['der Bauch','belly / stomach','nm'],
+['der Rücken','back','nm'],['das Bein','leg','nn'],['das Knie','knee','nn'],
+['der Fuß','foot','nm · pl: Füße'],['die Zehe','toe','nf'],['das Herz','heart','nn'],
+['die Haut','skin','nf'],['das Blut','blood','nn'],['der Magen','stomach (organ)','nm'],
+['krank','sick / ill','adj'],['gesund','healthy / well','adj'],['müde','tired','adj'],
+['hungrig','hungry','adj'],['durstig','thirsty','adj'],['Schmerzen haben','to be in pain','phr'],
+['Kopfschmerzen','headache','nf · pl'],['Bauchschmerzen','stomachache','nf · pl'],
+['die Erkältung','cold (illness)','nf'],['das Fieber','fever','nn'],['husten','to cough','v'],
+['niesen','to sneeze','v'],['wehtun','to hurt','sv'],
+],
+'Food & Drink':[
+['das Brot','bread','nn'],['die Butter','butter','nf'],['das Ei','egg','nn · pl: Eier'],
+['die Milch','milk','nf'],['der Käse','cheese','nm'],['das Fleisch','meat','nn'],
+['das Gemüse','vegetables','nn'],['das Obst','fruit','nn'],['die Kartoffel','potato','nf'],
+['die Tomate','tomato','nf'],['die Zwiebel','onion','nf'],['die Karotte','carrot','nf'],
+['der Salat','salad / lettuce','nm'],['die Suppe','soup','nf'],['die Nudeln','pasta / noodles','nf · pl'],
+['der Reis','rice','nm'],['das Hähnchen','chicken','nn'],['der Fisch','fish','nm'],
+['das Wasser','water','nn'],['der Saft','juice','nm'],['das Bier','beer','nn'],
+['der Wein','wine','nm'],['der Kaffee','coffee','nm'],['der Tee','tea','nm'],
+['das Frühstück','breakfast','nn'],['das Mittagessen','lunch','nn'],['das Abendessen','dinner','nn'],
+['essen','to eat','v'],['trinken','to drink','v'],['kochen','to cook','v'],
+['backen','to bake','v'],['braten','to fry / roast','v'],['bestellen','to order','v'],
+['bezahlen','to pay','v'],['lecker','delicious / tasty','adj'],['satt','full (after eating)','adj'],
+['der Hunger','hunger','nm'],['der Durst','thirst','nm'],['das Salz','salt','nn'],
+['der Pfeffer','pepper','nm'],['der Zucker','sugar','nm'],['das Öl','oil','nn'],
+['das Frühstücksei','breakfast egg','nn'],['der Apfel','apple','nm · pl: Äpfel'],
+['die Banane','banana','nf'],['die Orange','orange','nf'],['die Erdbeere','strawberry','nf'],
+['das Brötchen','bread roll','nn'],['die Marmelade','jam','nf'],['der Honig','honey','nm'],
+],
+'House & Home':[
+['das Haus','house','nn'],['die Wohnung','apartment / flat','nf'],['das Zimmer','room','nn'],
+['die Küche','kitchen','nf'],['das Badezimmer','bathroom','nn'],['das Schlafzimmer','bedroom','nn'],
+['das Wohnzimmer','living room','nn'],['das Esszimmer','dining room','nn'],
+['der Keller','basement / cellar','nm'],['der Balkon','balcony','nm'],['der Garten','garden','nm'],
+['die Tür','door','nf'],['das Fenster','window','nn'],['die Treppe','stairs','nf'],
+['die Wand','wall','nf'],['der Boden','floor / ground','nm'],['die Decke','ceiling','nf'],
+['der Tisch','table','nm'],['der Stuhl','chair','nm'],['das Sofa','sofa','nn'],
+['das Bett','bed','nn'],['der Schrank','wardrobe / cupboard','nm'],['die Lampe','lamp','nf'],
+['der Herd','stove / cooker','nm'],['der Kühlschrank','refrigerator','nm'],
+['die Waschmaschine','washing machine','nf'],['der Fernseher','TV set','nm'],
+['das Regal','shelf','nn'],['das Bild','picture / painting','nn'],['der Spiegel','mirror','nm'],
+['die Badewanne','bathtub','nf'],['die Dusche','shower','nf'],['das Klo','toilet (informal)','nn'],
+['der Schlüssel','key','nm'],['die Adresse','address','nf'],['die Miete','rent','nf'],
+['wohnen','to live (somewhere)','v'],['einziehen','to move in','sv'],['umziehen','to move house','sv'],
+],
+'Clothes & Colours':[
+['das Hemd','shirt','nn'],['die Bluse','blouse','nf'],['die Hose','trousers / pants','nf'],
+['die Jeans','jeans','nf'],['das T-Shirt','T-shirt','nn'],['der Pullover','pullover / sweater','nm'],
+['die Jacke','jacket','nf'],['der Mantel','coat','nm'],['das Kleid','dress','nn'],
+['der Rock','skirt','nm'],['der Anzug','suit','nm'],['die Schuhe','shoes','nf · pl'],
+['die Stiefel','boots','nm · pl'],['die Socken','socks','nf · pl'],['der Hut','hat','nm'],
+['die Mütze','cap / beanie','nf'],['der Schal','scarf','nm'],['die Handschuhe','gloves','nm · pl'],
+['tragen','to wear / carry','v'],['anziehen','to put on (clothes)','sv'],
+['ausziehen','to take off (clothes)','sv'],['rot','red','adj'],['blau','blue','adj'],
+['grün','green','adj'],['gelb','yellow','adj'],['weiß','white','adj'],['schwarz','black','adj'],
+['grau','grey','adj'],['braun','brown','adj'],['orange','orange','adj'],['lila','purple','adj'],
+['rosa','pink','adj'],['bunt','colourful','adj'],['hell','light (colour)','adj'],['dunkel','dark','adj'],
+['modisch','fashionable','adj'],['eng','tight','adj'],['weit','wide / loose','adj'],
+],
+'Weather & Nature':[
+['das Wetter','weather','nn'],['die Sonne','sun','nf','Die SONN-e — she (feminine!) shines over German lands with regal grace.'],
+['der Regen','rain','nm'],['der Wind','wind','nm'],['der Schnee','snow','nm'],
+['die Wolke','cloud','nf'],['der Sturm','storm','nm'],['der Nebel','fog','nm'],
+['das Eis','ice','nn'],['die Temperatur','temperature','nf'],['kalt','cold','adj'],
+['warm','warm','adj'],['heiß','hot','adj'],['kühl','cool','adj'],['nass','wet','adj'],
+['trocken','dry','adj'],['sonnig','sunny','adj'],['bewölkt','cloudy','adj'],['windig','windy','adj'],
+['regnen','to rain','v'],['schneien','to snow','v'],['scheinen','to shine','v'],
+['der Baum','tree','nm · pl: Bäume'],['der Wald','forest','nm'],['die Wiese','meadow','nf'],
+['der Berg','mountain','nm'],['das Tal','valley','nn'],['der Fluss','river','nm'],
+['der See','lake','nm'],['das Meer','sea','nn'],['der Strand','beach','nm'],
+['die Blume','flower','nf'],['das Gras','grass','nn'],['der Stein','stone','nm'],
+['das Tier','animal','nn'],['der Vogel','bird','nm'],['der Hund','dog','nm'],
+['die Katze','cat','nf'],['das Pferd','horse','nn'],['die Kuh','cow','nf'],
+],
+'Transport & Directions':[
+['das Auto','car','nn'],['der Bus','bus','nm'],['der Zug','train','nm'],
+['die U-Bahn','underground / subway','nf'],['die Straßenbahn','tram','nf'],['das Taxi','taxi','nn'],
+['das Fahrrad','bicycle','nn'],['das Motorrad','motorcycle','nn'],['das Flugzeug','aeroplane','nn'],
+['das Schiff','ship','nn'],['der Bahnhof','train station','nm'],['der Flughafen','airport','nm'],
+['die Haltestelle','(bus/tram) stop','nf'],['fahren','to drive / travel','v'],
+['fliegen','to fly','v'],['umsteigen','to change (transport)','sv'],
+['ankommen','to arrive','sv'],['abfahren','to depart','sv'],
+['der Fahrplan','timetable','nm'],['die Fahrkarte','ticket','nf'],['das Ticket','ticket','nn'],
+['links','left','adv/adj'],['rechts','right','adv/adj'],['geradeaus','straight ahead','adv'],
+['der Weg','way / path','nm'],['die Straße','street / road','nf'],['die Kreuzung','intersection','nf'],
+['die Ampel','traffic light','nf'],['der Parkplatz','parking lot','nm'],
+['weit','far','adj/adv'],['nah','near','adj/adv'],['die Karte','map / card','nf'],
+],
+'Essential Verbs I':[
+['sein','to be','v · ich bin, du bist, er ist, wir sind','The most irregular verb — no shortcuts, just learn it cold.'],
+['haben','to have','v · ich habe, du hast, er hat, wir haben'],
+['werden','to become / will (future)','v · ich werde, du wirst, er wird'],
+['machen','to make / do','v'],['gehen','to go','v'],['kommen','to come','v'],
+['sehen','to see','v'],['hören','to hear','v'],['sprechen','to speak','v'],
+['sagen','to say','v'],['denken','to think','v'],['wissen','to know (a fact)','v'],
+['kennen','to know (a person/place)','v'],['fragen','to ask','v'],['antworten','to answer','v'],
+['schreiben','to write','v'],['lesen','to read','v'],['arbeiten','to work','v'],
+['spielen','to play','v'],['helfen','to help','v'],['geben','to give','v'],
+['nehmen','to take','v'],['bringen','to bring','v'],['holen','to fetch / get','v'],
+['zeigen','to show','v'],['finden','to find','v'],['suchen','to search / look for','v'],
+['brauchen','to need','v'],['laufen','to run / walk','v'],['schlafen','to sleep','v'],
+['stehen','to stand','v'],['sitzen','to sit','v'],['liegen','to lie / be located','v'],
+['öffnen','to open','v'],['schließen','to close','v'],['kaufen','to buy','v'],
+['zahlen / bezahlen','to pay','v'],['essen','to eat','v'],['trinken','to drink','v'],
+['wohnen','to live (somewhere)','v'],['lernen','to learn','v'],['verstehen','to understand','v'],
+['aufstehen','to get up / stand up','sv'],['anfangen','to begin / start','sv'],
+],
+'Modal & High-Frequency Verbs':[
+['können','can / to be able to','v · ich kann, du kannst, er kann'],
+['müssen','must / to have to','v · ich muss, du musst'],
+['wollen','to want to','v · ich will, du willst'],
+['sollen','to be supposed to','v · ich soll, du sollst'],
+['dürfen','to be allowed to','v · ich darf, du darfst'],
+['mögen','to like','v · ich mag, du magst'],
+['möchten','would like to','v · ich möchte (polite form of mögen)'],
+['lassen','to let / leave','v'],['bleiben','to stay / remain','v'],
+['warten','to wait','v'],['treffen','to meet','v'],['kaufen','to buy','v'],
+['verkaufen','to sell','v'],['erzählen','to tell / narrate','v'],
+['erklären','to explain','v'],['anrufen','to call (phone)','sv'],
+['aussehen','to look / appear','sv'],['aufmachen','to open (door etc.)','sv'],
+['zumachen','to close','sv'],['mitnehmen','to take along','sv'],
+],
+'Core Adjectives':[
+['gut','good','adj'],['schlecht','bad','adj'],['groß','big / tall','adj'],['klein','small / short','adj'],
+['alt','old','adj'],['jung','young','adj'],['neu','new','adj'],['schön','beautiful / nice','adj'],
+['hässlich','ugly','adj'],['schnell','fast','adj'],['langsam','slow','adj'],['laut','loud','adj'],
+['leise','quiet','adj'],['teuer','expensive','adj'],['billig','cheap','adj'],
+['leicht','light / easy','adj'],['schwer','heavy / difficult','adj'],['einfach','simple / easy','adj'],
+['schwierig','difficult','adj'],['richtig','correct / right','adj'],['falsch','wrong / incorrect','adj'],
+['viel','a lot / many','adj'],['wenig','a little / few','adj'],['alle','all / every','adj'],
+['ein bisschen','a little bit','phr'],['sehr','very','adv'],['auch','also / too','adv'],
+['noch','still / yet / another','adv'],['schon','already / yet','adv'],['nur','only / just','adv'],
+['vielleicht','maybe','adv'],['gern','gladly / with pleasure','adv'],
+['zusammen','together','adv'],['allein','alone','adj/adv'],['oft','often','adv'],
+['interessant','interesting','adj'],['wichtig','important','adj'],['lustig','funny','adj'],
+],
+'Places & City':[
+['die Schule','school','nf'],['das Büro','office','nn'],['das Geschäft','shop','nn'],
+['der Supermarkt','supermarket','nm'],['das Krankenhaus','hospital','nn'],
+['die Bank','bank','nf'],['das Restaurant','restaurant','nn'],['das Hotel','hotel','nn'],
+['die Bibliothek','library','nf'],['die Kirche','church','nf'],['der Park','park','nm'],
+['das Kino','cinema','nm'],['das Theater','theatre','nn'],['das Museum','museum','nn'],
+['die Post','post office','nf'],['die Polizei','police','nf'],['die Feuerwehr','fire brigade','nf'],
+['das Café','café','nn'],['die Bar','bar','nf'],['der Markt','market','nm'],
+['das Schwimmbad','swimming pool','nn'],['der Sportplatz','sports ground','nm'],
+['das Stadion','stadium','nn'],['die Apotheke','pharmacy','nf'],
+['die Bäckerei','bakery','nf'],['der Arzt','doctor (m)','nm'],['die Ärztin','doctor (f)','nf'],
+['die Schule','school','nf'],['die Universität','university','nf'],
+],
+}},
+A2:{xp:500,color:'#00d4ff',title:'A2 — Elementary',desc:'Daily life, routines, shopping, emotions, and more',decks:{
+'Daily Life & Routines':[
+['aufwachen','to wake up','sv'],['sich waschen','to wash (oneself)','rv'],
+['sich anziehen','to get dressed','sv/rv'],['frühstücken','to have breakfast','v'],
+['der Feierabend','end of working day / time off','nm','FEIER-abend = celebration-evening. Clocking off feels like a party!'],
+['der Haushalt','household / housework','nm'],['putzen','to clean','v'],
+['die Wäsche','laundry / washing','nf'],['aufräumen','to tidy up','sv'],
+['spülen','to wash up / rinse','v'],['staubsaugen','to vacuum','sv'],
+['die Routine','routine','nf'],['die Gewohnheit','habit','nf'],
+['täglich','daily','adj/adv'],['regelmäßig','regular / regularly','adj/adv'],
+['pünktlich','on time / punctual','adj'],['verspätet','late / delayed','adj'],
+['der Wecker','alarm clock','nm'],['klingeln','to ring','v'],['schnarchen','to snore','v'],
+['sich beeilen','to hurry (up)','rv'],['fernsehen','to watch TV','sv'],
+['das Netz','network / internet','nn'],['der Alltag','everyday life','nm'],
+['die Verabredung','appointment / date (meeting)','nf'],['absagen','to cancel','sv'],
+['einladen','to invite','sv'],['sich treffen','to meet up','rv'],
+['das Abendessen machen','to make dinner','phr'],['einkaufen gehen','to go shopping','phr'],
+],
+'Shopping & Money':[
+['das Geld','money','nn','Das GELD — the word that rules everything, even in German.'],
+['der Euro','euro','nm'],['der Cent','cent','nm'],['die Münze','coin','nf'],
+['der Schein','banknote','nm'],['die Kreditkarte','credit card','nf'],
+['die EC-Karte','debit card','nf'],['der Preis','price','nm'],['teuer','expensive','adj'],
+['billig','cheap','adj'],['der Rabatt','discount','nm'],['der Ausverkauf','sale','nm'],
+['das Sonderangebot','special offer','nn'],['die Rechnung','bill / invoice','nf'],
+['die Quittung','receipt','nf'],['das Wechselgeld','change (money back)','nn'],
+['das Kleingeld','small change / coins','nn'],['die Brieftasche','wallet','nf'],
+['der Geldbeutel','purse','nm'],['das Einkaufszentrum','shopping centre','nn'],
+['der Laden','shop / store','nm'],['die Metzgerei','butcher\'s','nf'],
+['die Konditorei','patisserie / cake shop','nf'],['der Flohmarkt','flea market','nm'],
+['günstig','good value / affordable','adj'],['kostenlos','free (of charge)','adj'],
+['umtauschen','to exchange (goods)','sv'],['zurückgeben','to return (goods)','sv'],
+['die Größe','size','nf'],['anprobieren','to try on','sv'],
+],
+'Clothing & Fashion':[
+['die Mode','fashion','nf'],['das Outfit','outfit','nn'],['der Stil','style','nm'],
+['der Stoff','fabric / material','nm'],['die Baumwolle','cotton','nf'],
+['die Wolle','wool','nf'],['das Leder','leather','nn'],['das Hemd','shirt','nn'],
+['die Bluse','blouse','nf'],['das T-Shirt','T-shirt','nn'],['der Pullover','sweater','nm'],
+['die Strickjacke','cardigan','nf'],['die Jeans','jeans','nf'],['die Shorts','shorts','nf · pl'],
+['der Rock','skirt','nm'],['das Kleid','dress','nn'],['der Anzug','suit','nm'],
+['der Blazer','blazer','nm'],['die Weste','waistcoat','nf'],['der Gürtel','belt','nm'],
+['die Unterwäsche','underwear','nf'],['der BH','bra','nm'],['die Strümpfe','stockings','nf · pl'],
+['die Strumpfhose','tights','nf'],['der Schlafanzug','pyjamas','nm'],
+['das Handtuch','towel','nn'],['tragen','to wear / carry','v'],
+['passen','to fit','v'],['stehen','to suit (clothes)','v'],
+['elegant','elegant','adj'],['lässig','casual','adj'],['sportlich','sporty','adj'],
+],
+'Health & Medicine':[
+['das Krankenhaus','hospital','nn'],['die Notaufnahme','emergency room','nf'],
+['der Arzt','doctor (m)','nm'],['die Ärztin','doctor (f)','nf'],
+['die Krankenschwester','nurse (f)','nf'],['der Krankenpfleger','nurse (m)','nm'],
+['die Sprechstunde','surgery hours / consultation','nf'],['der Termin','appointment','nm'],
+['das Rezept','prescription','nn'],['die Tablette','tablet / pill','nf'],
+['das Medikament','medication','nn'],['die Apotheke','pharmacy','nf'],
+['die Salbe','ointment / cream','nf'],['das Pflaster','plaster / bandage','nn'],
+['die Verletzung','injury','nf'],['der Unfall','accident','nm'],
+['der Knochenbruch','fracture','nm'],['das Blut','blood','nn'],['bluten','to bleed','v'],
+['der Verband','bandage','nm'],['die Krankheit','illness / disease','nf'],
+['sich erholen','to recover / get better','rv'],['sich ausruhen','to rest','rv'],
+['die Allergie','allergy','nf'],['allergisch','allergic','adj'],
+['die Impfung','vaccination','nf'],['impfen','to vaccinate','v'],
+['das Rezept','recipe / prescription','nn'],['gesund werden','to recover','phr'],
+['die Versicherung','insurance','nf'],['die Krankenversicherung','health insurance','nf'],
+],
+'Work & Jobs':[
+['der Job','job','nm'],['die Stelle','job / position','nf'],['der Beruf','profession','nm'],
+['arbeiten','to work','v'],['die Arbeit','work','nf'],['das Büro','office','nn'],
+['das Gehalt','salary','nn'],['der Lohn','wage','nm'],['die Überstunden','overtime','nf · pl'],
+['der Urlaub','holiday / vacation','nm'],['kündigen','to resign / quit','v'],
+['entlassen','to dismiss / fire','v'],['bewerben (sich)','to apply for','rv'],
+['der Lebenslauf','CV / résumé','nm'],['das Vorstellungsgespräch','job interview','nn'],
+['die Bewerbung','application','nf'],['der Vertrag','contract','nm'],
+['das Praktikum','internship','nn'],['der Praktikant','intern','nm'],
+['die Berufsausbildung','vocational training','nf'],['der Auszubildende','trainee/apprentice','nm'],
+['der Lehrer','teacher (m)','nm'],['die Lehrerin','teacher (f)','nf'],
+['der Ingenieur','engineer','nm'],['der Anwalt','lawyer (m)','nm'],
+['der Arzt','doctor','nm'],['der Koch','chef / cook','nm'],
+['der Verkäufer','salesperson (m)','nm'],['die Verkäuferin','salesperson (f)','nf'],
+['der Busfahrer','bus driver','nm'],['der Mechaniker','mechanic','nm'],
+['die Berufsberatung','careers advice','nf'],['die Fachkraft','skilled worker','nf'],
+],
+'Hobbies & Free Time':[
+['das Hobby','hobby','nn'],['die Freizeit','free time / leisure','nf'],
+['der Sport','sport','nm'],['Fußball','football / soccer','nm'],['Tennis','tennis','nn'],
+['Schwimmen','swimming','nn'],['Radfahren','cycling','nn'],['Laufen','running','nn'],
+['Wandern','hiking','nn'],['Klettern','climbing','nn'],['Tanzen','dancing','nn'],
+['Yoga','yoga','nn'],['das Instrument','instrument','nn'],['singen','to sing','v'],
+['malen','to paint','v'],['zeichnen','to draw','v'],['fotografieren','to photograph','v'],
+['die Kamera','camera','nf'],['das Kino','cinema','nm'],['das Theater','theatre','nn'],
+['das Konzert','concert','nn'],['die Ausstellung','exhibition','nf'],
+['das Brettspiel','board game','nn'],['das Videospiel','video game','nn'],
+['der Computer','computer','nm'],['das Internet','internet','nn'],
+['streamen','to stream','v'],['chatten','to chat (online)','v'],
+['sich entspannen','to relax','rv'],['sich amüsieren','to enjoy oneself','rv'],
+['chillen','to chill / relax (informal)','v'],['das Wochenende','weekend','nn'],
+],
+'City & Directions':[
+['das Stadtzentrum','city centre','nn'],['der Stadtrand','outskirts / suburbs','nm'],
+['das Dorf','village','nn'],['die Hauptstadt','capital city','nf'],
+['der Platz','square / place / seat','nm'],['das Rathaus','town hall','nn'],
+['das Schloss','castle / palace','nn'],['der Brunnen','fountain / well','nm'],
+['das Denkmal','monument','nn'],['die Brücke','bridge','nf'],
+['der Bürgersteig','pavement / sidewalk','nm'],['der Zebrastreifen','pedestrian crossing','nm'],
+['der Stau','traffic jam','nm'],['die Umleitung','diversion / detour','nf'],
+['beschreiben','to describe','v'],['zeigen','to show / point','v'],
+['biegen','to turn','v'],['überqueren','to cross','v'],['folgen','to follow','v'],
+['die Entfernung','distance','nf'],['ungefähr','approximately','adv'],
+['gegenüber','opposite / across from','prep'],['in der Nähe','nearby / close to','phr'],
+['weit weg','far away','phr'],['die Ecke','corner','nf'],
+['der Eingang','entrance','nm'],['der Ausgang','exit','nm'],
+['die Touristeninformation','tourist information','nf'],['der Stadtplan','city map','nm'],
+],
+'Education & School':[
+['die Schule','school','nf'],['die Grundschule','primary school','nf'],
+['das Gymnasium','grammar school / high school','nn'],['die Universität','university','nf'],
+['der Kindergarten','kindergarten / nursery','nm'],['der Student','student (m)','nm'],
+['die Studentin','student (f)','nf'],['das Fach','subject','nn'],
+['die Klasse','class / year group','nf'],['die Mathematik','mathematics','nf'],
+['Geschichte','history','nf'],['Geographie','geography','nf'],['Biologie','biology','nf'],
+['Chemie','chemistry','nf'],['Physik','physics','nf'],['Informatik','computer science','nf'],
+['das Schulbuch','textbook','nn'],['das Heft','notebook / exercise book','nn'],
+['der Stift','pen / pencil','nm'],['der Kugelschreiber','ballpoint pen','nm'],
+['die Schere','scissors','nf · pl form'],['der Radierer','rubber / eraser','nm'],
+['das Lineal','ruler','nn'],['die Hausaufgaben','homework','nf · pl'],
+['die Prüfung','exam / test','nf'],['die Note','grade','nf'],
+['bestehen','to pass (an exam)','v'],['durchfallen','to fail (an exam)','sv'],
+['das Stipendium','scholarship','nn'],['der Abschluss','qualification / graduation','nm'],
+['das Zeugnis','school report / certificate','nn'],
+],
+'Feelings & Personality':[
+['glücklich','happy','adj'],['traurig','sad','adj'],['wütend','angry','adj'],
+['aufgeregt','excited','adj'],['nervös','nervous','adj'],['ängstlich','anxious','adj'],
+['froh','glad','adj'],['zufrieden','satisfied / content','adj'],
+['unzufrieden','dissatisfied','adj'],['überrascht','surprised','adj'],
+['enttäuscht','disappointed','adj'],['gelangweilt','bored','adj'],
+['einsam','lonely','adj'],['verliebt','in love','adj'],['stolz','proud','adj'],
+['neugierig','curious','adj'],['verwirrt','confused','adj'],['erschöpft','exhausted','adj'],
+['die Freude','joy','nf'],['die Trauer','sadness / grief','nf'],['die Angst','fear','nf'],
+['die Wut','anger / rage','nf'],['die Liebe','love','nf'],['der Hass','hate','nm'],
+['die Hoffnung','hope','nf'],['die Freundschaft','friendship','nf'],
+['lachen','to laugh','v'],['weinen','to cry','v'],['lächeln','to smile','v'],
+['schreien','to shout / scream','v'],['sich freuen','to be happy / look forward','rv'],
+['sich ärgern','to be annoyed','rv'],['sich fürchten','to be afraid','rv'],
+['liebevoll','loving / affectionate','adj'],['geduldig','patient','adj'],['ungeduldig','impatient','adj'],
+],
+'Grammar & Connectors A2':[
+['weil','because','conj · sends verb to end'],['obwohl','although','conj · sends verb to end'],
+['wenn','when / if','conj'],['dass','that','conj'],['aber','but','conj'],
+['und','and','conj'],['oder','or','conj'],['denn','because / for (coordinating)','conj · no verb swap'],
+['also','so / therefore','adv'],['dann','then','adv'],['danach','afterwards','adv'],
+['vorher','before (that)','adv'],['außerdem','moreover / in addition','adv'],
+['trotzdem','nevertheless / despite that','adv','TROTS-dem — a stubborn little troll who refuses to budge.'],
+['deshalb','therefore / that\'s why','adv'],['deswegen','because of that','adv'],
+['mit','with','prep · Dativ'],['ohne','without','prep · Akkusativ'],
+['für','for','prep · Akkusativ'],['gegen','against','prep · Akkusativ'],
+['durch','through','prep · Akkusativ'],['um','around / at (time)','prep'],
+['bei','at / near / with (person)','prep · Dativ'],['von','from / of','prep · Dativ'],
+['zu','to / at / closed','prep · Dativ'],['nach','after / to (city/country)','prep · Dativ'],
+['aus','from / out of','prep · Dativ'],['seit','since / for (time)','prep · Dativ'],
+['gegenüber','opposite / across from','prep'],
+],
+}},
+B1:{xp:2000,color:'#ffd700',title:'B1 — Intermediate',desc:'Society, technology, abstract thinking, and nuanced expression',decks:{
+'Society & Current Affairs':[
+['die Gesellschaft','society','nf'],['die Demokratie','democracy','nf'],
+['die Politik','politics','nf'],['die Regierung','government','nf'],['der Staat','state','nm'],
+['das Gesetz','law','nn'],['die Regel','rule','nf'],['die Pflicht','duty / obligation','nf'],
+['das Recht','right / law','nn'],['die Menschenrechte','human rights','nn · pl'],
+['die Gleichberechtigung','equal rights','nf'],['die Toleranz','tolerance','nf'],
+['die Einwanderung','immigration','nf'],['der Einwanderer','immigrant','nm'],
+['der Flüchtling','refugee','nm'],['das Asyl','asylum','nn'],
+['die Integration','integration','nf'],['die Armut','poverty','nf'],
+['der Reichtum','wealth / richness','nm'],['die Krise','crisis','nf'],
+['der Konflikt','conflict','nm'],['der Frieden','peace','nm'],['der Krieg','war','nm'],
+['die Wahl','election / choice','nf'],['wählen','to vote / choose','v'],
+['die Partei','political party','nf'],['die Mehrheit','majority','nf'],
+['die Minderheit','minority','nf'],['das Parlament','parliament','nn'],
+['die Opposition','opposition','nf'],['protestieren','to protest','v'],
+['demonstrieren','to demonstrate','v'],['die Demonstration','demonstration','nf'],
+['die Umfrage','survey / poll','nf'],['das Ergebnis','result','nn'],
+['die Meinungsfreiheit','freedom of speech','nf'],['die Pressefreiheit','freedom of the press','nf'],
+['die Bürgerrechte','civil rights','nf · pl'],['das Grundgesetz','German Basic Law / Constitution','nn'],
+],
+'Environment & Climate':[
+['die Umwelt','environment','nf'],['der Klimawandel','climate change','nm'],
+['die Erderwärmung','global warming','nf'],['die Energie','energy','nf'],
+['die Solarenergie','solar energy','nf'],['die Windenergie','wind energy','nf'],
+['erneuerbar','renewable','adj'],['der Kohlendioxid','carbon dioxide','nm'],
+['die Luftverschmutzung','air pollution','nf'],['die Wasserverschmutzung','water pollution','nf'],
+['der Müll','rubbish / waste','nm'],['recyceln','to recycle','v'],['trennen','to separate','v'],
+['nachhaltig','sustainable','adj'],['die Nachhaltigkeit','sustainability','nf'],
+['umweltfreundlich','eco-friendly','adj'],['sparen','to save / conserve','v'],
+['verbrauchen','to consume / use up','v'],['der Verbrauch','consumption','nm'],
+['schützen','to protect','v'],['bedroht','threatened / endangered','adj'],
+['aussterben','to go extinct','sv'],['der Regenwald','rainforest','nm'],
+['die Wüste','desert','nf'],['schmelzen','to melt','v'],['der Treibhauseffekt','greenhouse effect','nm'],
+['die Nachhaltigkeit','sustainability','nf'],['das Elektroauto','electric car','nn'],
+['die Solaranlage','solar panel system','nf'],['fossile Brennstoffe','fossil fuels','nm · pl'],
+['der Fußabdruck','footprint','nm'],['der CO₂-Ausstoß','CO₂ emissions','nm'],
+['umweltbewusst','environmentally conscious','adj'],['der Naturschutz','nature conservation','nm'],
+],
+'Technology & Media':[
+['die Technologie','technology','nf'],['das Smartphone','smartphone','nn'],
+['der Laptop','laptop','nm'],['das Internet','internet','nn'],['die Website','website','nf'],
+['herunterladen','to download','sv'],['hochladen','to upload','sv'],
+['installieren','to install','v'],['das Passwort','password','nn'],
+['der Datenschutz','data protection','nm'],['die Privatsphäre','privacy','nf'],
+['das soziale Netzwerk','social network','nn'],['der Algorithmus','algorithm','nm'],
+['die künstliche Intelligenz','artificial intelligence','nf'],['der Roboter','robot','nm'],
+['automatisieren','to automate','v'],['die Digitalisierung','digitalisation','nf'],
+['virtuell','virtual','adj'],['die Videokonferenz','video conference','nf'],
+['der Virus','virus','nm'],['hacken','to hack','v'],['die Datei','file','nf'],
+['speichern','to save / store','v'],['löschen','to delete','v'],
+['aktualisieren','to update','v'],['der Drucker','printer','nm'],
+['der Bildschirm','screen','nm'],['die Tastatur','keyboard','nf'],
+['die Festplatte','hard drive','nf'],['die Cloud','cloud (data)','nf'],
+['streamen','to stream','v'],['das Update','update','nn'],['der Podcast','podcast','nm'],
+['der Blog','blog','nm'],['der Influencer','influencer','nm'],
+],
+'Business & Economy':[
+['die Wirtschaft','economy','nf'],['das Unternehmen','company','nn'],
+['die Firma','company / firm','nf'],['der Markt','market','nm'],
+['die Branche','industry / sector','nf'],['das Produkt','product','nn'],
+['die Dienstleistung','service','nf'],['der Kunde','customer (m)','nm'],
+['die Konkurrenz','competition','nf'],['der Gewinn','profit','nm'],
+['der Verlust','loss','nm'],['das Budget','budget','nn'],['investieren','to invest','v'],
+['die Aktie','share / stock','nf'],['die Börse','stock exchange','nf'],
+['die Inflation','inflation','nf'],['die Steuer','tax','nf'],['die Rente','pension','nf'],
+['die Sozialversicherung','social security','nf'],['die Globalisierung','globalisation','nf'],
+['exportieren','to export','v'],['importieren','to import','v'],
+['produzieren','to produce','v'],['herstellen','to manufacture','sv'],
+['entwickeln','to develop','v'],['das Wachstum','growth','nn'],
+['die Rezession','recession','nf'],['der Bankrott','bankruptcy','nm'],
+['der Mindestlohn','minimum wage','nm'],['die Gewerkschaft','trade union','nf'],
+['der Streik','strike','nm'],['streiken','to strike','v'],
+['das Bruttoinlandsprodukt','GDP','nn'],['der Umsatz','turnover / revenue','nm'],
+],
+'Travel & Tourism':[
+['die Reise','journey / trip','nf'],['reisen','to travel','v'],['buchen','to book','v'],
+['der Reisepass','passport','nm'],['das Visum','visa','nn'],
+['die Buchung','booking / reservation','nf'],['einchecken','to check in','sv'],
+['auschecken','to check out','sv'],['die Rezeption','reception','nf'],
+['die Sehenswürdigkeit','attraction / tourist sight','nf'],['die Stadtführung','city tour','nf'],
+['der Reiseführer','guidebook / tour guide','nm'],['die Landschaft','landscape / scenery','nf'],
+['die Kultur','culture','nf'],['das Denkmal','monument','nn'],
+['die Ermäßigung','discount / reduction','nf'],['der Strandurlaub','beach holiday','nm'],
+['der Skiurlaub','skiing holiday','nm'],['die Kreuzfahrt','cruise','nf'],
+['das Abenteuer','adventure','nn'],['gefährlich','dangerous','adj'],['sicher','safe / secure','adj'],
+['die Grenze','border','nf'],['der Zoll','customs / toll','nm'],
+['das Gepäck','luggage','nn'],['der Koffer','suitcase','nm'],['der Rucksack','rucksack','nm'],
+['die Reisekrankenversicherung','travel insurance','nf'],['die Unterkunft','accommodation','nf'],
+['übernachten','to stay overnight','v'],['die Jugendherberge','youth hostel','nf'],
+],
+'Health & Wellness B1':[
+['die Gesundheit','health','nf'],['das Symptom','symptom','nn'],
+['die Diagnose','diagnosis','nf'],['behandeln','to treat','v'],
+['die Behandlung','treatment','nf'],['der Stress','stress','nm'],
+['der Burnout','burnout','nm'],['sich erholen','to recover','rv'],
+['die Vorsorge','prevention / precautionary care','nf'],['die Therapie','therapy','nf'],
+['die Psychologie','psychology','nf'],['die Ernährung','nutrition / diet','nf'],
+['vegetarisch','vegetarian','adj'],['vegan','vegan','adj'],['die Bewegung','exercise / movement','nf'],
+['die Fitness','fitness','nf'],['das Fitnessstudio','gym','nn'],['trainieren','to train','v'],
+['die Entspannung','relaxation','nf'],['der Schlafmangel','sleep deprivation','nm'],
+['die Schlaflosigkeit','insomnia','nf'],['chronisch','chronic','adj'],['akut','acute','adj'],
+['ansteckend','contagious','adj'],['das Immunsystem','immune system','nn'],
+['der Blutdruck','blood pressure','nm'],['der Herzinfarkt','heart attack','nm'],
+['das Krankenhaus','hospital','nn'],['die Intensivstation','intensive care unit','nf'],
+['der Krankenwagen','ambulance','nm'],['der Notfall','emergency','nm'],
+],
+'Abstract Concepts':[
+['die Idee','idea','nf'],['der Begriff','concept / term','nm'],['der Gedanke','thought','nm'],
+['die Meinung','opinion','nf'],['die Einstellung','attitude / stance','nf'],
+['überzeugen','to convince','v'],['die Überzeugung','conviction','nf'],
+['argumentieren','to argue / debate','v'],['das Argument','argument','nn'],
+['zustimmen','to agree','sv'],['widersprechen','to contradict','v'],
+['die Diskussion','discussion','nf'],['analysieren','to analyse','v'],
+['vergleichen','to compare','v'],['der Vergleich','comparison','nm'],
+['unterscheiden','to differentiate','v'],['der Unterschied','difference','nm'],
+['ähnlich','similar','adj'],['verschieden','different / various','adj'],
+['die Bedeutung','meaning / significance','nf'],['wichtig','important','adj'],
+['notwendig','necessary','adj'],['unnötig','unnecessary','adj'],
+['die Annahme','assumption','nf'],['vermuten','to assume / suspect','v'],
+['beweisen','to prove','v'],['zweifeln','to doubt','v'],['der Zweifel','doubt','nm'],
+['verständlich','comprehensible','adj'],['unklar','unclear','adj'],['komplex','complex','adj'],
+['die Perspektive','perspective','nf'],['subjektiv','subjective','adj'],['objektiv','objective','adj'],
+],
+'Arts & Culture':[
+['die Kunst','art','nf'],['der Künstler','artist (m)','nm'],['das Gemälde','painting','nn'],
+['die Skulptur','sculpture','nf'],['die Architektur','architecture','nf'],
+['die Literatur','literature','nf'],['der Schriftsteller','writer (m)','nm'],
+['der Roman','novel','nm'],['die Kurzgeschichte','short story','nf'],
+['das Gedicht','poem','nn'],['das Lied','song','nn'],['der Musiker','musician (m)','nm'],
+['das Orchester','orchestra','nn'],['die Oper','opera','nf'],
+['das Ballett','ballet','nn'],['der Regisseur','film director','nm'],
+['der Schauspieler','actor (m)','nm'],['die Handlung','plot / action','nf'],
+['das Thema','theme / topic','nn'],['symbolisieren','to symbolise','v'],
+['darstellen','to depict / represent','sv'],['inspirieren','to inspire','v'],
+['das Publikum','audience','nn'],['die Kritik','criticism / review','nf'],
+['historisch','historical','adj'],['modern','modern','adj'],
+['zeitgenössisch','contemporary','adj'],['kreieren','to create','v'],
+['traditionell','traditional','adj'],['die Ausstellung','exhibition','nf'],
+['das Museum','museum','nn'],['besichtigen','to visit (a place)','v'],
+],
+'Separable & Complex Verbs':[
+['aufgeben','to give up / post (letter)','sv'],['ausgehen','to go out','sv'],
+['vorbereiten','to prepare','sv'],['teilnehmen','to take part','sv'],
+['vorstellen','to introduce / imagine','sv'],['sich vorstellen','to imagine / introduce oneself','sv/rv'],
+['verbringen','to spend (time)','v'],['erleben','to experience','v'],
+['erfahren','to find out / experience','v'],['beschreiben','to describe','v'],
+['erinnern (sich)','to remember','rv'],['vergessen','to forget','v'],
+['versprechen','to promise','v'],['erklären','to explain','v'],
+['untersuchen','to investigate / examine','v'],['behandeln','to treat / deal with','v'],
+['beitragen','to contribute','sv'],['weitermachen','to continue / carry on','sv'],
+['ablehnen','to reject / decline','sv'],['annehmen','to accept / assume','sv'],
+['durchführen','to carry out','sv'],['feststellen','to establish / note','sv'],
+['vorhaben','to intend / plan','sv'],['es geht um','it is about','phr'],
+['sich handeln um','to be about / concern','rv'],['ankündigen','to announce','sv'],
+['auswählen','to select','sv'],['hinweisen','to point out','sv'],
+],
+'B1 Connectors & Academic Language':[
+['obwohl','although','conj · V2→end'],['trotzdem','nevertheless','adv'],
+['dennoch','nonetheless','adv'],['jedoch','however','adv'],
+['allerdings','however / admittedly','adv'],['einerseits','on the one hand','adv'],
+['andererseits','on the other hand','adv'],['zunächst','first / initially','adv'],
+['schließlich','finally / after all','adv'],['letztendlich','ultimately','adv'],
+['im Grunde','basically','adv'],['im Allgemeinen','in general','adv'],
+['insbesondere','in particular','adv'],['beispielsweise','for example','adv'],
+['nämlich','namely / that is','adv'],['zwar…aber','it is true…but','conj pair'],
+['sowohl…als auch','both…and','conj pair'],['weder…noch','neither…nor','conj pair'],
+['entweder…oder','either…or','conj pair'],['je…desto','the more…the more','conj'],
+['falls','in case / if','conj'],['sofern','provided that','conj'],
+['solange','as long as','conj'],['sobald','as soon as','conj'],
+['seitdem','since (that time)','conj'],['bevor','before','conj'],
+['nachdem','after','conj'],['damit','so that / in order that','conj'],
+['anstatt…zu','instead of…ing','phr'],['aufgrund','due to','prep · Genitiv'],
+['infolge','as a result of','prep · Genitiv'],['hinsichtlich','with respect to','prep · Genitiv'],
+],
+}},
+B2:{xp:5000,color:'#ff6b9d',title:'B2 — Upper Intermediate',desc:'Academic register, idioms, nuanced grammar, and sophisticated vocabulary',decks:{
+'Formal Register & Academic Writing':[
+['hiermit','hereby','adv'],['beziehungsweise','or rather / respectively','adv'],
+['gemäß','according to / in accordance with','prep · Genitiv'],
+['seitens','on the part of','prep · Genitiv'],['inwiefern','to what extent / in what way','conj/adv'],
+['im Rahmen','within the framework of','prep phrase'],
+['im Zusammenhang','in connection with','prep phrase'],
+['laut','according to','prep · Genitiv or Dativ'],
+['zufolge','according to','prep · Dativ, follows noun'],
+['indem','by (doing sth)','conj'],['entsprechend','accordingly / corresponding','adv/adj'],
+['diesbezüglich','in this regard','adv'],['dahingehend','to that end / to the effect that','adv'],
+['voraussichtlich','presumably / expectedly','adv'],['letztlich','ultimately','adv'],
+['bekanntlich','as is well known','adv'],['angeblich','allegedly','adv'],
+['offensichtlich','obviously','adv'],['offenbar','apparently','adv'],
+['tatsächlich','actually / indeed','adv'],['vermeintlich','supposedly','adv'],
+['ausdrücklich','expressly / explicitly','adv'],['grundsätzlich','fundamentally / in principle','adv'],
+['prinzipiell','in principle','adv'],['inhaltlich','in terms of content','adv'],
+['sprachlich','linguistically / in terms of language','adv'],
+['formal','formally','adv'],['mündlich','oral / verbal','adj'],['schriftlich','written','adj'],
+['nachweislich','demonstrably','adv'],['erwiesenermaßen','demonstrably / as proven','adv'],
+['verhältnismäßig','proportionately','adv'],['unverhältnismäßig','disproportionately','adv'],
+],
+'Advanced Verbs':[
+['erfordern','to require / demand','v'],['erzielen','to achieve / attain','v'],
+['anstreben','to aspire to / strive for','v'],['bezwecken','to intend / aim at','v'],
+['beinhalten','to contain / include','v'],['umfassen','to encompass / comprise','v'],
+['bestehen aus','to consist of','v + prep'],['ausweichen','to avoid / evade','sv'],
+['entgegenwirken','to counteract','v'],['begegnen','to encounter','v'],
+['nachgehen','to pursue / follow up','sv'],['aufgreifen','to take up / address','sv'],
+['festhalten','to hold on to / record','sv'],['voraussehen','to foresee','sv'],
+['einschränken','to restrict / limit','sv'],['hervorheben','to emphasise / highlight','sv'],
+['verdeutlichen','to clarify / illustrate','v'],['vereinfachen','to simplify','v'],
+['überprüfen','to verify / review','v'],['bewältigen','to cope with / overcome','v'],
+['beurteilen','to assess / judge','v'],['einschätzen','to estimate / assess','sv'],
+['berücksichtigen','to take into account','v'],['vernachlässigen','to neglect','v'],
+['bevorzugen','to prefer','v'],['befürworten','to advocate / support','v'],
+['unterstützen','to support','v'],['widerlegen','to refute / disprove','v'],
+['differenzieren','to differentiate / make distinctions','v'],
+['veranschaulichen','to illustrate / make clear','v'],
+['beeinflussen','to influence','v'],['einwirken auf','to act on / influence','sv'],
+],
+'Research & Science':[
+['die Forschung','research','nf'],['forschen','to research','v'],
+['der Forscher','researcher (m)','nm'],['die Studie','study','nf'],
+['die Untersuchung','investigation / study','nf'],['untersuchen','to investigate','v'],
+['das Experiment','experiment','nn'],['die Hypothese','hypothesis','nf'],
+['die Theorie','theory','nf'],['das Konzept','concept','nn'],
+['der Ansatz','approach / starting point','nm'],['die Methode','method','nf'],
+['methodisch','methodical','adj'],['empirisch','empirical','adj'],
+['repräsentativ','representative','adj'],['signifikant','significant','adj'],
+['die Korrelation','correlation','nf'],['die Kausalität','causality','nf'],
+['belegen','to prove / demonstrate (with evidence)','v'],
+['nachweisen','to prove / verify','sv'],['das Ergebnis','result','nn'],
+['die Schlussfolgerung','conclusion','nf'],['folgern','to conclude / infer','v'],
+['ableiten','to derive / deduce','v'],['anwenden','to apply','sv'],
+['optimieren','to optimise','v'],['innovativ','innovative','adj'],
+['interdisziplinär','interdisciplinary','adj'],['vereinfacht','simplified','adj'],
+['der Durchbruch','breakthrough','nm'],['bahnbrechend','groundbreaking','adj'],
+['reproduzierbar','reproducible','adj'],['die Stichprobe','sample','nf'],
+],
+'Law & Governance':[
+['die Verfassung','constitution','nf'],['der Artikel','article (legal/press)','nm'],
+['die Norm','norm / standard','nf'],['das Verfahren','procedure / legal process','nn'],
+['das Gericht','court','nn'],['der Richter','judge (m)','nm'],
+['der Anwalt','lawyer (m)','nm'],['die Anwältin','lawyer (f)','nf'],
+['die Anklage','accusation / prosecution','nf'],['der Angeklagte','accused / defendant','nm'],
+['das Urteil','verdict / judgement','nn'],['verurteilen','to sentence / condemn','v'],
+['freisprechen','to acquit','sv'],['die Strafe','punishment','nf'],
+['das Gefängnis','prison','nn'],['die Haft','detention / custody','nf'],
+['verhaften','to arrest','v'],['schuldig','guilty','adj'],['unschuldig','innocent','adj'],
+['die Gerechtigkeit','justice','nf'],['gerecht','just / fair','adj'],['ungerecht','unjust','adj'],
+['die Diskriminierung','discrimination','nf'],['diskriminieren','to discriminate','v'],
+['das Datenschutzgesetz','data protection law','nn'],['die Datenschutzerklärung','privacy policy','nf'],
+['der Rechtsstaat','rule of law / constitutional state','nm'],
+['die Strafverfolgung','criminal prosecution','nf'],
+['die Fahndung','manhunt / search (police)','nf'],
+['der Haftbefehl','arrest warrant','nm'],['die Untersuchungshaft','pre-trial detention','nf'],
+],
+'Philosophy & Ethics':[
+['die Philosophie','philosophy','nf'],['der Philosoph','philosopher (m)','nm'],
+['die Ethik','ethics','nf'],['die Moral','morality','nf'],['moralisch','moral','adj'],
+['unmoralisch','immoral','adj'],['die Wahrheit','truth','nf'],['lügen','to lie','v'],
+['täuschen','to deceive','v'],['das Wesen','essence / being / nature','nn'],
+['die Existenz','existence','nf'],['existieren','to exist','v'],
+['die Freiheit','freedom / liberty','nf'],['die Verantwortung','responsibility','nf'],
+['verantwortlich','responsible','adj'],['die Konsequenz','consequence','nf'],
+['der Wert','value','nm'],['wertvoll','valuable','adj'],['die Würde','dignity','nf'],
+['menschenwürdig','humane / dignified','adj'],['der Sinn','meaning / sense','nm'],
+['sinnvoll','meaningful','adj'],['sinnlos','meaningless','adj'],
+['das Bewusstsein','consciousness / awareness','nn'],['bewusst','conscious / aware','adj'],
+['unbewusst','unconscious','adj'],['die Intuition','intuition','nf'],
+['die Vernunft','reason / rationality','nf'],['vernünftig','reasonable / rational','adj'],
+['das Paradox','paradox','nn'],['widersprüchlich','contradictory','adj'],
+['die Erkenntnis','insight / realisation','nf'],['das Dilemma','dilemma','nn'],
+],
+'Politics & International Relations':[
+['die Außenpolitik','foreign policy','nf'],['die Diplomatie','diplomacy','nf'],
+['der Diplomat','diplomat (m)','nm'],['die Botschaft','embassy / message','nf'],
+['der Botschafter','ambassador (m)','nm'],['das Abkommen','agreement / accord','nn'],
+['das Bündnis','alliance','nn'],['die Resolution','resolution','nf'],
+['das Veto','veto','nn'],['intervenieren','to intervene','v'],
+['die Sanktion','sanction','nf'],['die Blockade','blockade','nf'],
+['der Protektionismus','protectionism','nm'],['der Nationalismus','nationalism','nm'],
+['die Souveränität','sovereignty','nf'],['die Autonomie','autonomy','nf'],
+['die Demokratisierung','democratisation','nf'],['kooperieren','to cooperate','v'],
+['verhandeln','to negotiate','v'],['die Verhandlung','negotiation','nf'],
+['der Gipfel','summit (meeting)','nm'],['die Weltordnung','world order','nf'],
+['die Supermacht','superpower','nf'],['die Bipolarität','bipolarity','nf'],
+['multilateral','multilateral','adj'],['bilateral','bilateral','adj'],
+['die Entwicklungshilfe','development aid','nf'],['die humanitäre Hilfe','humanitarian aid','nf'],
+['der Friedensvertrag','peace treaty','nm'],['die Waffenstillstandsvereinbarung','ceasefire agreement','nf'],
+],
+'Complex Adjectives & Nuance':[
+['ausgeprägt','pronounced / marked','adj'],['erheblich','considerable / significant','adj'],
+['wesentlich','essential / fundamental','adj'],['beträchtlich','considerable','adj'],
+['maßgeblich','decisive / authoritative','adj'],['entscheidend','decisive / crucial','adj'],
+['wegweisend','groundbreaking / pioneering','adj'],['nachhaltig','sustainable / lasting','adj'],
+['tiefgreifend','profound / far-reaching','adj'],['umfassend','comprehensive','adj'],
+['weitreichend','far-reaching','adj'],['einschneidend','drastic / incisive','adj'],
+['bahnbrechend','groundbreaking','adj'],['revolutionär','revolutionary','adj'],
+['progressiv','progressive','adj'],['konservativ','conservative','adj'],
+['radikal','radical','adj'],['gemäßigt','moderate','adj'],
+['ambivalent','ambivalent','adj'],['zwiespältig','conflicted / ambivalent','adj'],
+['kontrovers','controversial','adj'],['umstritten','contested / debated','adj'],
+['eindeutig','clear / unambiguous','adj'],['mehrdeutig','ambiguous','adj'],
+['präzise','precise','adj'],['vage','vague','adj'],['abstrakt','abstract','adj'],
+['konkret','concrete / specific','adj'],['angemessen','appropriate','adj'],
+['unangemessen','inappropriate','adj'],['verhältnismäßig','proportionate','adj'],
+['unverhältnismäßig','disproportionate','adj'],['plausibel','plausible','adj'],
+],
+'Advanced Economics & Finance':[
+['das Bruttoinlandsprodukt','GDP (gross domestic product)','nn'],
+['das Wirtschaftswachstum','economic growth','nn'],['die Konjunktur','economic cycle / situation','nf'],
+['der Aufschwung','upswing / economic boom','nm'],['der Abschwung','economic downturn','nm'],
+['die Rezession','recession','nf'],['die Arbeitslosigkeit','unemployment','nf'],
+['die Fachkräftemangel','skills shortage','nf'],['der Tarifvertrag','collective agreement','nm'],
+['die Fusion','merger','nf'],['die Übernahme','takeover / acquisition','nf'],
+['das Kapital','capital','nn'],['die Liquidität','liquidity','nf'],
+['die Rendite','yield / return (on investment)','nf'],['das Risiko','risk','nn'],
+['diversifizieren','to diversify','v'],['das Portfolio','portfolio','nn'],
+['die Bilanz','balance sheet','nf'],['der Jahresabschluss','annual accounts','nm'],
+['der Gewinn','profit','nm'],['der Verlust','loss','nm'],['die Marge','margin','nf'],
+['die Wertschöpfung','value creation','nf'],['der Zinssatz','interest rate','nm'],
+['die Geldpolitik','monetary policy','nf'],['die Zentralbank','central bank','nf'],
+['die Staatsverschuldung','national debt','nf'],['das Haushaltsdefizit','budget deficit','nn'],
+['das Haushaltsüberschuss','budget surplus','nm'],
+],
+'Language & Linguistics':[
+['die Linguistik','linguistics','nf'],['die Grammatik','grammar','nf'],
+['die Syntax','syntax','nf'],['die Morphologie','morphology','nf'],
+['die Semantik','semantics','nf'],['die Pragmatik','pragmatics','nf'],
+['die Phrase','phrase','nf'],['die Konnotation','connotation','nf'],
+['die Denotation','denotation','nf'],['das Idiom','idiom','nn'],
+['die Metapher','metaphor','nf'],['die Allegorie','allegory','nf'],
+['der Sprachgebrauch','language use','nm'],['der Dialekt','dialect','nm'],
+['der Akzent','accent','nm'],['das Register','register (formal/informal)','nn'],
+['umgangssprachlich','colloquial','adj'],['die Fachsprache','specialist language','nf'],
+['übersetzen','to translate','v'],['dolmetschen','to interpret (spoken)','v'],
+['der Dolmetscher','interpreter (m)','nm'],['die Muttersprache','mother tongue','nf'],
+['bilingual','bilingual','adj'],['mehrsprachig','multilingual','adj'],
+['beherrschen','to master (a language)','v'],['die Sprachkompetenz','language competence','nf'],
+['die Phonologie','phonology','nf'],['das Morphem','morpheme','nn'],
+['das Lexem','lexeme','nn'],['der Diskurs','discourse','nm'],
+],
+'Idioms & Fixed Expressions':[
+['auf den Punkt kommen','to get to the point','phr'],
+['das macht Sinn','that makes sense','phr'],
+['im Großen und Ganzen','on the whole / by and large','phr'],
+['nach und nach','gradually','phr'],['hin und wieder','now and then','phr'],
+['ab und zu','from time to time','phr'],['in Bezug auf','with regard to','phr'],
+['von Grund auf','fundamentally','phr'],['im Handumdrehen','in no time at all','phr'],
+['auf eigene Faust','on one\'s own initiative','phr'],
+['Hand in Hand','hand in hand','phr'],['in den Vordergrund rücken','to come to the fore','phr'],
+['in Frage kommen','to be a possibility / to be eligible','phr'],
+['in Frage stellen','to question / call into question','phr'],
+['zur Sprache bringen','to bring up (a topic)','phr'],
+['zum Vorschein kommen','to come to light','phr'],
+['in Angriff nehmen','to tackle / take on','phr'],
+['zu Ende bringen','to bring to completion','phr'],
+['auf lange Sicht','in the long run','phr'],['auf kurze Sicht','in the short term','phr'],
+['den Nagel auf den Kopf treffen','to hit the nail on the head','phr'],
+['das ist nicht mein Ding','that\'s not my thing','phr'],
+['jemandem auf den Nerv gehen','to get on someone\'s nerves','phr'],
+['sich in Luft auflösen','to vanish into thin air','phr'],
+['das ist ein zweischneidiges Schwert','that\'s a double-edged sword','phr'],
+['den Faden verlieren','to lose the thread','phr'],
+['jemanden im Regen stehen lassen','to leave someone in the lurch','phr'],
+['um den heißen Brei herumreden','to beat around the bush','phr'],
+['das Handtuch werfen','to throw in the towel','phr'],
+['Butter bei die Fische','get to the point / put your money where your mouth is','phr'],
+],
+'Word Families & Derivation':[
+['arbeiten · die Arbeit · der Arbeiter · arbeitlos · die Arbeitslosigkeit','work (verb/noun/agent/adj/compound noun)','phr'],
+['lernen · das Lernen · der Lernende · die Lernerfahrung · lehrreich','learn (family)','phr'],
+['führen · die Führung · der Führer · die Mitarbeiterführung · wegweisend','lead/guide (family)','phr'],
+['entwickeln · die Entwicklung · der Entwickler · die Weiterentwicklung','develop (family)','phr'],
+['das Vertrauen','trust / confidence','nn · v: vertrauen, adj: vertrauenswürdig'],
+['die Verantwortung','responsibility','nf · adj: verantwortlich, v: verantworten'],
+['die Möglichkeit','possibility','nf · adj: möglich, adv: möglicherweise'],
+['die Notwendigkeit','necessity','nf · adj: notwendig, adv: notwendigerweise'],
+['die Wirklichkeit','reality','nf · adj: wirklich, adv: wirklich'],
+['der Zusammenhang','connection / context','nm · adj: zusammenhängend, v: zusammenhängen'],
+['die Vorstellung','idea / notion / performance','nf · v: vorstellen, adj: vorstellbar'],
+['die Aufmerksamkeit','attention / attentiveness','nf · adj: aufmerksam'],
+['die Bereitschaft','willingness / readiness','nf · adj: bereit'],
+['die Zuverlässigkeit','reliability','nf · adj: zuverlässig'],
+['die Glaubwürdigkeit','credibility','nf · adj: glaubwürdig'],
+['die Unabhängigkeit','independence','nf · adj: unabhängig'],
+['die Abhängigkeit','dependence','nf · adj: abhängig'],
+['die Zufriedenheit','satisfaction / contentment','nf · adj: zufrieden'],
+['die Überzeugung','conviction','nf · v: überzeugen, adj: überzeugend'],
+],
+'False Friends & Tricky Words':[
+['also','so / therefore (NOT "also"!)','conj · "also" = außerdem'],
+['der Chef','boss (NOT "chef"!)','nm · "chef" = der Koch'],
+['die Fabrik','factory (NOT "fabric"!)','nf · "fabric" = der Stoff'],
+['sensibel','sensitive / delicate (NOT "sensible"!)','adj · "sensible" = vernünftig'],
+['aktuell','current / up-to-date (NOT "actual"!)','adj · "actual" = eigentlich/tatsächlich'],
+['eventuell','possibly / perhaps (NOT "eventually"!)','adv · "eventually" = schließlich'],
+['das Gift','poison (NOT "gift"!)','nn · "gift" = das Geschenk','GIFT in German will KILL you, not please you!'],
+['der Dom','cathedral (NOT "dome"!)','nm · "dome" = die Kuppel'],
+['die Note','grade / musical note (NOT "note"!)','nf · written note = die Notiz'],
+['die Pension','guesthouse / pension (NOT "pension" only!)','nf'],
+['das Gymnasium','grammar school (NOT "gymnasium"!)','nn · gym = die Turnhalle'],
+['ordinär','vulgar / coarse (NOT "ordinary"!)','adj · "ordinary" = gewöhnlich'],
+['das Kompost','compost (NOT "compost" misused)','nn'],
+['genial','brilliant / genius (NOT "genial/friendly"!)','adj · "friendly/genial" = freundlich'],
+['die Provision','commission / broker fee (NOT "provision"!)','nf · "provision" = die Versorgung'],
+['engagiert','committed / dedicated (NOT "engaged" romantic!)','adj · "engaged (romantic)" = verlobt'],
+['die Fabrik','factory (not laboratory!)','nf'],
+['der Kurs','course / exchange rate (context-dependent)','nm'],
+['neutral','neutral','adj · same in both languages — but emphasis differs'],
+['die Praxis','practice / doctor\'s surgery (NOT only "praxis"!)','nf'],
+],
+}}};
+
+// ── COMPUTED VOCAB STATS ──────────────────────────────────────
+let _wordCount = null;
+function totalWords(){
+  if(_wordCount!==null) return _wordCount;
+  let n=0;for(const lv of Object.values(VD)) for(const words of Object.values(lv.decks)) n+=words.length;
+  return(_wordCount=n);
+}
+
+// Flat card ID: "A1|Greetings & Phrases|3"
+function makeId(lv,deck,idx){ return `${lv}|${deck}|${idx}`; }
+function parseId(id){ const p=id.split('|'); return{lv:p[0],deck:p[1],idx:parseInt(p[2])}; }
+
+function getVocabEntry(lv,deck,idx){
+  return VD[lv]?.decks[deck]?.[idx]||null;
+}
+
+function buildCard(lv,deck,idx){
+  const e=getVocabEntry(lv,deck,idx);
+  if(!e) return null;
+  const id=makeId(lv,deck,idx);
+  const srs=lsGet('srs:'+id,null);
+  return{
+    id,word:e[0],translation:e[1],grammar_note:e[2]||'',
+    story_hook:e[3]||'',sentence:e[4]||'',sentence_translation:e[5]||'',
+    level:lv,deck,
+    emotion_tag:srs?.emotion_tag||'',
+    mastery_level:srs?.ml||0,
+    next_review:srs?.nr||today(),
+    review_history:srs?.rh||[],
+    ease_factor:srs?.ef||2.5,
+    interval:srs?.iv||1
+  };
+}
+
+function saveSRS(id,data){
+  // Compact SRS storage
+  const existing=lsGet('srs:'+id,{});
+  lsSet('srs:'+id,Object.assign(existing,data));
+}
+
+function getAllCards(){
+  const cards=[];
+  for(const [lv,lvData] of Object.entries(VD))
+    for(const [deck,words] of Object.entries(lvData.decks))
+      for(let i=0;i<words.length;i++) cards.push(buildCard(lv,deck,i));
+  return cards;
+}
+
+function getCardsForDeck(lv,deck){
+  const words=VD[lv]?.decks[deck]||[];
+  return words.map((_,i)=>buildCard(lv,deck,i));
+}
+
+function getCardsForLevel(lv){
+  const cards=[];
+  for(const [deck,words] of Object.entries(VD[lv]?.decks||{}))
+    for(let i=0;i<words.length;i++) cards.push(buildCard(lv,deck,i));
+  return cards;
+}
+
+function getDueCards(lv,deck){
+  const words=VD[lv]?.decks[deck]||[];
+  return words.map((_,i)=>buildCard(lv,deck,i)).filter(c=>c.next_review<=today());
+}
+
+function getAllDueCards(){
+  const all=getAllCards();
+  return all.filter(c=>c.next_review<=today());
+}
+
+function isLevelUnlocked(lv){
+  const user=getUser();
+  return (user.xp||0)>=(VD[lv]?.xp||0);
+}
+
+// ── STORAGE ──────────────────────────────────────────────────
+const NS='lexikon_';
+function lsGet(k,def){try{const v=localStorage.getItem(NS+k);return v!==null?JSON.parse(v):def;}catch{return def;}}
+function lsSet(k,v){localStorage.setItem(NS+k,JSON.stringify(v));}
+
+// Custom decks (user-created, separate from vocab data)
+const getCustomDecks=()=>lsGet('cdecks',[]);
+const setCustomDecks=d=>lsSet('cdecks',d);
+const getCustomCards=()=>lsGet('ccards',[]);
+const setCustomCards=c=>lsSet('ccards',c);
+const getUser=()=>lsGet('user',{xp:0,level:0,streak:0,lastStudy:null,badges:[],settings:{newLimit:20,defaultMode:'mixed',ttsVoice:'',ttsSpeed:'1',sound:true}});
+const setUser=u=>lsSet('user',u);
+const getHistory=()=>lsGet('history',[]);
+const setHistory=h=>lsSet('history',h);
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function today(){return new Date().toISOString().slice(0,10);}
+function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escA(s){return escH(s);}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+const LEVELS=[
+  {name:'Novice',xp:0,icon:'🌱'},{name:'Wanderer',xp:500,icon:'🌿'},
+  {name:'Sprecher',xp:2000,icon:'🔥'},{name:'Meister',xp:6000,icon:'⚡'},
+  {name:'Lexikon Master',xp:15000,icon:'👑'}
+];
+const BADGES=[
+  {id:'first10',label:'📚 First 10',desc:'Reviewed 10 cards'},
+  {id:'first100',label:'💯 Century',desc:'100 total reviews'},
+  {id:'streak7',label:'🔥 Week Warrior',desc:'7-day streak'},
+  {id:'streak30',label:'⚡ Month Master',desc:'30-day streak'},
+  {id:'boss_win',label:'💀 Boss Slayer',desc:'Perfect Boss Round'},
+  {id:'build_ok',label:'✍️ Sentence Crafter',desc:'Built correct sentence'},
+  {id:'speed5',label:'⚡ Speed Demon',desc:'5 cards under 3s'},
+  {id:'a1_done',label:'🟢 A1 Champion',desc:'Mastered 80% of A1'},
+  {id:'a2_done',label:'🔵 A2 Champion',desc:'Mastered 80% of A2'},
+  {id:'b1_done',label:'🟡 B1 Champion',desc:'Mastered 80% of B1'},
+  {id:'b2_done',label:'🩷 B2 Champion',desc:'Mastered 80% of B2'},
+  {id:'dc7',label:'🎯 Daily Devotee',desc:'7-day Daily Challenge streak'},
+  {id:'dc30',label:'🏆 Challenge Champion',desc:'30-day Daily Challenge streak'},
+];
+
+// ── SCREEN NAV ───────────────────────────────────────────────
+function showScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  document.getElementById('nav-'+n).classList.add('active');
+  if(n==='home') renderHome();
+  if(n==='study') renderStudySetup();
+  if(n==='decks') renderDecks();
+  if(n==='progress') renderProgress();
+  if(n==='settings') renderSettings();
+}
+
+// ── HOME ────────────────────────────────────────────────────
+function renderHome(){
+  checkStreak();
+  const user=getUser();
+  const hour=new Date().getHours();
+  document.getElementById('hgreet').textContent=hour<12?'Good morning ☀️':hour<17?'Good afternoon 🌤️':'Good evening 🌙';
+  document.getElementById('hstreak').textContent='🔥 '+(user.streak||0);
+
+  const li=getLvInfo(user.xp||0);
+  document.getElementById('hlvl').textContent=li.cur.icon+' '+li.cur.name;
+  document.getElementById('hxptxt').textContent=(user.xp||0).toLocaleString()+' XP';
+  if(li.nxt){
+    const pct=((user.xp-li.cur.xp)/(li.nxt.xp-li.cur.xp))*100;
+    document.getElementById('hxpfill').style.width=Math.min(100,pct)+'%';
+    document.getElementById('hxpnxt').textContent=(li.nxt.xp-user.xp).toLocaleString()+' to '+li.nxt.name;
+  } else {document.getElementById('hxpfill').style.width='100%';document.getElementById('hxpnxt').textContent='MAX LEVEL 👑';}
+
+  // WOTD
+  const allCards=getAllCards();
+  if(allCards.length>0){
+    const wc=allCards[new Date().getDate()%allCards.length];
+    document.getElementById('hwword').textContent=wc.word;
+    document.getElementById('hwtr').textContent=wc.translation;
+    document.getElementById('hwotd').setAttribute('data-wid',wc.id);
+  }
+
+  // Level progress cards
+  const lvEl=document.getElementById('hlvlcards');
+  lvEl.innerHTML=Object.entries(VD).map(([lv,lvData])=>{
+    const unlocked=isLevelUnlocked(lv);
+    const cards=getCardsForLevel(lv);
+    const studied=cards.filter(c=>c.review_history.length>0).length;
+    const mastered=cards.filter(c=>c.mastery_level>=4).length;
+    const total=cards.length;
+    const pct=total>0?Math.round((mastered/total)*100):0;
+    const due=cards.filter(c=>c.next_review<=today()).length;
+    return `<div class="lvlcard${unlocked?'':' locked'}" data-lv="${lv}" onclick="${unlocked?`quickStudyLv('${lv}')`:''}" style="margin-bottom:9px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:9px">
+        <div class="lvltag ${lv}">${lv}</div>
+        <div style="flex:1"><div style="font-size:13.5px;font-weight:700">${escH(lvData.title)}</div><div style="font-size:10.5px;color:var(--dim);margin-top:1px">${escH(lvData.desc)}</div></div>
+        ${unlocked?`<div style="font-size:10.5px;font-family:var(--mono);color:${due>0?'var(--cyan)':'var(--dim)'};">${due} due</div>`:'<div style="font-size:18px">🔒</div>'}
+      </div>
+      <div class="pb" style="height:5px"><div class="pf ${lv}" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--dim);margin-top:4px">
+        <span>${studied}/${total} studied</span>
+        <span>${pct}% mastered</span>
+        ${!unlocked?`<span style="color:var(--gold)">Unlock at ${lvData.xp} XP</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const due=getAllDueCards();
+  document.getElementById('hdue').textContent=due.length;
+  document.getElementById('hduelbl').textContent=due.length===1?'card due for review':'cards due for review';
+  const dailyGoal=user.settings?.newLimit||20;
+  document.getElementById('hdayfill').style.width=Math.min(100,Math.max(0,((dailyGoal-due.length)/dailyGoal)*100))+'%';
+
+  const studied=getAllCards().filter(c=>c.review_history.length>0).length;
+  document.getElementById('hwords').textContent=studied.toLocaleString();
+  document.getElementById('hmastered').textContent=getAllCards().filter(c=>c.mastery_level>=4).length.toLocaleString();
+  document.getElementById('htotal').textContent=totalWords().toLocaleString();
+
+  const bEl=document.getElementById('hbadges');
+  if(user.badges&&user.badges.length>0){
+    bEl.innerHTML='<div class="slabel">Recent Badges</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px">'+user.badges.slice(-4).map(bid=>{const bd=BADGES.find(b=>b.id===bid);return bd?`<div class="lvlbadge">${bd.label}</div>`:''}).join('')+'</div>';
+  } else bEl.innerHTML='';
+
+  // Daily Challenge banner
+  renderDCBanner();
+}
+
+function wotdClick(){const id=document.getElementById('hwotd')?.getAttribute('data-wid');if(id){const p=parseId(id);const c=buildCard(p.lv,p.deck,p.idx);if(c)showCardDetail(c);}}
+function quickStudyLv(lv){showScreen('study');setTimeout(()=>{const sel=document.getElementById('ss-lv');if(sel){sel.value=lv;onLvlChange();}},80);}
+function startStudyHome(){showScreen('study');}
+
+// ── STUDY SETUP ──────────────────────────────────────────────
+let selModeVal='flashcard';
+
+function renderStudySetup(){
+  document.getElementById('ss-setup').style.cssText='display:flex;flex-direction:column';
+  document.getElementById('ss-session').style.display='none';
+  document.getElementById('ss-sum').style.display='none';
+
+  const lvSel=document.getElementById('ss-lv');
+  lvSel.innerHTML=Object.entries(VD).map(([lv,d])=>{
+    const locked=!isLevelUnlocked(lv);
+    return `<option value="${lv}"${locked?' disabled':''}>${lv} — ${d.title}${locked?' 🔒 ('+d.xp+' XP)':''}</option>`;
+  }).join('');
+  const firstUnlocked=Object.keys(VD).find(lv=>isLevelUnlocked(lv))||'A1';
+  lvSel.value=firstUnlocked;
+  onLvlChange();
+
+  const user=getUser();
+  const dm=user.settings?.defaultMode||'mixed';
+  selModeVal=dm==='mixed'?'flashcard':dm;
+  document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('sel',c.dataset.mode===selModeVal));
+}
+
+function onLvlChange(){
+  const lv=document.getElementById('ss-lv').value;
+  const deckSel=document.getElementById('ss-deck');
+  const decks=Object.keys(VD[lv]?.decks||{});
+  deckSel.innerHTML='<option value="__all__">All Decks (Due Cards)</option>'+
+    decks.map(d=>`<option value="${escA(d)}">${escH(d)}</option>`).join('');
+}
+
+function selMode(mode,el){selModeVal=mode;document.querySelectorAll('.mcard').forEach(c=>c.classList.remove('sel'));if(el)el.classList.add('sel');}
+
+// ── SESSION STATE ────────────────────────────────────────────
+let ses={cards:[],idx:0,mode:'flashcard',isBoss:false,correct:0,total:0,xp:0,mastered:0,t0:0,ct0:0,timer:null,badges:[],spd:0,curMode:'flashcard',_mkh:null};
+
+function beginSession(){
+  const lv=document.getElementById('ss-lv').value;
+  const deckName=document.getElementById('ss-deck').value;
+  const limitSel=parseInt(document.getElementById('ss-limit').value)||20;
+
+  let pool;
+  if(deckName==='__all__') pool=getCardsForLevel(lv);
+  else pool=getCardsForDeck(lv,deckName);
+
+  let sessionCards;
+  if(selModeVal==='boss'){
+    sessionCards=shuffle(pool).slice(0,10);
+  } else {
+    const overdue=pool.filter(c=>c.next_review<=today()&&c.review_history.length>0);
+    const fresh=shuffle(pool.filter(c=>c.review_history.length===0));
+    sessionCards=[...overdue,...fresh];
+    if(limitSel>0) sessionCards=sessionCards.slice(0,limitSel);
+  }
+
+  if(sessionCards.length===0){toast('No cards due! Great job 🎉 — come back tomorrow.');return;}
+
+  ses={cards:sessionCards,idx:0,mode:selModeVal,isBoss:selModeVal==='boss',
+    correct:0,total:0,xp:0,mastered:0,t0:Date.now(),ct0:Date.now(),
+    timer:null,badges:[],spd:0,curMode:selModeVal,_mkh:null};
+
+  document.getElementById('ss-setup').style.display='none';
+  document.getElementById('ss-session').style.cssText='display:flex;flex-direction:column;flex:1;gap:9px';
+  document.getElementById('ss-sum').style.display='none';
+  document.getElementById('boss-wrap').style.display=ses.isBoss?'flex':'none';
+  showCard();
+}
+
+function showCard(){
+  if(ses.idx>=ses.cards.length){finishSession();return;}
+  const card=ses.cards[ses.idx];
+  ses.ct0=Date.now();
+  document.getElementById('ses-prog').textContent=(ses.idx+1)+'/'+ses.cards.length;
+  document.getElementById('ses-pfill').style.width=((ses.idx/ses.cards.length)*100)+'%';
+  document.getElementById('ses-xp').textContent=ses.xp+' XP';
+
+  ['flashcard','mcq','typing','build','story','listen'].forEach(m=>{
+    const el=document.getElementById('mode-'+m);
+    el.style.display='none';el.innerHTML='';
+  });
+  document.getElementById('ses-act').innerHTML='';
+  document.getElementById('kbhints').innerHTML='';
+  if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
+
+  if(ses.isBoss){clearInterval(ses.timer);startBossTimer();}
+
+  let mode=ses.mode;
+  if(ses.isBoss){const ms=['flashcard','mcq','typing'];mode=ms[ses.idx%ms.length];}
+  ses.curMode=mode;
+
+  const el=document.getElementById('mode-'+mode);
+  el.style.display='block';
+  if(mode==='flashcard') renderFC(card,el);
+  else if(mode==='mcq') renderMCQ(card,el);
+  else if(mode==='typing') renderTyping(card,el);
+  else if(mode==='build') renderBuild(card,el);
+  else if(mode==='story') renderStory(card,el);
+  else if(mode==='listen') renderListen(card,el);
+}
+
+// ── FLASHCARD ───────────────────────────────────────────────
+let flipped=false;
+function renderFC(card,el){
+  el.innerHTML=`<div class="fwrap" id="fwrap">
+    <div class="fc" id="fc">
+      <div class="ff front">
+        <span class="swfb swno" id="swno">AGAIN</span>
+        <span class="swfb swyes" id="swyes">GOT IT</span>
+        <div style="text-align:center">
+          <div class="wd" style="margin-bottom:13px">${escH(card.word)}</div>
+          <button class="abtn" onclick="event.stopPropagation();speakTxt('${escA(card.word)}')" style="margin:0 auto">🔊</button>
+        </div>
+        <div style="font-size:10.5px;color:var(--dim)">${escH(card.level)} · ${escH(card.deck)}</div>
+      </div>
+      <div class="ff back">
+        <div class="wd" style="font-size:17px;color:var(--text)">${escH(card.translation)}</div>
+        <div class="divider" style="width:100%;margin:5px 0"></div>
+        <span class="gtag">${escH(card.grammar_note)}</span>
+        ${card.story_hook?`<div class="sbox" style="width:100%;margin-top:9px">${escH(card.story_hook)}</div>`:''}
+        <div style="width:100%;margin-top:9px">
+          <div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Emotion Tag</div>
+          <div class="epick">${['😂','😢','😱','❤️','💀'].map(e=>`<button class="ebtn${card.emotion_tag===e?' active':''}" onclick="event.stopPropagation();setEmotion('${escA(card.id)}','${e}',this)">${e}</button>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('kbhints').innerHTML='<span style="font-size:10px;color:var(--dim)"><kbd class="kbd">Space</kbd> flip · <kbd class="kbd">→</kbd> got it · <kbd class="kbd">←</kbd> again</span>';
+  flipped=false;
+  setupSwipe(card);
+}
+
+function setupSwipe(card){
+  const wrap=document.getElementById('fwrap'),fc=document.getElementById('fc');
+  if(!wrap||!fc)return;
+  let sx=0,dx=0,drag=false;
+  const reveal=()=>{if(!flipped){flipped=true;fc.classList.add('flipped');document.getElementById('ses-act').innerHTML=`<div style="display:flex;gap:9px"><button class="btn bd bfw" style="flex:1" onclick="gradeFC(false)">← Again</button><button class="btn bsuc bfw" style="flex:1" onclick="gradeFC(true)">Got it →</button></div>`;}};
+  wrap.addEventListener('click',reveal);
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;drag=true;},{passive:true});
+  wrap.addEventListener('touchmove',e=>{if(!flipped||!drag)return;dx=e.touches[0].clientX-sx;fc.style.transform=`rotateY(180deg) translateX(${-dx}px)`;document.getElementById('swyes')?.classList.toggle('show',dx>45);document.getElementById('swno')?.classList.toggle('show',dx<-45);},{passive:true});
+  wrap.addEventListener('touchend',()=>{drag=false;fc.style.transform='';if(dx>70)gradeFC(true);else if(dx<-70)gradeFC(false);dx=0;});
+  wrap.addEventListener('mousedown',e=>{if(!flipped)return;sx=e.clientX;drag=true;});
+  document.addEventListener('mousemove',e=>{if(!drag||!flipped)return;dx=e.clientX-sx;fc.style.transform=`rotateY(180deg) translateX(${-dx}px)`;document.getElementById('swyes')?.classList.toggle('show',dx>45);document.getElementById('swno')?.classList.toggle('show',dx<-45);});
+  document.addEventListener('mouseup',()=>{if(!drag)return;drag=false;fc.style.transform='';if(dx>70)gradeFC(true);else if(dx<-70)gradeFC(false);dx=0;});
+}
+
+function gradeFC(ok){
+  const elapsed=(Date.now()-ses.ct0)/1000;
+  updateSRS(ses.cards[ses.idx],ok?(2+Math.min(1,5/elapsed)):1);
+  recordResult(ok,0);
+  if(ok&&elapsed<3)ses.spd++;
+  nextCard();
+}
+
+// ── MCQ ─────────────────────────────────────────────────────
+function renderMCQ(card,el){
+  // Build distractors from same level
+  const lvCards=shuffle(getCardsForLevel(card.level).filter(c=>c.id!==card.id&&c.word!==card.word)).slice(0,3);
+  const opts=shuffle([card.word,...lvCards.map(c=>c.word)]);
+  el.innerHTML=`<div class="card" style="margin-bottom:11px">
+    <div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700">Choose the correct German word</div>
+    <div style="font-size:16px;font-weight:600;color:var(--text)">${escH(card.translation)}</div>
+    <div style="font-size:10.5px;color:var(--dim);margin-top:3px"><span class="gtag" style="padding:2px 7px">${escH(card.grammar_note)}</span></div>
+  </div>
+  <div id="mcqopts">${opts.map((o,i)=>`<button class="mop" onclick="gradeMCQ('${escA(o)}','${escA(card.word)}',this)"><span style="color:var(--dim);margin-right:8px;font-family:var(--mono)">${i+1}.</span>${escH(o)}</button>`).join('')}</div>
+  <div id="mcqfb" style="display:none"></div>`;
+  document.getElementById('kbhints').innerHTML='<span style="font-size:10px;color:var(--dim)"><kbd class="kbd">1</kbd><kbd class="kbd">2</kbd><kbd class="kbd">3</kbd><kbd class="kbd">4</kbd> to select</span>';
+  ses._mkh=e=>{const n=parseInt(e.key);if(n>=1&&n<=4){const b=document.querySelectorAll('.mop:not(:disabled)');if(b[n-1])b[n-1].click();}};
+  document.addEventListener('keydown',ses._mkh);
+}
+
+function gradeMCQ(chosen,correct,btn){
+  if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
+  document.querySelectorAll('.mop').forEach(b=>{b.disabled=true;if(b.textContent.replace(/^\s*\d\.\s*/,'').trim()===correct)b.classList.add('correct');});
+  const ok=chosen===correct;
+  if(!ok)btn.classList.add('wrong');
+  playSound(ok?'c':'w');
+  const card=ses.cards[ses.idx];
+  const elapsed=(Date.now()-ses.ct0)/1000;
+  updateSRS(card,ok?(2.5+Math.min(.5,5/elapsed)):1);
+  document.getElementById('mcqfb').style.display='block';
+  document.getElementById('mcqfb').innerHTML=`<div class="csm" style="margin-top:9px"><div class="wd" style="font-size:15px;color:var(--text)">${escH(card.word)}</div><div class="tr" style="margin-bottom:6px">${escH(card.translation)}</div><span class="gtag">${escH(card.grammar_note)}</span>${card.story_hook?`<div class="sbox" style="margin-top:8px">${escH(card.story_hook)}</div>`:''}</div>`;
+  recordResult(ok,.5);
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+}
+
+// ── TYPING ──────────────────────────────────────────────────
+function renderTyping(card,el){
+  el.innerHTML=`<div class="card">
+    <div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700">Type the German word</div>
+    <div style="font-size:16px;font-weight:600;margin-bottom:5px">${escH(card.translation)}</div>
+    <span class="gtag">${escH(card.grammar_note)}</span>
+  </div>
+  <input type="text" class="tans" id="typans" placeholder="Type your answer…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+  <div id="typfb" style="margin-top:9px"></div>`;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeTyping()">Check <kbd class="kbd" style="border-color:rgba(0,0,0,.2);color:#000">↵</kbd></button>`;
+  setTimeout(()=>document.getElementById('typans')?.focus(),80);
+  document.getElementById('typans').addEventListener('keydown',e=>{if(e.key==='Enter')gradeTyping();});
+}
+
+function gradeTyping(){
+  const inp=document.getElementById('typans');
+  if(!inp||inp.disabled)return;
+  const typed=inp.value.trim();
+  const card=ses.cards[ses.idx];
+  const ok=fuzzy(typed.toLowerCase(),card.word.toLowerCase());
+  inp.classList.add(ok?'ok':'ng');inp.disabled=true;
+  playSound(ok?'c':'w');
+  let fb=ok?`<div style="color:var(--success);font-weight:700;font-size:13.5px;margin-bottom:5px">✓ Correct!</div>`:
+    `<div style="color:var(--danger);font-weight:700;margin-bottom:5px">✗ Answer: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div>`;
+  fb+=`<div class="csm" style="margin-top:9px"><span class="gtag">${escH(card.grammar_note)}</span>${card.story_hook?`<div class="sbox" style="margin-top:7px">${escH(card.story_hook)}</div>`:''}</div>`;
+  document.getElementById('typfb').innerHTML=fb;
+  const elapsed=(Date.now()-ses.ct0)/1000;
+  updateSRS(card,ok?(3+Math.min(1,5/elapsed)):1);
+  recordResult(ok,1);
+  if(ok&&elapsed<3)ses.spd++;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+}
+
+function fuzzy(a,b){if(a===b)return true;if(Math.abs(a.length-b.length)>2)return false;let d=0;const ml=Math.max(a.length,b.length);for(let i=0;i<ml;i++)if(a[i]!==b[i])d++;return d<=1;}
+
+// ── BUILD-A-SENTENCE ────────────────────────────────────────
+function renderBuild(card,el){
+  el.innerHTML=`<div class="card">
+    <div class="wd" style="margin-bottom:4px">${escH(card.word)}</div>
+    <div class="tr">${escH(card.translation)}</div>
+    <div class="divider" style="margin:9px 0"></div>
+    <span class="gtag">${escH(card.grammar_note)}</span>
+    ${card.story_hook?`<div class="sbox" style="margin-top:9px">${escH(card.story_hook)}</div>`:''}
+  </div>
+  <div class="fg">
+    <label>Write a sentence using <b>${escH(card.word)}</b>:</label>
+    <textarea id="build-in" placeholder="Type your sentence…" rows="3"></textarea>
+  </div>
+  <div id="buildfb"></div>`;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeBuild()">Evaluate with AI</button><button class="btn bg bfw" style="margin-top:7px" onclick="skipCard()">Skip</button>`;
+}
+
+async function gradeBuild(){
+  const inp=document.getElementById('build-in');
+  if(!inp?.value.trim()){toast('Write a sentence first!');return;}
+  const card=ses.cards[ses.idx];
+  const sentence=inp.value.trim();
+  const fb=document.getElementById('buildfb');
+  fb.innerHTML=`<div style="color:var(--dim);font-size:12.5px" class="ldots">Evaluating</div>`;
+  document.getElementById('ses-act').innerHTML='';
+  const apiKey=lsGet('apiKey','');
+  let res={correct:null,feedback:'',suggested_improvement:''};
+  if(apiKey){
+    try{
+      const r=await callClaude(apiKey,[{role:'user',content:`German teacher. Word: '${card.word}' (${card.translation}). Grammar: ${card.grammar_note}. Student: '${sentence}'. Is it correct? JSON only: {"correct":bool,"feedback":"string","suggested_improvement":"string"}`}],300);
+      res=JSON.parse(r.content[0].text.replace(/```json\n?|\n?```/g,'').trim());
+    }catch(e){res={correct:null,feedback:'AI unavailable. Practice recorded!',suggested_improvement:''};}
+  } else {
+    res={correct:null,feedback:'Add Claude API key in Settings for AI evaluation.',suggested_improvement:''};
+  }
+  const ok=res.correct===true;
+  playSound(ok?'c':'w');
+  fb.innerHTML=`<div class="card"><div style="font-weight:700;font-size:13.5px;color:${res.correct===null?'var(--warn)':ok?'var(--success)':'var(--danger)'};margin-bottom:7px">${res.correct===null?'📝 Recorded':ok?'✓ Correct!':'✗ Needs work'}</div><div style="font-size:12.5px;line-height:1.6;margin-bottom:5px">${escH(res.feedback)}</div>${res.suggested_improvement?`<div style="font-size:11.5px;color:var(--dim);border-top:1px solid rgba(255,255,255,.06);padding-top:7px;margin-top:4px;font-style:italic">${escH(res.suggested_improvement)}</div>`:''}</div>`;
+  if(ok&&!ses.badges.includes('build_ok'))ses.badges.push('build_ok');
+  updateSRS(card,ok?4:2);
+  recordResult(ok,2,ok?3:1);
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+}
+
+// ── FILL-THE-STORY ──────────────────────────────────────────
+function renderStory(card,el){
+  const pool=shuffle(getCardsForLevel(card.level).filter(c=>c.id!==card.id)).slice(0,3);
+  const wb=shuffle([card.word,...pool.map(c=>c.word)]);
+  const raw=card.story_hook||card.word;
+  const passage=raw.replace(new RegExp(card.word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),
+    `<span style="display:inline-block"><input class="blinp" id="sblinp" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="___"></span>`);
+  el.innerHTML=`<div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-weight:700">Fill in the blank</div>
+  <div class="card" style="font-size:14px;line-height:2.2">${passage}</div>
+  <div class="slabel" style="margin-top:11px">Word Bank</div>
+  <div style="display:flex;flex-wrap:wrap;gap:7px" id="wbank">${wb.map(w=>`<div class="wchip" onclick="fillBlank('${escA(w)}',this)">${escH(w)}</div>`).join('')}</div>
+  <div id="storyfb" style="margin-top:9px"></div>`;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeStory()">Check</button><button class="btn bg bfw" style="margin-top:7px" onclick="skipCard()">Skip</button>`;
+}
+
+function fillBlank(word,chip){
+  document.querySelectorAll('.wchip').forEach(c=>c.classList.remove('used'));chip.classList.add('used');
+  const i=document.getElementById('sblinp');if(i)i.value=word;
+}
+
+function gradeStory(){
+  const card=ses.cards[ses.idx];
+  const i=document.getElementById('sblinp');
+  const typed=i?i.value.trim():'';
+  const ok=fuzzy(typed.toLowerCase(),card.word.toLowerCase());
+  if(i){i.disabled=true;i.classList.add(ok?'ok':'ng');}
+  playSound(ok?'c':'w');
+  document.getElementById('storyfb').innerHTML=ok?`<div style="color:var(--success);font-weight:700">✓ Correct!</div>`:`<div style="color:var(--danger);font-weight:700">✗ Was: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div>`;
+  updateSRS(card,ok?3.5:1.5);recordResult(ok,1.5);
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+}
+
+// ── LISTENING ───────────────────────────────────────────────
+function renderListen(card,el){
+  el.innerHTML=`<div class="card" style="text-align:center">
+    <div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:13px;font-weight:700">Listen & Type the Word</div>
+    <div style="display:flex;gap:13px;justify-content:center;margin-bottom:13px">
+      <button class="abtn" style="width:52px;height:52px;font-size:19px" onclick="speakTxt('${escA(card.word)}')">🔊</button>
+      <button class="abtn" style="width:52px;height:52px;font-size:15px" onclick="speakTxt('${escA(card.word)}',0.5)">🐢</button>
+    </div>
+    <div style="font-size:11.5px;color:var(--dim)">Normal · Slow</div>
+  </div>
+  <input type="text" class="tans" id="listens" placeholder="Type what you heard…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+  <div id="listenfb" style="margin-top:9px"></div>`;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeListen()">Check</button>`;
+  document.getElementById('listens').addEventListener('keydown',e=>{if(e.key==='Enter')gradeListen();});
+  setTimeout(()=>speakTxt(card.word),350);
+}
+
+function gradeListen(){
+  const i=document.getElementById('listens');
+  const card=ses.cards[ses.idx];
+  const typed=i?.value.trim()||'';
+  const ok=fuzzy(typed.toLowerCase(),card.word.toLowerCase());
+  if(i){i.disabled=true;i.classList.add(ok?'ok':'ng');}
+  playSound(ok?'c':'w');
+  document.getElementById('listenfb').innerHTML=ok?`<div style="color:var(--success);font-weight:700">✓ Great ear!</div>`:`<div style="color:var(--danger);font-weight:700">✗ The word was: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div><div class="tr" style="margin-top:4px">${escH(card.translation)}</div>`;
+  updateSRS(card,ok?3.5:1.5);recordResult(ok,1);
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+}
+
+// ── BOSS TIMER ──────────────────────────────────────────────
+function startBossTimer(){
+  let s=8;const circ=document.getElementById('trcircle'),txt=document.getElementById('trtxt');const C=144.51;
+  const tick=()=>{if(!circ)return;circ.style.strokeDashoffset=C-(s/8)*C;txt.textContent=s;circ.classList.toggle('urg',s<=3);txt.classList.toggle('urg',s<=3);if(s<=0){clearInterval(ses.timer);timeoutCard();}s--;};
+  tick();ses.timer=setInterval(tick,1000);
+}
+
+function timeoutCard(){updateSRS(ses.cards[ses.idx],0);recordResult(false,0);toast('⏱️ Time\'s up!');setTimeout(nextCard,700);}
+
+// ── SRS ─────────────────────────────────────────────────────
+function updateSRS(card,quality){
+  let ef=card.ease_factor||2.5;
+  const rh=card.review_history||[];
+  const recentOK=rh.slice(-3).filter(r=>r.correct).length;
+  if(card.emotion_tag==='💀'&&recentOK<3)ef=Math.min(ef,1.5);
+  const newRH=[...rh,{date:today(),correct:quality>=3,quality}];
+  const wasMastered=(card.mastery_level||0)>=4;
+  let newML,newIv,newNR;
+  if(quality>=3){
+    newIv=Math.max(1,Math.round((card.interval||1)*ef));
+    ef=Math.min(2.8,Math.max(1.3,ef+.1*(quality-3)));
+    const d=new Date();d.setDate(d.getDate()+newIv);
+    newNR=d.toISOString().slice(0,10);newML=Math.min(5,(card.mastery_level||0)+1);
+  } else {
+    newIv=1;ef=Math.max(1.3,ef-.2);newNR=today();newML=Math.max(0,(card.mastery_level||0)-1);
+  }
+  saveSRS(card.id,{ml:newML,nr:newNR,rh:newRH.slice(-20),ef,iv:newIv,emotion_tag:card.emotion_tag||''});
+  card.mastery_level=newML;card.next_review=newNR;card.ease_factor=ef;card.interval=newIv;
+  if(newML>=4&&!wasMastered)ses.mastered++;
+}
+
+function recordResult(ok,modDiff,xpMult=1){
+  ses.total++;if(ok)ses.correct++;
+  const xp=Math.round(10*(ses.isBoss?2:1)*xpMult);
+  ses.xp+=xp;document.getElementById('ses-xp').textContent=ses.xp+' XP';
+  showXPPop(xp);
+}
+
+function showXPPop(xp){
+  const el=document.createElement('div');el.className='xp-pop';el.textContent='+'+xp;
+  const r=document.getElementById('ses-xp')?.getBoundingClientRect()||{left:200,top:40};
+  el.style.left=(r.left+Math.random()*18-9)+'px';el.style.top=r.top+'px';
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1000);
+}
+
+function nextCard(){
+  clearInterval(ses.timer);
+  if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
+  ses.idx++;showCard();
+}
+
+function skipCard(){recordResult(false,0);nextCard();}
+
+// ── FINISH SESSION ──────────────────────────────────────────
+function finishSession(){
+  clearInterval(ses.timer);
+  if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
+
+  const user=getUser();
+  user.xp=(user.xp||0)+ses.xp;
+  user.streak=calcStreak(user);user.lastStudy=today();
+  const newLvl=calcUserLevel(user.xp);const oldLvl=user.level||0;user.level=newLvl;
+
+  const newBadges=[];
+  const allC=getAllCards();
+  const hist=getHistory();
+  const totalReviewed=hist.reduce((a,s)=>a+(s.reviewed||0),0)+ses.total;
+  const totalStudied=allC.filter(c=>c.review_history.length>0).length;
+
+  if(!user.badges.includes('first10')&&totalStudied>=10)newBadges.push('first10');
+  if(!user.badges.includes('first100')&&totalReviewed>=100)newBadges.push('first100');
+  if(!user.badges.includes('streak7')&&(user.streak||0)>=7)newBadges.push('streak7');
+  if(!user.badges.includes('streak30')&&(user.streak||0)>=30)newBadges.push('streak30');
+  if(!user.badges.includes('boss_win')&&ses.isBoss&&ses.correct===ses.total&&ses.total>0)newBadges.push('boss_win');
+  if(!user.badges.includes('build_ok')&&ses.badges.includes('build_ok'))newBadges.push('build_ok');
+  if(!user.badges.includes('speed5')&&ses.spd>=5)newBadges.push('speed5');
+
+  for(const lv of ['A1','A2','B1','B2']){
+    const bid=lv.toLowerCase()+'_done';
+    if(!user.badges.includes(bid)){
+      const lvCards=getCardsForLevel(lv);
+      if(lvCards.length>0&&lvCards.filter(c=>c.mastery_level>=4).length/lvCards.length>=.8)newBadges.push(bid);
+    }
+  }
+
+  user.badges=[...new Set([...(user.badges||[]),...newBadges])];
+  setUser(user);
+
+  hist.push({date:today(),reviewed:ses.total,correct:ses.correct,xp:ses.xp,mode:ses.mode});
+  setHistory(hist.slice(-200));
+
+  const acc=ses.total>0?Math.round((ses.correct/ses.total)*100):0;
+  document.getElementById('ss-session').style.display='none';
+  document.getElementById('ss-sum').style.cssText='display:flex;flex-direction:column';
+  document.getElementById('sum-e').textContent=acc>=80?'🎉':acc>=50?'👍':'💪';
+  document.getElementById('sum-r').textContent=ses.total;
+  document.getElementById('sum-a').textContent=acc+'%';
+  document.getElementById('sum-x').textContent='+'+ses.xp;
+  document.getElementById('sum-m').textContent=ses.mastered;
+  document.getElementById('sum-s').textContent='🔥'+(user.streak||0);
+  document.getElementById('sum-badges').innerHTML=newBadges.map(bid=>{const bd=BADGES.find(b=>b.id===bid);return bd?`<div class="lvlbadge">${bd.label}</div>`:''}).join('');
+  if(newLvl>oldLvl)setTimeout(()=>toast('🎉 Level Up! Welcome to '+LEVELS[newLvl]?.name+'!'),500);
+  if(acc>=80)setTimeout(spawnConfetti,200);
+}
+
+function endSession(){clearInterval(ses.timer);if(ses.total>0)finishSession();else backToSetup();}
+function backToSetup(){document.getElementById('ss-sum').style.display='none';renderStudySetup();}
+
+// ── CONFETTI & SOUND ────────────────────────────────────────
+function spawnConfetti(){
+  const colors=['#00d4ff','#ffd700','#2ed573','#ff4757','#9b59b6','#ff9f43'];
+  const w=document.createElement('div');w.className='cw';
+  for(let i=0;i<48;i++){const p=document.createElement('div');p.className='cp';p.style.cssText=`left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*6)]};width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*.5}s;border-radius:${Math.random()>.5?'50%':'2px'}`;w.appendChild(p);}
+  document.body.appendChild(w);setTimeout(()=>w.remove(),4500);
+}
+
+let actx;
+function playSound(t){
+  const user=getUser();if(!user.settings?.sound)return;
+  try{
+    if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);
+    if(t==='c'){o.frequency.setValueAtTime(880,actx.currentTime);o.frequency.setValueAtTime(1100,actx.currentTime+.1);g.gain.setValueAtTime(.07,actx.currentTime);g.gain.linearRampToValueAtTime(0,actx.currentTime+.25);}
+    else{o.frequency.setValueAtTime(440,actx.currentTime);o.frequency.setValueAtTime(330,actx.currentTime+.1);g.gain.setValueAtTime(.07,actx.currentTime);g.gain.linearRampToValueAtTime(0,actx.currentTime+.25);}
+    o.start(actx.currentTime);o.stop(actx.currentTime+.25);
+  }catch(e){}
+}
+
+// ── EMOTION TAG ──────────────────────────────────────────────
+function setEmotion(cardId,emotion,btn){
+  const srs=lsGet('srs:'+cardId,{});srs.emotion_tag=srs.emotion_tag===emotion?'':emotion;lsSet('srs:'+cardId,srs);
+  btn.closest('.epick').querySelectorAll('.ebtn').forEach(b=>b.classList.remove('active'));
+  if(srs.emotion_tag)btn.classList.add('active');
+  toast(srs.emotion_tag?`Tagged ${srs.emotion_tag}`:'Tag cleared');
+}
+
+// ── BROWSE / VOCAB SCREEN ────────────────────────────────────
+let browLvFilter='all';
+
+function browTab(tab,btn){
+  document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.getElementById('brow-levels').style.display=tab==='levels'?'block':'none';
+  document.getElementById('brow-browse').style.display=tab==='browse'?'block':'none';
+  document.getElementById('brow-decks').style.display=tab==='decks'?'block':'none';
+  if(tab==='browse')renderBrowseAll('');
+  if(tab==='decks')renderCustomDecks();
+}
+
+function browFilter(lv,btn){
+  browLvFilter=lv;
+  document.querySelectorAll('.brow-lf').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  renderBrowseAll(document.getElementById('brow-search')?.value||'');
+}
+
+let _bst;
+function browSearch(q){clearTimeout(_bst);_bst=setTimeout(()=>renderBrowseAll(q),200);}
+
+function renderBrowseAll(q){
+  const el=document.getElementById('brow-results');
+  const query=(q||'').trim().toLowerCase();
+  const results=[];
+  for(const [lv,lvData] of Object.entries(VD)){
+    if(browLvFilter!=='all'&&browLvFilter!==lv)continue;
+    for(const [deck,words] of Object.entries(lvData.decks)){
+      for(let i=0;i<words.length;i++){
+        const w=words[i];
+        if(!query||w[0].toLowerCase().includes(query)||w[1].toLowerCase().includes(query)||(w[2]||'').toLowerCase().includes(query))
+          results.push({lv,deck,idx:i,word:w[0],trans:w[1]});
+        if(results.length>=60)break;
+      }
+      if(results.length>=60)break;
+    }
+    if(results.length>=60)break;
+  }
+  if(results.length===0){el.innerHTML='<div class="empty"><div class="ei">🔍</div><p>No results found.</p></div>';return;}
+  el.innerHTML=results.map(r=>{
+    const c=buildCard(r.lv,r.deck,r.idx);
+    const stars=c.mastery_level>0?'★'.repeat(c.mastery_level):'';
+    return `<div class="brow-word" onclick="showVocabCard('${escA(r.lv)}','${escA(r.deck)}',${r.idx})">
+      <span class="brow-lv ${r.lv}">${r.lv}</span>
+      <div style="flex:1;min-width:0"><div class="wdsm" style="font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(r.word)}</div><div style="font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(r.trans)}</div></div>
+      ${stars?`<div style="font-family:var(--mono);font-size:10px;color:var(--cyan)">${stars}</div>`:''}
+    </div>`;
+  }).join('');
+  if(results.length===60)el.innerHTML+='<div style="text-align:center;font-size:11px;color:var(--dim);padding:8px">First 60 shown — refine search</div>';
+}
+
+function renderDecks(){
+  const el=document.getElementById('brow-levels');
+  el.innerHTML=Object.entries(VD).map(([lv,lvData])=>{
+    const unlocked=isLevelUnlocked(lv);
+    const decks=Object.entries(lvData.decks);
+    const lvColor=lv==='A1'?'var(--a1)':lv==='A2'?'var(--a2)':lv==='B1'?'var(--b1)':'var(--b2)';
+    return `<div style="margin-bottom:18px">
+      <div class="fhdr" style="color:${lvColor}">
+        <span style="font-family:var(--mono);font-size:14px">${lv}</span>
+        <span>${escH(lvData.title)}</span>
+        ${!unlocked?`<span style="margin-left:auto;font-size:10.5px;color:var(--gold)">🔒 ${lvData.xp} XP</span>`:`<span style="margin-left:auto;font-size:10px;color:var(--dim)">${decks.length} decks</span>`}
+      </div>
+      ${unlocked?decks.map(([dname,words])=>{
+        const cards=words.map((_,i)=>buildCard(lv,dname,i));
+        const mastered=cards.filter(c=>c.mastery_level>=4).length;
+        const due=cards.filter(c=>c.next_review<=today()).length;
+        const pct=Math.round((mastered/words.length)*100);
+        return `<div class="dcard" onclick="openVocabDeck('${escA(lv)}','${escA(dname)}')" style="margin-bottom:7px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+            <div style="font-weight:700;font-size:13px">${escH(dname)}</div>
+            <div style="font-size:10px;color:${due>0?'var(--cyan)':'var(--dim)'};font-family:var(--mono)">${due} due</div>
+          </div>
+          <div class="pb"><div class="pf ${lv}" style="width:${pct}%"></div></div>
+          <div style="font-size:9.5px;color:var(--dim);margin-top:3px">${words.length} words · ${pct}% mastered</div>
+        </div>`;
+      }).join(''):`<div style="color:var(--dim);font-size:11.5px;padding:9px 4px">🔒 Locked — reach ${lvData.xp} XP to unlock</div>`}
+    </div>`;
+  }).join('');
+}
+
+function openVocabDeck(lv,dname){
+  const words=VD[lv]?.decks[dname]||[];
+  const cards=words.map((_,i)=>buildCard(lv,dname,i));
+  const due=cards.filter(c=>c.next_review<=today()).length;
+  showModal(`<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px">
+    <div><div style="font-size:17px;font-weight:800">${escH(dname)}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px">${lv} · ${words.length} words · ${due} due</div></div>
+    <span class="brow-lv ${lv}">${lv}</span>
+  </div>
+  <button class="btn bp bfw bsm" style="margin-bottom:7px" onclick="closeMo();quickStudyDeck('${escA(lv)}','${escA(dname)}')">▶ Study This Deck</button>
+  <div class="slabel" style="margin-top:11px">Words (${words.length})</div>
+  <div style="max-height:350px;overflow-y:auto">
+    ${cards.map(c=>`<div class="wli" onclick="showVocabCard('${escA(c.level)}','${escA(c.deck)}',${parseId(c.id).idx})">
+      <div style="flex:1;min-width:0"><div class="wdsm" style="font-size:12.5px">${escH(c.word)}</div><div style="font-size:10.5px;color:var(--dim)">${escH(c.translation)}</div></div>
+      <div style="text-align:right;flex-shrink:0"><div style="font-size:12px">${c.emotion_tag||''}</div><div style="font-size:9.5px;color:var(--cyan);font-family:var(--mono)">Lvl ${c.mastery_level}/5</div></div>
+    </div>`).join('')}
+  </div>`);
+}
+
+function quickStudyDeck(lv,dname){
+  showScreen('study');
+  setTimeout(()=>{
+    const lvSel=document.getElementById('ss-lv');if(lvSel)lvSel.value=lv;
+    onLvlChange();
+    setTimeout(()=>{const ds=document.getElementById('ss-deck');if(ds)ds.value=dname;},60);
+  },80);
+}
+
+function showVocabCard(lv,dname,idx){const c=buildCard(lv,dname,idx);if(c)showCardDetail(c);}
+
+function showCardDetail(c){
+  const storyHook=lsGet('srs:'+c.id,{})?.story_hook||c.story_hook||'';
+  showModal(`<div style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px"><span class="brow-lv ${c.level}">${c.level}</span><span style="font-size:10.5px;color:var(--dim)">${escH(c.deck)}</span></div>
+    <div class="wd" style="margin-bottom:3px">${escH(c.word)}</div>
+    <div class="tr" style="font-size:14px">${escH(c.translation)}</div>
+  </div>
+  <div class="divider"></div>
+  <span class="gtag">${escH(c.grammar_note)}</span>
+  ${storyHook?`<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox">${escH(storyHook)}</div><div style="display:flex;gap:6px;margin-top:7px"><button class="btn bg bsm" onclick="editHook('${escA(c.id)}')">✏️ Edit</button><button class="btn bg bsm" onclick="genHook('${escA(c.id)}')">🤖 AI Generate</button></div>`:
+  `<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox" style="color:var(--dim)">No story hook yet</div><div style="display:flex;gap:6px;margin-top:7px"><button class="btn bp bsm" onclick="genHook('${escA(c.id)}')">🤖 AI Generate</button></div>`}
+  <div class="divider"></div>
+  <div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Emotion Tag</div>
+  <div class="epick">${['😂','😢','😱','❤️','💀'].map(e=>`<button class="ebtn${c.emotion_tag===e?' active':''}" onclick="setEmotion('${escA(c.id)}','${e}',this)">${e}</button>`).join('')}</div>
+  <div class="divider"></div>
+  <div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Recall History</div>
+  <div class="spark">${(c.review_history||[]).slice(-10).map(r=>{const h=r.correct?26:6;return `<div class="sbar ${r.quality>=3?'g':r.quality>=2?'w':'b'}" style="height:${h}px"></div>`;}).join('')}</div>
+  <div style="font-size:10px;color:var(--dim);margin-top:3px">Mastery ${c.mastery_level||0}/5 · Next: ${c.next_review||'today'}</div>
+  <div style="margin-top:13px;text-align:right"><button class="btn bg bsm" onclick="closeMo()">Done</button></div>`);
+}
+
+async function genHook(cardId){
+  const apiKey=lsGet('apiKey','');if(!apiKey){toast('Add Claude API key in Settings!');return;}
+  const p=parseId(cardId);const c=buildCard(p.lv,p.deck,p.idx);if(!c)return;
+  const el=document.getElementById('shookbox');if(el)el.innerHTML='<span class="ldots">Generating</span>';
+  try{
+    const r=await callClaude(apiKey,[{role:'user',content:`2-sentence mnemonic story for English speaker to remember German word '${c.word}' (${c.translation}). Grammar: ${c.grammar_note}. Return only the story, no intro.`}],180);
+    const hook=r.content[0].text.trim();
+    const srs=lsGet('srs:'+cardId,{});srs.story_hook=hook;lsSet('srs:'+cardId,srs);
+    if(el)el.textContent=hook;toast('Story generated!');
+  }catch(e){toast('AI failed.');if(el&&c.story_hook)el.textContent=c.story_hook;}
+}
+
+function editHook(cardId){
+  const p=parseId(cardId);const c=buildCard(p.lv,p.deck,p.idx);if(!c)return;
+  const current=lsGet('srs:'+cardId,{})?.story_hook||c.story_hook||'';
+  const el=document.getElementById('shookbox');if(!el)return;
+  el.innerHTML=`<textarea id="hookedit" style="width:100%;min-height:70px;background:var(--panel2);border:1px solid var(--cyan);border-radius:5px;color:var(--text);font-family:var(--sans);font-size:12.5px;padding:9px;line-height:1.6">${escH(current)}</textarea><button class="btn bp bsm" style="margin-top:6px" onclick="saveHook('${escA(cardId)}')">Save</button>`;
+}
+
+function saveHook(cardId){
+  const val=document.getElementById('hookedit')?.value||'';
+  const srs=lsGet('srs:'+cardId,{});srs.story_hook=val;lsSet('srs:'+cardId,srs);
+  toast('Saved!');const p=parseId(cardId);showVocabCard(p.lv,p.deck,p.idx);
+}
+
+// ── CUSTOM DECKS ────────────────────────────────────────────
+function renderCustomDecks(){
+  const decks=getCustomDecks();const cards=getCustomCards();
+  const el=document.getElementById('custom-deck-list');
+  if(decks.length===0){el.innerHTML='<div class="empty"><div class="ei">📁</div><p>No custom decks yet.<br>Create one to add your own cards.</p></div>';return;}
+  el.innerHTML=decks.map(d=>{
+    const dc=cards.filter(c=>d.card_ids.includes(c.id));
+    const due=dc.filter(c=>(c.next_review||today())<=today()).length;
+    return `<div class="dcard" onclick="openCustomDeck('${d.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-weight:700">${escH(d.name)}</div><div style="font-size:10px;color:var(--dim)">${dc.length} words · ${due} due</div></div>
+      <div class="pb"><div class="pf" style="width:${d.mastery_bar||0}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function openCustomDeck(deckId){
+  const deck=getCustomDecks().find(d=>d.id===deckId);if(!deck)return;
+  const cards=getCustomCards().filter(c=>deck.card_ids.includes(c.id));
+  showModal(`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px">
+    <div style="font-size:17px;font-weight:800">${escH(deck.name)}</div>
+    <button class="btn bd bsm" onclick="deleteCustomDeck('${deck.id}')">Delete</button>
+  </div>
+  <button class="btn bs bfw bsm" style="margin-bottom:9px" onclick="showAddCard('${deck.id}')">+ Add Card</button>
+  <div style="max-height:320px;overflow-y:auto">
+    ${cards.length===0?'<div style="color:var(--dim);font-size:12.5px;padding:8px 0">No cards yet</div>':
+      cards.map(c=>`<div class="wli"><div style="flex:1;min-width:0"><div class="wdsm" style="font-size:12.5px">${escH(c.word)}</div><div style="font-size:10px;color:var(--dim)">${escH(c.translation)}</div></div><button class="btn bd" style="padding:3px 7px;font-size:10.5px;flex-shrink:0" onclick="deleteCustomCard('${c.id}')">✕</button></div>`).join('')}
+  </div>`);
+}
+
+function showAddDeck(){
+  showModal(`<div style="font-size:17px;font-weight:800;margin-bottom:13px">New Custom Deck</div>
+  <div class="fg"><label>Name</label><input type="text" id="ndname" placeholder="e.g. My German Phrases"></div>
+  <button class="btn bp bfw" onclick="createCustomDeck()">Create</button>`);
+}
+
+function createCustomDeck(){
+  const name=document.getElementById('ndname')?.value.trim();if(!name){toast('Enter a name!');return;}
+  const decks=getCustomDecks();decks.push({id:uid(),name,card_ids:[],mastery_bar:0});
+  setCustomDecks(decks);closeMo();renderCustomDecks();toast('Deck created!');
+}
+
+function deleteCustomDeck(id){
+  if(!confirm('Delete this deck?'))return;
+  setCustomDecks(getCustomDecks().filter(d=>d.id!==id));
+  setCustomCards(getCustomCards().filter(c=>!getCustomDecks().find(d=>d.id===id)?.card_ids.includes(c.id)));
+  closeMo();renderCustomDecks();toast('Deck deleted.');
+}
+
+function showAddCard(deckId){
+  const decks=getCustomDecks();
+  showModal(`<div style="font-size:17px;font-weight:800;margin-bottom:13px">Add Card</div>
+  <div class="fg"><label>German Word</label><input type="text" id="nc-w" placeholder="das Versprechen"></div>
+  <div class="fg"><label>Translation</label><input type="text" id="nc-t" placeholder="the promise"></div>
+  <div class="fg"><label>Grammar Note</label><input type="text" id="nc-g" placeholder="Noun · das · pl: die Versprechen"></div>
+  <div class="fg"><label>Story Hook</label><textarea id="nc-s" placeholder="Mnemonic to remember it…" rows="2"></textarea></div>
+  ${deckId?'':`<div class="fg"><label>Add to Deck</label><select id="nc-d"><option value="">No deck</option>${decks.map(d=>`<option value="${d.id}">${escH(d.name)}</option>`).join('')}</select></div>`}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+    <button class="btn bp" onclick="addCustomCard('${deckId||''}')">Add Card</button>
+    <button class="btn bg" onclick="aiCardStory()">🤖 AI Story</button>
+  </div>`);
+}
+
+async function aiCardStory(){
+  const word=document.getElementById('nc-w')?.value.trim();
+  const trans=document.getElementById('nc-t')?.value.trim();
+  if(!word||!trans){toast('Enter word and translation first!');return;}
+  const apiKey=lsGet('apiKey','');if(!apiKey){toast('Add Claude API key in Settings!');return;}
+  const ta=document.getElementById('nc-s');if(ta)ta.placeholder='Generating…';
+  try{
+    const r=await callClaude(apiKey,[{role:'user',content:`2-sentence mnemonic for English speaker to remember German '${word}' = '${trans}'. Return story only.`}],160);
+    if(ta)ta.value=r.content[0].text.trim();toast('Story done!');
+  }catch(e){toast('AI failed.');}
+}
+
+function addCustomCard(deckId){
+  const word=document.getElementById('nc-w')?.value.trim();
+  const translation=document.getElementById('nc-t')?.value.trim();
+  if(!word||!translation){toast('Word and translation required!');return;}
+  const card={id:'c'+uid(),word,translation,grammar_note:document.getElementById('nc-g')?.value.trim()||'',story_hook:document.getElementById('nc-s')?.value.trim()||'',sentence:'',sentence_translation:'',emotion_tag:'',mastery_level:0,next_review:today(),review_history:[],ease_factor:2.5,interval:1};
+  const cards=getCustomCards();cards.push(card);setCustomCards(cards);
+  const did=deckId||document.getElementById('nc-d')?.value||'';
+  if(did){const decks=getCustomDecks();const d=decks.find(x=>x.id===did);if(d){d.card_ids.push(card.id);setCustomDecks(decks);}}
+  closeMo();toast('Card added!');renderCustomDecks();
+}
+
+function deleteCustomCard(id){setCustomCards(getCustomCards().filter(c=>c.id!==id));toast('Card deleted.');}
+
+// ── IMPORT / EXPORT ─────────────────────────────────────────
+function showImport(){
+  const decks=getCustomDecks();
+  showModal(`<div style="font-size:17px;font-weight:800;margin-bottom:13px">Import Cards</div>
+  <div style="font-size:11px;color:var(--dim);margin-bottom:9px;line-height:1.65">One per line: <b>word | translation | grammar</b></div>
+  <div class="fg"><label>Paste</label><textarea id="imp-txt" placeholder="das Versprechen | the promise | Noun · das" rows="6"></textarea></div>
+  <div class="fg"><label>Add to Deck</label><select id="imp-dk"><option value="">No deck</option>${decks.map(d=>`<option value="${d.id}">${escH(d.name)}</option>`).join('')}</select></div>
+  <button class="btn bp bfw" onclick="importPaste()">Import</button>`);
+}
+
+function importPaste(){
+  const txt=document.getElementById('imp-txt')?.value.trim();if(!txt){toast('Nothing to import!');return;}
+  const did=document.getElementById('imp-dk')?.value||'';
+  let n=0;const cards=getCustomCards();const decks=getCustomDecks();const deck=decks.find(d=>d.id===did);
+  txt.split('\n').filter(l=>l.trim()).forEach(line=>{
+    const p=line.split('|').map(x=>x.trim());if(p.length<2)return;
+    const card={id:'c'+uid(),word:p[0],translation:p[1],grammar_note:p[2]||'',story_hook:'',sentence:'',sentence_translation:'',emotion_tag:'',mastery_level:0,next_review:today(),review_history:[],ease_factor:2.5,interval:1};
+    cards.push(card);if(deck)deck.card_ids.push(card.id);n++;
+  });
+  setCustomCards(cards);setCustomDecks(decks);closeMo();renderCustomDecks();toast(`Imported ${n} cards!`);
+}
+
+function exportData(){
+  const srsKeys=Object.keys(localStorage).filter(k=>k.startsWith(NS+'srs:'));
+  const srsData={};srsKeys.forEach(k=>{try{srsData[k.replace(NS,'')]=JSON.parse(localStorage.getItem(k));}catch(e){}});
+  const data={version:3,srs:srsData,custom_decks:getCustomDecks(),custom_cards:getCustomCards(),user:getUser(),history:getHistory()};
+  dl('lexikon-export.json',JSON.stringify(data,null,2),'application/json');toast('Exported!');
+}
+
+function exportAnki(){
+  const lines=[];
+  for(const [lv,lvData] of Object.entries(VD))
+    for(const words of Object.values(lvData.decks))
+      words.forEach(w=>lines.push(`${w[0]}\t${w[1]}\t${w[2]||''}`));
+  dl('lexikon-anki.txt',lines.join('\n'),'text/plain');toast('Anki export ready!');
+}
+
+function importFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(data.srs)Object.entries(data.srs).forEach(([k,v])=>lsSet(k,v));
+      if(data.custom_decks)setCustomDecks(data.custom_decks);
+      if(data.custom_cards)setCustomCards(data.custom_cards);
+      if(data.user)setUser(data.user);if(data.history)setHistory(data.history);
+      toast('Data imported!');showScreen('home');
+    }catch{toast('Invalid file format!');}
+  };
+  reader.readAsText(file);input.value='';
+}
+
+function dl(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();}
+
+// ── PROGRESS ────────────────────────────────────────────────
+function renderProgress(){
+  const user=getUser();const hist=getHistory();
+  const li=getLvInfo(user.xp||0);
+  document.getElementById('plvlicon').textContent=li.cur.icon;
+  document.getElementById('plvlname').textContent=li.cur.name;
+  document.getElementById('pxptxt').textContent=(user.xp||0).toLocaleString()+' XP total';
+  if(li.nxt){
+    const pct=((user.xp-li.cur.xp)/(li.nxt.xp-li.cur.xp))*100;
+    document.getElementById('pxpfill').style.width=Math.min(100,pct)+'%';
+    document.getElementById('pnxtlbl').textContent=(li.nxt.xp-user.xp).toLocaleString()+' XP to '+li.nxt.name;
+  } else {document.getElementById('pxpfill').style.width='100%';document.getElementById('pnxtlbl').textContent='MAX LEVEL 👑';}
+
+  document.getElementById('pstreak').textContent='🔥'+(user.streak||0);
+  document.getElementById('psessions').textContent=hist.length;
+  const tR=hist.reduce((a,s)=>a+(s.reviewed||0),0);
+  const tC=hist.reduce((a,s)=>a+(s.correct||0),0);
+  document.getElementById('pacc').textContent=tR>0?Math.round((tC/tR)*100)+'%':'—';
+  document.getElementById('pmastered').textContent=getAllCards().filter(c=>c.mastery_level>=4).length;
+
+  // Level breakdown
+  document.getElementById('plvlbreakdown').innerHTML=Object.entries(VD).map(([lv,lvData])=>{
+    const cards=getCardsForLevel(lv);
+    const total=cards.length;
+    const mastered=cards.filter(c=>c.mastery_level>=4).length;
+    const studied=cards.filter(c=>c.review_history.length>0).length;
+    const pct=total>0?Math.round((mastered/total)*100):0;
+    const unlocked=isLevelUnlocked(lv);
+    return `<div class="csm" style="margin-bottom:7px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+        <span class="brow-lv ${lv}">${lv}</span>
+        <div style="flex:1"><div style="font-size:12.5px;font-weight:700">${escH(lvData.title)}</div></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--dim)">${mastered}/${total}</div>
+      </div>
+      ${unlocked?`<div class="pb"><div class="pf ${lv}" style="width:${pct}%"></div></div><div style="font-size:10px;color:var(--dim);margin-top:3px">${studied} studied · ${pct}% mastered</div>`:`<div style="font-size:11px;color:var(--dim)">🔒 Reach ${lvData.xp} XP to unlock</div>`}
+    </div>`;
+  }).join('');
+
+  // 7-day chart
+  const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10));}
+  const maxV=Math.max(1,...days.map(d=>{const s=hist.find(h=>h.date===d);return s?(s.reviewed||0):0;}));
+  document.getElementById('pchart').innerHTML=days.map(d=>{
+    const s=hist.find(h=>h.date===d);const val=s?(s.reviewed||0):0;
+    const h=Math.max(4,Math.round((val/maxV)*52));
+    return `<div class="chbar" style="height:${h}px" data-v="${val} cards"></div>`;
+  }).join('');
+  document.getElementById('pchartlbl').innerHTML=days.map(d=>`<div style="flex:1;text-align:center;font-size:8.5px">${new Date(d+'T12:00:00').toLocaleDateString('en',{weekday:'short'})}</div>`).join('');
+
+  // Badges
+  const bEl=document.getElementById('pbadges');
+  bEl.innerHTML=user.badges?.length>0?user.badges.map(bid=>{const bd=BADGES.find(b=>b.id===bid);return bd?`<div class="lvlbadge" title="${bd.desc}">${bd.label}</div>`:''}).join(''):'<div style="color:var(--dim);font-size:12.5px">No badges yet — keep studying!</div>';
+
+  // History
+  const hEl=document.getElementById('phist');
+  hEl.innerHTML=hist.length===0?'<div style="color:var(--dim);font-size:12.5px;padding:7px 0">No sessions yet.</div>':
+    hist.slice(-8).reverse().map(s=>`<div class="csm" style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:12.5px;font-weight:600">${s.date}</div><div style="font-family:var(--mono);font-size:11.5px;color:var(--gold);font-weight:700">+${s.xp||0} XP</div></div><div style="font-size:10.5px;color:var(--dim);margin-top:2px">${s.reviewed||0} reviewed · ${s.reviewed>0?Math.round((s.correct/s.reviewed)*100):0}% acc · ${s.mode}</div></div>`).join('');
+
+  // Roadmap
+  document.getElementById('proadmap').innerHTML=LEVELS.map((l,i)=>{
+    const done=(user.xp||0)>=l.xp;const cur=li.cur.name===l.name;
+    return `<div style="display:flex;align-items:center;gap:9px;padding:8px 0;${i<LEVELS.length-1?'border-bottom:1px solid rgba(255,255,255,.05)':''}">
+      <div style="font-size:19px">${l.icon}</div>
+      <div style="flex:1"><div style="font-size:12.5px;font-weight:${cur?'800':'400'};color:${cur?'var(--cyan)':done?'var(--success)':'var(--text)'}">${l.name}${cur?' ← you':''}</div><div style="font-size:9.5px;color:var(--dim);margin-top:1px">${l.xp.toLocaleString()} XP</div></div>
+      <div style="font-size:13px">${done?'✅':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── SETTINGS ────────────────────────────────────────────────
+function renderSettings(){
+  const user=getUser();const s=user.settings||{};
+  document.getElementById('set-nl').value=s.newLimit||20;
+  document.getElementById('set-dm').value=s.defaultMode||'mixed';
+  document.getElementById('set-spd').value=s.ttsSpeed||'1';
+  document.getElementById('set-sound').checked=s.sound!==false;
+  const vs=document.getElementById('set-voice');
+  const loadV=()=>{const voices=speechSynthesis.getVoices();vs.innerHTML=voices.map((v,i)=>`<option value="${i}"${s.ttsVoice===String(i)?' selected':''}>${v.name} (${v.lang})</option>`).join('');};
+  if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=loadV;loadV();}
+  const apiKey=lsGet('apiKey','');
+  document.getElementById('set-key').value=apiKey?'•'.repeat(24):'';
+  const st=document.getElementById('keystatus');
+  st.textContent=apiKey?'✓ API key saved — AI features enabled':'No API key — AI features disabled';
+  st.style.color=apiKey?'var(--success)':'var(--dim)';
+}
+
+let _kd;
+function debSaveKey(v){clearTimeout(_kd);_kd=setTimeout(()=>{if(v&&!v.startsWith('•')&&v.length>10){lsSet('apiKey',v);const st=document.getElementById('keystatus');if(st){st.textContent='✓ API key saved';st.style.color='var(--success)';}toast('API key saved!');}},800);}
+function saveSetting(key,value){const user=getUser();if(!user.settings)user.settings={};user.settings[key]=value;setUser(user);}
+function testTTS(){speakTxt('Die Sehnsucht nach Hause ist groß. Ich lerne gern Deutsch!');}
+function reqNotif(){if(!('Notification' in window)){toast('Not supported.');return;}Notification.requestPermission().then(p=>toast(p==='granted'?'Reminders enabled 🔔':'Permission denied.'));}
+function confirmReset(){if(confirm('⚠️ Delete ALL progress permanently? Cannot undo.'))Object.keys(localStorage).filter(k=>k.startsWith(NS)).forEach(k=>localStorage.removeItem(k));location.reload();}
+
+// ── TTS ─────────────────────────────────────────────────────
+function speakTxt(text,rateO=null){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const user=getUser();const s=user.settings||{};
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=rateO!==null?rateO:parseFloat(s.ttsSpeed||'1');
+  const voices=speechSynthesis.getVoices();const idx=parseInt(s.ttsVoice||'0');
+  if(voices[idx])u.voice=voices[idx];
+  speechSynthesis.speak(u);
+}
+
+// ── CLAUDE API ───────────────────────────────────────────────
+async function callClaude(apiKey,messages,maxTokens=800){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':apiKey,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:maxTokens,messages})});
+  if(!r.ok)throw new Error('API '+r.status);return r.json();
+}
+
+// ── HELPERS ─────────────────────────────────────────────────
+function getLvInfo(xp){let cur=LEVELS[0],nxt=LEVELS[1];for(let i=0;i<LEVELS.length;i++){if(xp>=LEVELS[i].xp){cur=LEVELS[i];nxt=LEVELS[i+1]||null;}}return{cur,nxt};}
+function calcUserLevel(xp){let l=0;for(let i=0;i<LEVELS.length;i++)if(xp>=LEVELS[i].xp)l=i;return l;}
+function checkStreak(){const u=getUser();if(!u.lastStudy)return;const y=new Date();y.setDate(y.getDate()-1);if(u.lastStudy<y.toISOString().slice(0,10)){u.streak=0;setUser(u);}}
+function calcStreak(user){const t=today();const y=new Date();y.setDate(y.getDate()-1);const ys=y.toISOString().slice(0,10);if(user.lastStudy===t)return user.streak;if(!user.lastStudy||user.lastStudy===ys)return(user.streak||0)+1;if(user.lastStudy<ys)return 1;return user.streak||1;}
+
+// ── MODAL ────────────────────────────────────────────────────
+function showModal(html){document.getElementById('mc').innerHTML=html;document.getElementById('mo').style.display='flex';}
+function closeMo(event){if(event&&event.target!==document.getElementById('mo'))return;document.getElementById('mo').style.display='none';}
+
+// ── TOAST ────────────────────────────────────────────────────
+let _tt;function toast(msg,dur=2800){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),dur);}
+
+// ── KEYBOARD SHORTCUTS ───────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('mo').style.display==='flex'){if(e.key==='Escape')document.getElementById('mo').style.display='none';return;}
+  const active=document.getElementById('ss-session').style.display==='flex';if(!active)return;
+  if(ses.curMode==='flashcard'){
+    if(e.key===' '||e.key==='f'){e.preventDefault();if(!flipped)document.getElementById('fwrap')?.click();}
+    else if(e.key==='ArrowRight'||e.key==='y'){if(flipped)gradeFC(true);}
+    else if(e.key==='ArrowLeft'||e.key==='n'){if(flipped)gradeFC(false);}
+  }
+  if(e.key==='Escape')endSession();
+});
+
+// ── DAILY CHALLENGE ─────────────────────────────────────────
+function getDCState(){return lsGet('dc',{date:'',wordId:'',completed:false,dcStreak:0,lastCompleted:''});}
+function setDCState(s){lsSet('dc',s);}
+
+function getDailyWord(){
+  const t=today();
+  let h=0;for(const c of t)h=((h<<5)-h+c.charCodeAt(0))|0;h=Math.abs(h);
+  const all=[];
+  for(const [lv,lvData] of Object.entries(VD)){
+    for(const [deck,words] of Object.entries(lvData.decks)){
+      for(let i=0;i<words.length;i++)all.push({lv,deck,idx:i});
+    }
+  }
+  const pick=all[h%all.length];
+  return buildCard(pick.lv,pick.deck,pick.idx);
+}
+
+function initDailyChallenge(){
+  const st=getDCState();
+  const t=today();
+  if(st.date!==t){
+    const card=getDailyWord();
+    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+    const ys=yesterday.toISOString().slice(0,10);
+    const newStreak=st.lastCompleted===ys?(st.dcStreak||0):(st.lastCompleted===t?(st.dcStreak||0):0);
+    setDCState({date:t,wordId:card.id,completed:false,dcStreak:newStreak,lastCompleted:st.lastCompleted||''});
+  }
+}
+
+function renderDCBanner(){
+  const st=getDCState();
+  const banner=document.getElementById('hdc');
+  const icon=document.getElementById('hdc-icon');
+  const label=document.getElementById('hdc-label');
+  const streak=document.getElementById('hdc-streak');
+  const badge=document.getElementById('hdc-badge');
+  if(!banner)return;
+  if(st.completed){
+    banner.className='dc-banner done';
+    if(icon)icon.textContent='✅';
+    if(label)label.textContent='Challenge complete — great work!';
+    if(streak)streak.textContent=`🔥 ${st.dcStreak} day streak`;
+    if(badge)badge.innerHTML=`<div class="dc-pill done">Done</div>`;
+  } else {
+    banner.className='dc-banner';
+    const p=parseId(st.wordId||'');
+    const c=st.wordId?buildCard(p.lv,p.deck,p.idx):null;
+    if(icon)icon.textContent='🎯';
+    if(label)label.textContent=c?`Type: "${c.translation}"`:'Tap to start today\'s word';
+    if(streak)streak.textContent=st.dcStreak>0?`🔥 ${st.dcStreak} day streak · +50 bonus XP`:'Complete daily for streak XP!';
+    if(badge)badge.innerHTML=`<div class="dc-pill">Pending</div>`;
+  }
+}
+
+let _dcTyped='';
+function openDailyChallenge(){
+  const st=getDCState();
+  const p=parseId(st.wordId||'');
+  const card=st.wordId?buildCard(p.lv,p.deck,p.idx):getDailyWord();
+  if(!card)return;
+
+  if(st.completed){
+    showModal(`<div style="text-align:center;padding:9px 0 14px">
+      <div style="font-size:46px;margin-bottom:9px">✅</div>
+      <div style="font-size:19px;font-weight:800;color:var(--success);margin-bottom:5px">Challenge Complete!</div>
+      <div style="font-size:11.5px;color:var(--dim);margin-bottom:18px">${today()}</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:10.5px;color:var(--dim);margin-bottom:5px">Today's word was</div>
+      <div class="wd" style="margin-bottom:4px">${escH(card.word)}</div>
+      <div class="tr">${escH(card.translation)}</div>
+      <div style="margin-top:9px"><span class="gtag">${escH(card.grammar_note)}</span></div>
+      ${card.story_hook?`<div class="sbox" style="margin-top:9px">${escH(card.story_hook)}</div>`:''}
+    </div>
+    <div style="text-align:center;margin:13px 0 5px"><div style="font-size:22px;font-weight:800;color:var(--gold)">🔥 ${st.dcStreak} day streak</div><div style="font-size:11px;color:var(--dim);margin-top:3px">Come back tomorrow!</div></div>
+    <button class="btn bg bfw bsm" style="margin-top:9px" onclick="closeMo()">Close</button>`);
+    return;
+  }
+
+  _dcTyped='';
+  showModal(`<div style="margin-bottom:14px">
+    <div style="font-size:9.5px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:6px">🎯 DAILY CHALLENGE · ${today()}</div>
+    <div style="font-size:15.5px;font-weight:700;margin-bottom:3px">Type the German word for:</div>
+    <div style="font-size:20px;font-weight:800;color:var(--text);margin:10px 0 5px">${escH(card.translation)}</div>
+    <span class="gtag">${escH(card.grammar_note)}</span>
+  </div>
+  <div style="display:flex;gap:7px;margin-bottom:11px">
+    <button class="abtn" style="flex-shrink:0" onclick="speakTxt('${escA(card.word)}')">🔊</button>
+    <input type="text" id="dc-ans" placeholder="Type the German word…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" style="flex:1" onkeydown="if(event.key==='Enter')gradeDC()">
+  </div>
+  <div id="dc-fb"></div>
+  <button class="btn bp bfw" id="dc-btn" onclick="gradeDC()">Check Answer</button>
+  <div style="margin-top:9px;text-align:center;font-size:10.5px;color:var(--dim)">
+    ${st.dcStreak>0?`🔥 Current streak: <b>${st.dcStreak} days</b>`:'Start your streak today!'}
+    ${st.dcStreak>=6?'<br><span style="color:var(--gold)">1 more day for 🎯 Daily Devotee badge!</span>':''}
+    ${st.dcStreak>=29?'<br><span style="color:var(--gold)">1 more day for 🏆 Champion badge!</span>':''}
+  </div>`);
+  setTimeout(()=>document.getElementById('dc-ans')?.focus(),80);
+}
+
+function gradeDC(){
+  const btn=document.getElementById('dc-btn');if(btn&&btn.dataset.done)return;
+  const inp=document.getElementById('dc-ans');if(!inp||inp.disabled)return;
+  const typed=inp.value.trim();if(!typed){toast('Type something!');return;}
+  const st=getDCState();
+  const p=parseId(st.wordId||'');
+  const card=buildCard(p.lv,p.deck,p.idx);if(!card)return;
+  const ok=fuzzy(typed.toLowerCase(),card.word.toLowerCase());
+  inp.disabled=true;inp.classList.add(ok?'ok':'ng');
+  playSound(ok?'c':'w');
+  const fb=document.getElementById('dc-fb');
+  if(ok){
+    fb.innerHTML=`<div style="color:var(--success);font-weight:700;font-size:13.5px;margin-bottom:9px">✓ Correct — ${escH(card.word)}!</div>`;
+    completeDailyChallenge(card,true);
+    if(btn){btn.textContent='See Results';btn.onclick=()=>openDailyChallenge();btn.dataset.done='1';}
+  } else {
+    fb.innerHTML=`<div style="color:var(--danger);font-weight:700;margin-bottom:5px">✗ The answer was: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div>${card.story_hook?`<div class="sbox" style="margin-top:7px">${escH(card.story_hook)}</div>`:''}`;
+    if(btn){btn.textContent='Try Again';btn.dataset.done='';inp.disabled=false;inp.value='';inp.classList.remove('ng');setTimeout(()=>inp.focus(),50);}
+  }
+}
+
+function completeDailyChallenge(card,ok){
+  if(!ok)return;
+  const st=getDCState();
+  const t=today();
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  const ys=yesterday.toISOString().slice(0,10);
+  const newStreak=(st.lastCompleted===ys||st.lastCompleted===t)?(st.dcStreak||0)+1:1;
+  setDCState({...st,completed:true,dcStreak:newStreak,lastCompleted:t});
+  renderDCBanner();
+
+  const user=getUser();
+  const bonusXP=50+newStreak*5;
+  user.xp=(user.xp||0)+bonusXP;
+  const newBadges=[];
+  if(!user.badges.includes('dc7')&&newStreak>=7)newBadges.push('dc7');
+  if(!user.badges.includes('dc30')&&newStreak>=30)newBadges.push('dc30');
+  user.badges=[...new Set([...(user.badges||[]),...newBadges])];
+  setUser(user);
+
+  updateSRS(card,3.5);
+  showXPPop(bonusXP);
+  if(newStreak>=7)setTimeout(spawnConfetti,300);
+
+  if(newBadges.length>0){
+    const bd=BADGES.find(b=>b.id===newBadges[0]);
+    if(bd)setTimeout(()=>toast('🎉 Badge unlocked: '+bd.label),600);
+  }
+  toast(`+${bonusXP} XP! 🔥 Day ${newStreak} streak!`);
+}
+
+// ── SERVICE WORKER (offline caching) ────────────────────────
+function registerSW(){
+  if(!('serviceWorker' in navigator))return;
+  const swCode=`const V='lexikon-v1';
+self.addEventListener('install',e=>{
+  self.skipWaiting();
+  e.waitUntil(caches.open(V).then(c=>c.add(self.location.href.replace(/\\/[^/]*$/,'/'))).catch(()=>{}));
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  e.respondWith(caches.match(e.request).then(r=>{
+    if(r)return r;
+    return fetch(e.request).then(res=>{
+      if(res.ok){caches.open(V).then(c=>c.put(e.request,res.clone()));}
+      return res;
+    }).catch(()=>r||new Response('Offline',{status:503}));
+  }));
+});`;
+  try{
+    const blob=new Blob([swCode],{type:'application/javascript'});
+    const url=URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url,{scope:'./'}).catch(()=>{});
+  }catch(e){}
+}
+
+// ── BOOT ─────────────────────────────────────────────────────
+function boot(){
+  checkStreak();
+  initDailyChallenge();
+  renderHome();
+  if('speechSynthesis' in window)speechSynthesis.getVoices();
+  registerSW();
+}
+boot();
+</script>
+</body>
+</html>
