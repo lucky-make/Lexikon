@@ -313,6 +313,7 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
       <div class="mcard" data-mode="story" onclick="selMode('story',this)"><div style="font-size:24px;margin-bottom:6px">📖</div><div style="font-size:11.5px;font-weight:700">Fill-the-Story</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Cloze passage</div></div>
       <div class="mcard" data-mode="listen" onclick="selMode('listen',this)"><div style="font-size:24px;margin-bottom:6px">🎧</div><div style="font-size:11.5px;font-weight:700">Listening</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Dictation mode</div></div>
       <div class="mcard" data-mode="boss" onclick="selMode('boss',this)" style="grid-column:span 2;border-color:rgba(255,71,87,.2)"><div style="font-size:24px;margin-bottom:6px">💀</div><div style="font-size:11.5px;font-weight:700;color:var(--danger)">Boss Round</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">10 cards · 8s timer · 2× XP</div></div>
+      <div class="mcard" data-mode="chain" onclick="selMode('chain',this)" style="grid-column:span 2;border-color:rgba(0,212,255,.22)"><div style="font-size:24px;margin-bottom:6px">🔁</div><div style="font-size:11.5px;font-weight:700;color:var(--cyan)">Full Review</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Whole deck as Flashcards → then Typing → then MCQ</div></div>
     </div>
     <div class="fg" style="margin-top:14px"><label>Cards per session</label>
       <select id="ss-limit">
@@ -1556,9 +1557,12 @@ function beginSession(){
 
   if(sessionCards.length===0){toast('No cards due! Great job 🎉 — come back tomorrow.');return;}
 
-  ses={cards:sessionCards,idx:0,mode:selModeVal,isBoss:selModeVal==='boss',
+  const isChain=selModeVal==='chain';
+  const chainModes=['flashcard','typing','mcq'];
+  ses={cards:sessionCards,idx:0,mode:isChain?chainModes[0]:selModeVal,isBoss:selModeVal==='boss',
     correct:0,total:0,xp:0,mastered:0,t0:Date.now(),ct0:Date.now(),
-    timer:null,badges:[],spd:0,curMode:selModeVal,_mkh:null};
+    timer:null,badges:[],spd:0,curMode:isChain?chainModes[0]:selModeVal,_mkh:null,
+    chain:isChain?chainModes:null,chainIdx:0,origMode:selModeVal};
 
   document.getElementById('ss-setup').style.display='none';
   document.getElementById('ss-session').style.cssText='display:flex;flex-direction:column;flex:1;gap:9px';
@@ -1567,11 +1571,24 @@ function beginSession(){
   showCard();
 }
 
+const CHAIN_LABELS={flashcard:'Flashcards',typing:'Typing',mcq:'Multiple Choice'};
 function showCard(){
-  if(ses.idx>=ses.cards.length){finishSession();return;}
+  if(ses.idx>=ses.cards.length){
+    if(ses.chain&&ses.chainIdx<ses.chain.length-1){
+      ses.chainIdx++;
+      ses.mode=ses.chain[ses.chainIdx];
+      ses.idx=0;
+      ses.cards=shuffle(ses.cards);
+      toast(`Round ${ses.chainIdx+1}/${ses.chain.length}: ${CHAIN_LABELS[ses.mode]||ses.mode}`);
+      showCard();
+      return;
+    }
+    finishSession();return;
+  }
   const card=ses.cards[ses.idx];
   ses.ct0=Date.now();
-  document.getElementById('ses-prog').textContent=(ses.idx+1)+'/'+ses.cards.length;
+  const roundTag=ses.chain?`R${ses.chainIdx+1}/${ses.chain.length} · `:'';
+  document.getElementById('ses-prog').textContent=roundTag+(ses.idx+1)+'/'+ses.cards.length;
   document.getElementById('ses-pfill').style.width=((ses.idx/ses.cards.length)*100)+'%';
   document.getElementById('ses-xp').textContent=ses.xp+' XP';
 
@@ -1607,9 +1624,9 @@ function renderFC(card,el){
       <div class="ff front">
         <span class="swfb swno" id="swno">AGAIN</span>
         <span class="swfb swyes" id="swyes">GOT IT</span>
+        <button class="abtn" onclick="event.stopPropagation();speakTxt('${escA(card.word)}')" style="position:absolute;top:14px;right:14px">🔊</button>
         <div style="text-align:center">
-          <div class="wd" style="margin-bottom:13px">${escH(card.word)}</div>
-          <button class="abtn" onclick="event.stopPropagation();speakTxt('${escA(card.word)}')" style="margin:0 auto">🔊</button>
+          <div class="wd">${escH(card.word)}</div>
         </div>
         <div style="font-size:10.5px;color:var(--dim)">${escH(card.level)} · ${escH(card.deck)}</div>
       </div>
@@ -1912,7 +1929,7 @@ function finishSession(){
   user.badges=[...new Set([...(user.badges||[]),...newBadges])];
   setUser(user);
 
-  hist.push({date:today(),reviewed:ses.total,correct:ses.correct,xp:ses.xp,mode:ses.mode});
+  hist.push({date:today(),reviewed:ses.total,correct:ses.correct,xp:ses.xp,mode:ses.origMode||ses.mode});
   setHistory(hist.slice(-200));
 
   const acc=ses.total>0?Math.round((ses.correct/ses.total)*100):0;
