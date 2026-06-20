@@ -274,6 +274,42 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
 .mcard[data-mode=leeches]{border-color:rgba(255,71,87,.25)}
 .mcard[data-mode=leeches]:hover{border-color:rgba(255,71,87,.5)}
 .mcard[data-mode=leeches].sel{border-color:var(--danger);background:rgba(255,71,87,.07)}
+
+/* ── GRAMMAR CARD ── */
+.gram-card{background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.18);border-radius:14px;padding:16px;overflow-y:auto;max-height:62vh}
+.gram-header{display:flex;gap:12px;align-items:flex-start;margin-bottom:13px}
+.gram-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.gram-title{font-size:15px;font-weight:800;color:var(--gold);line-height:1.25}
+.gram-sub{font-size:10.5px;color:var(--dim);margin-top:2px;font-family:var(--mono)}
+.gram-expl{font-size:12.5px;line-height:1.65;color:var(--text);margin-bottom:13px;background:rgba(255,255,255,.04);border-radius:9px;padding:10px 12px}
+.gram-expl b{color:var(--cyan)}
+.gram-expl i{color:rgba(255,255,255,.75)}
+.gram-sect-label{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin:11px 0 7px}
+.gram-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:4px}
+.gram-tbl th{background:rgba(255,215,0,.12);color:var(--gold);font-weight:700;padding:5px 8px;text-align:left;border-bottom:1px solid rgba(255,215,0,.2)}
+.gram-tbl td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text);font-family:var(--mono);font-size:10.5px}
+.gram-tbl tr:last-child td{border-bottom:none}
+.gram-tbl td b{color:var(--cyan)}
+.gram-exlist{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+.gram-ex{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.12);border-radius:8px;padding:8px 11px}
+.gram-de{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:2px;font-family:var(--mono)}
+.gram-en{font-size:11px;color:var(--dim)}
+.gram-sc{background:rgba(255,255,255,.03);border-left:3px solid rgba(255,215,0,.4);border-radius:0 7px 7px 0;padding:8px 11px;margin-bottom:6px}
+.gram-sc-title{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:3px}
+.gram-sc-text{font-size:11px;color:rgba(255,255,255,.7);line-height:1.55}
+.gram-sc-text b{color:var(--cyan)}
+.gram-sc-text i{color:rgba(255,255,255,.65)}
+.gram-recall{margin-top:11px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.18);border-radius:12px;padding:13px}
+.gram-recall-label{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--cyan);text-transform:uppercase;margin-bottom:9px}
+.gram-recall-sent{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:4px;font-family:var(--mono);line-height:1.5}
+.gram-recall-en{font-size:11px;color:var(--dim);margin-bottom:10px}
+.gram-recall-opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.gram-opt-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:6px 13px;font-size:12.5px;font-family:var(--mono);color:var(--text);cursor:pointer;transition:all .15s}
+.gram-opt-btn:hover:not(:disabled){background:rgba(0,212,255,.12);border-color:var(--cyan)}
+.gram-opt-btn:disabled{cursor:default}
+.gram-opt-btn.gram-ok{background:rgba(46,213,115,.15);border-color:var(--success);color:var(--success);font-weight:700}
+.gram-opt-btn.gram-ng{background:rgba(255,71,87,.15);border-color:var(--danger);color:var(--danger)}
+.gram-recall-fb{font-size:12px;min-height:18px}
 </style>
 </head>
 <body>
@@ -415,6 +451,7 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
     <div id="mode-build" style="display:none"></div>
     <div id="mode-story" style="display:none"></div>
     <div id="mode-listen" style="display:none"></div>
+    <div id="mode-grammar" style="display:none"></div>
     <div id="kbhints" style="text-align:center"></div>
     <div id="ses-act" style="margin-top:auto;padding-top:7px"></div>
   </div>
@@ -541,11 +578,6 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
     <div class="fg"><label>Voice</label><select id="set-voice" onchange="saveSetting('ttsVoice',this.value)"></select></div>
     <div class="fg"><label>Speed</label><select id="set-spd" onchange="saveSetting('ttsSpeed',this.value)"><option value="1">Normal</option><option value="0.6">Slow</option><option value="1.4">Fast</option></select></div>
     <button class="btn bg bsm" onclick="testTTS()">🔊 Test Voice</button>
-  </div>
-  <div class="card"><div class="slabel">AI Features (via your own proxy)</div>
-    <div style="font-size:11.5px;color:var(--mid);margin-bottom:11px;line-height:1.6">Enables AI story hooks and sentence evaluation, without putting an API key in this file. Set up a small proxy once (see worker.js) and paste its URL below — it's safe to sync this URL across devices.</div>
-    <div class="fg"><label>AI Proxy URL</label><input type="text" id="set-key" placeholder="https://your-proxy.workers.dev" oninput="debSaveKey(this.value)"></div>
-    <div id="keystatus" style="font-size:11.5px;margin-top:3px"></div>
   </div>
   <div class="card"><div class="slabel">Notifications</div><button class="btn bg bsm bfw" onclick="reqNotif()">🔔 Enable Study Reminders</button></div>
   <div class="card"><div class="slabel">Data</div>
@@ -1718,8 +1750,8 @@ function renderDaySpread(){
 // ── SESSION STATE ────────────────────────────────────────────
 let ses={cards:[],idx:0,mode:'flashcard',isBoss:false,correct:0,total:0,xp:0,mastered:0,t0:0,ct0:0,timer:null,badges:[],spd:0,curMode:'flashcard',_mkh:null};
 
-const FULL_CHAIN_MODES=['flashcard','mcq','typing','build','story','listen'];
-const CHAIN_ICONS={flashcard:'🃏',mcq:'🎯',typing:'⌨️',build:'✍️',story:'📖',listen:'🎧'};
+const FULL_CHAIN_MODES=['flashcard','mcq','typing','build','story','listen','grammar'];
+const CHAIN_ICONS={flashcard:'🃏',mcq:'🎯',typing:'⌨️',build:'✍️',story:'📖',listen:'🎧',grammar:'📚'};
 
 function beginSession(){
   const lv=document.getElementById('ss-lv').value;
@@ -1805,7 +1837,7 @@ function beginSession(){
   showCard();
 }
 
-const CHAIN_LABELS={flashcard:'Flashcards',mcq:'Multiple Choice',typing:'Typing',build:'Build Sentence',story:'Fill-the-Story',listen:'Listening'};
+const CHAIN_LABELS={flashcard:'Flashcards',mcq:'Multiple Choice',typing:'Typing',build:'Build Sentence',story:'Fill-the-Story',listen:'Listening',grammar:'Grammar Rule'};
 function renderChainProgress(modes,activeIdx){
   const el=document.getElementById('chain-steps');if(!el)return;
   let html='';
@@ -1839,7 +1871,7 @@ function showCard(){
   document.getElementById('ses-pfill').style.width=((ses.idx/ses.cards.length)*100)+'%';
   document.getElementById('ses-xp').textContent=ses.xp+' XP';
 
-  ['flashcard','mcq','typing','build','story','listen'].forEach(m=>{
+  ['flashcard','mcq','typing','build','story','listen','grammar'].forEach(m=>{
     const el=document.getElementById('mode-'+m);
     el.style.display='none';el.innerHTML='';
   });
@@ -1855,6 +1887,7 @@ function showCard(){
 
   const el=document.getElementById('mode-'+mode);
   el.style.display='block';
+  if(mode==='grammar'){renderGrammar(ses.cards,el);return;}
   if(mode==='flashcard') renderFC(card,el);
   else if(mode==='mcq') renderMCQ(card,el);
   else if(mode==='typing') renderTyping(card,el);
@@ -1933,6 +1966,17 @@ function renderMCQ(card,el){
   document.addEventListener('keydown',ses._mkh);
 }
 
+// ── AUTO-ADVANCE ─────────────────────────────────────────────
+let _autoNextTimer=null;
+function autoNext(delay=1500){
+  if(_autoNextTimer){clearTimeout(_autoNextTimer);_autoNextTimer=null;}
+  const act=document.getElementById('ses-act');
+  act.innerHTML=`<button class="btn bp bfw" onclick="cancelAutoNext()" style="margin-bottom:7px">Next → (skip)</button><div style="height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden"><div id="an-bar" style="height:100%;background:var(--cyan);border-radius:2px;width:0%;transition:width ${delay}ms linear"></div></div>`;
+  setTimeout(()=>{const b=document.getElementById('an-bar');if(b)b.style.width='100%';},30);
+  _autoNextTimer=setTimeout(()=>{_autoNextTimer=null;nextCard();},delay+50);
+}
+function cancelAutoNext(){if(_autoNextTimer){clearTimeout(_autoNextTimer);_autoNextTimer=null;}nextCard();}
+
 function gradeMCQ(chosen,correct,btn){
   if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
   document.querySelectorAll('.mop').forEach(b=>{b.disabled=true;if(b.textContent.replace(/^\s*\d\.\s*/,'').trim()===correct)b.classList.add('correct');});
@@ -1945,7 +1989,7 @@ function gradeMCQ(chosen,correct,btn){
   document.getElementById('mcqfb').style.display='block';
   document.getElementById('mcqfb').innerHTML=`<div class="csm" style="margin-top:9px"><div class="wd" style="font-size:15px;color:var(--text)">${escH(card.word)}</div><div class="tr" style="margin-bottom:6px">${escH(card.translation)}</div><span class="gtag">${escH(card.grammar_note)}</span>${card.story_hook?`<div class="sbox" style="margin-top:8px">${escH(card.story_hook)}</div>`:''}</div>`;
   recordResult(ok,.5);
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+  autoNext(ok?1400:2200);
 }
 
 // ── TYPING ──────────────────────────────────────────────────
@@ -2016,7 +2060,7 @@ function gradeTyping(){
   recordResult(ok,1,xpMult);
   if(ok&&elapsed<3&&!_hintUsed)ses.spd++;
   _hintUsed=false;
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+  autoNext(ok?1400:2200);
 }
 
 function normalizeUmlauts(s){return s.replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/Ä/g,'Ae').replace(/Ö/g,'Oe').replace(/Ü/g,'Ue');}
@@ -2044,34 +2088,33 @@ function renderBuild(card,el){
     <textarea id="build-in" placeholder="Type your sentence…" rows="3"></textarea>
   </div>
   <div id="buildfb"></div>`;
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeBuild()">Evaluate with AI</button><button class="btn bg bfw" style="margin-top:7px" onclick="skipCard()">Skip</button>`;
+  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeBuild()">Check</button><button class="btn bg bfw" style="margin-top:7px" onclick="skipCard()">Skip</button>`;
 }
 
-async function gradeBuild(){
+function gradeBuild(){
   const inp=document.getElementById('build-in');
   if(!inp?.value.trim()){toast('Write a sentence first!');return;}
   const card=ses.cards[ses.idx];
   const sentence=inp.value.trim();
   const fb=document.getElementById('buildfb');
-  fb.innerHTML=`<div style="color:var(--dim);font-size:12.5px" class="ldots">Evaluating</div>`;
   document.getElementById('ses-act').innerHTML='';
-  const proxyUrl=lsGet('aiProxyUrl','');
-  let res={correct:null,feedback:'',suggested_improvement:''};
-  if(proxyUrl){
-    try{
-      const r=await callClaude(proxyUrl,[{role:'user',content:`German teacher. Word: '${card.word}' (${card.translation}). Grammar: ${card.grammar_note}. Student: '${sentence}'. Is it correct? JSON only: {"correct":bool,"feedback":"string","suggested_improvement":"string"}`}],300);
-      res=JSON.parse(r.content[0].text.replace(/```json\n?|\n?```/g,'').trim());
-    }catch(e){res={correct:null,feedback:'AI unavailable. Practice recorded!',suggested_improvement:''};}
-  } else {
-    res={correct:null,feedback:'Add AI Proxy URL in Settings for AI evaluation.',suggested_improvement:''};
-  }
-  const ok=res.correct===true;
+  // Client-side check: sentence must contain the target word and be at least 3 words
+  const words=sentence.split(/\s+/).filter(Boolean);
+  const containsWord=fuzzy(sentence.toLowerCase(),card.word.toLowerCase())||
+    sentence.toLowerCase().includes(card.word.toLowerCase());
+  const longEnough=words.length>=3;
+  const ok=containsWord&&longEnough;
   playSound(ok?'c':'w');
-  fb.innerHTML=`<div class="card"><div style="font-weight:700;font-size:13.5px;color:${res.correct===null?'var(--warn)':ok?'var(--success)':'var(--danger)'};margin-bottom:7px">${res.correct===null?'📝 Recorded':ok?'✓ Correct!':'✗ Needs work'}</div><div style="font-size:12.5px;line-height:1.6;margin-bottom:5px">${escH(res.feedback)}</div>${res.suggested_improvement?`<div style="font-size:11.5px;color:var(--dim);border-top:1px solid rgba(255,255,255,.06);padding-top:7px;margin-top:4px;font-style:italic">${escH(res.suggested_improvement)}</div>`:''}</div>`;
+  let feedback,hint='';
+  if(!containsWord){feedback=`Your sentence should include the word <b>${escH(card.word)}</b>.`;}
+  else if(!longEnough){feedback=`Try writing a fuller sentence (at least 3 words).`;}
+  else{feedback=`Great — your sentence uses <b>${escH(card.word)}</b> correctly!`;
+    hint=`<div style="font-size:11.5px;color:var(--dim);border-top:1px solid rgba(255,255,255,.06);padding-top:7px;margin-top:4px;font-style:italic">Translation: ${escH(card.translation)}</div>`;}
+  fb.innerHTML=`<div class="card"><div style="font-weight:700;font-size:13.5px;color:${ok?'var(--success)':'var(--danger)'};margin-bottom:7px">${ok?'✓ Correct!':'✗ Needs work'}</div><div style="font-size:12.5px;line-height:1.6;margin-bottom:5px">${feedback}</div>${hint}</div>`;
   if(ok&&!ses.badges.includes('build_ok'))ses.badges.push('build_ok');
   updateSRS(card,ok?4:2);
   recordResult(ok,2,ok?3:1);
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+  autoNext(ok?1400:2200);
 }
 
 // ── FILL-THE-STORY ──────────────────────────────────────────
@@ -2103,7 +2146,7 @@ function gradeStory(){
   playSound(ok?'c':'w');
   document.getElementById('storyfb').innerHTML=ok?`<div style="color:var(--success);font-weight:700">✓ Correct!</div>`:`<div style="color:var(--danger);font-weight:700">✗ Was: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div>`;
   updateSRS(card,ok?3.5:1.5);recordResult(ok,1.5);
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+  autoNext(ok?1400:2200);
 }
 
 // ── LISTENING ───────────────────────────────────────────────
@@ -2132,7 +2175,7 @@ function gradeListen(){
   playSound(ok?'c':'w');
   document.getElementById('listenfb').innerHTML=ok?`<div style="color:var(--success);font-weight:700">✓ Great ear!</div>`:`<div style="color:var(--danger);font-weight:700">✗ The word was: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div><div class="tr" style="margin-top:4px">${escH(card.translation)}</div>`;
   updateSRS(card,ok?3.5:1.5);recordResult(ok,1);
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
+  autoNext(ok?1400:2200);
 }
 
 // ── BOSS TIMER ──────────────────────────────────────────────
@@ -2143,6 +2186,329 @@ function startBossTimer(){
 }
 
 function timeoutCard(){updateSRS(ses.cards[ses.idx],0);recordResult(false,0);toast('⏱️ Time\'s up!');setTimeout(nextCard,700);}
+
+// ── GRAMMAR RULES ────────────────────────────────────────────
+const GRAMMAR_RULES={
+'verb-conjugation-present':{
+  title:'Present Tense — Regular Verbs',subtitle:'Präsens · Regelmäßige Verben',icon:'🔡',
+  explanation:'German regular verbs follow a predictable pattern. Remove the infinitive ending <b>-en</b> (or <b>-n</b>) and add personal endings. The stem stays the same.',
+  table:{headers:['Person','Ending','lernen','spielen','machen'],rows:[['ich','-e','lerne','spiele','mache'],['du','-st','lernst','spielst','machst'],['er/sie/es','-t','lernt','spielt','macht'],['wir','-en','lernen','spielen','machen'],['ihr','-t','lernt','spielt','macht'],['sie/Sie','-en','lernen','spielen','machen']]},
+  examples:[{de:'Ich sage "Hallo" jeden Morgen.',en:'I say "Hello" every morning.'},{de:'Du sprichst sehr gut Deutsch.',en:'You speak German very well.'},{de:'Wir kommen aus Österreich.',en:'We come from Austria.'},{de:'Sie danken uns herzlich.',en:'They thank us warmly.'}],
+  scenarios:[{title:'⚡ Stem ends in -t or -d?',text:'Insert an extra <b>-e-</b> before endings beginning with consonants: <i>arbeiten → er arbeit<b>e</b>t</i>, <i>warten → du wart<b>e</b>st</i>.'},{title:'⚡ Stem ends in -s, -ß, -z?',text:'The <b>du</b> form drops the extra <b>-s</b>: <i>heißen → du heiß<b>t</b></i> (not <i>heißst</i>).'},{title:'⚡ Irregular strong verbs',text:'Many common verbs change their stem vowel for <b>du</b> and <b>er/sie/es</b>: <i>sprechen → du <b>sprichst</b></i>, <i>sehen → er <b>sieht</b></i>, <i>fahren → du <b>fährst</b></i>.'}]
+},
+'gender-articles':{
+  title:'Noun Gender & Definite Articles',subtitle:'Genus · der, die, das',icon:'🏷️',
+  explanation:'Every German noun has a grammatical gender: masculine (<b>der</b>), feminine (<b>die</b>), or neuter (<b>das</b>). Gender must be memorised with each word — it is not always predictable from meaning.',
+  table:{headers:['Gender','Article','Plural','Example'],rows:[['Masculine','der','die','der Mann (man)'],['Feminine','die','die','die Frau (woman)'],['Neuter','das','die','das Kind (child)']]},
+  examples:[{de:'Der Vater und die Mutter kommen heute.',en:'The father and the mother are coming today.'},{de:'Das Kind spielt im Garten.',en:'The child plays in the garden.'},{de:'Die Schwester wohnt in Berlin.',en:'The sister lives in Berlin.'},{de:'Der Bruder heißt Max.',en:'The brother is called Max.'}],
+  scenarios:[{title:'💡 Grammar note codes',text:'In your cards: <b>nm</b> = der · <b>nf</b> = die · <b>nn</b> = das. Always learn the article with the noun: not just <i>Tisch</i>, but <i><b>der</b> Tisch</i>.'},{title:'💡 Reliable gender patterns',text:'Nouns ending in <b>-ung, -heit, -keit, -schaft, -tion</b> are always <b>die</b>. Nouns ending in <b>-chen, -lein</b> are always <b>das</b>: <i>das Mädchen</i>.'},{title:'💡 Compound nouns',text:'A compound noun takes the gender of its <b>last</b> part: <i>die Hand + der Schuh → der Handschuh</i>.'}]
+},
+'time-expressions':{
+  title:'Time Expressions & the V2 Rule',subtitle:'Zeitangaben · Verb-Zweitstellung',icon:'⏰',
+  explanation:'In German the finite verb ALWAYS occupies the <b>second position</b> in a main clause. When a time expression starts the sentence, the verb comes immediately after it — before the subject.',
+  table:{headers:['English order','German order'],rows:[['I study today.','Ich lerne heute. (normal)'],['Today I study.','Heute <b>lerne</b> ich. (V2 — verb 2nd!)'],['Sometimes he is late.','Manchmal <b>ist</b> er verspätet.']]},
+  examples:[{de:'Heute lerne ich Deutsch.',en:'Today I am learning German.'},{de:'Morgen fahren wir nach Berlin.',en:'Tomorrow we are travelling to Berlin.'},{de:'Manchmal kommt sie spät.',en:'Sometimes she comes late.'},{de:'Immer frühstücke ich um sieben Uhr.',en:'I always have breakfast at seven o\'clock.'}],
+  scenarios:[{title:'⚡ TMP adverb order',text:'When multiple adverbs appear, follow <b>Time → Manner → Place</b>: <i>Ich fahre <b>morgen</b> (T) <b>schnell</b> (M) <b>nach Hause</b> (P).</i>'},{title:'⚡ dann and danach trigger inversion',text:'<i>Dann</i> (then) and <i>danach</i> (afterwards) force inversion: <i>Zuerst esse ich, <b>dann</b> gehe ich.</i>'},{title:'⚡ Subordinate clauses',text:'In clauses beginning with <i>wenn, weil, obwohl</i>, the verb goes to the <b>END</b>: <i>Ich lerne Deutsch, weil es interessant <b>ist</b>.</i>'}]
+},
+'nominative-case':{
+  title:'The Nominative Case — Subject',subtitle:'Der Nominativ',icon:'📌',
+  explanation:'The nominative marks the <b>subject</b> — who or what performs the action. All articles and pronouns you first learn are in the nominative.',
+  table:{headers:['Gender','Article (nom.)','Pronoun'],rows:[['Masculine','der / ein','er'],['Feminine','die / eine','sie'],['Neuter','das / ein','es'],['Plural','die / —','sie']]},
+  examples:[{de:'Der Vater kocht das Abendessen.',en:'The father cooks dinner. (Vater = subject)'},{de:'Eine Frau wartet am Bahnhof.',en:'A woman is waiting at the station.'},{de:'Die Kinder spielen draußen.',en:'The children are playing outside.'},{de:'Er ist mein Freund.',en:'He is my friend.'}],
+  scenarios:[{title:'⚡ After "sein" — also nominative!',text:'Both subject and predicate after <i>sein</i> are nominative: <i><b>Der Mann</b> ist <b>ein Arzt</b>.</i>'},{title:'⚡ Predicative adjectives',text:'Adjectives after <i>sein, werden, bleiben</i> take NO endings: <i>Der Mann ist <b>groß</b>.</i>'},{title:'⚡ kein vs. nicht',text:'Negate nouns with <b>kein/keine/kein</b>: <i>Ich habe <b>keinen</b> Bruder.</i> Negate verbs or adjectives with <b>nicht</b>.'}]
+},
+'accusative-case':{
+  title:'The Accusative Case — Direct Object',subtitle:'Der Akkusativ',icon:'➡️',
+  explanation:'The accusative marks the <b>direct object</b>. Only <b>masculine</b> articles change: <i>der → den</i>, <i>ein → einen</i>, <i>kein → keinen</i>.',
+  table:{headers:['Gender','Nominative','Accusative'],rows:[['Masculine','der / ein','<b>den</b> / <b>einen</b>'],['Feminine','die / eine','die / eine (unchanged)'],['Neuter','das / ein','das / ein (unchanged)'],['Plural','die','die (unchanged)']]},
+  examples:[{de:'Ich esse einen Apfel.',en:'I am eating an apple. (Apfel = direct object, masc. → einen)'},{de:'Sie trinkt die Milch.',en:'She drinks the milk.'},{de:'Wir kaufen das Brot.',en:'We buy the bread.'},{de:'Er hat keinen Hunger.',en:'He is not hungry. (lit. has no hunger)'}],
+  scenarios:[{title:'⚡ Accusative prepositions',text:'Always take accusative: <b>durch, für, gegen, ohne, um</b>: <i>Das Geschenk <b>für</b> die Mutter.</i>'},{title:'⚡ Definite time expressions',text:'Duration and recurring time: <i>Er schläft <b>den ganzen Tag</b>.</i> · <i><b>Jeden Montag</b> lerne ich.</i>'},{title:'⚡ Reflexive pronouns (acc.)',text:'<i>Ich wasche <b>mich</b></i> (myself), <i>du wäschst <b>dich</b></i>, <i>er wäscht <b>sich</b></i>.'}]
+},
+'kein-nicht-negation':{
+  title:'Negation — kein vs. nicht',subtitle:'Verneinung',icon:'🚫',
+  explanation:'<b>Nicht</b> negates verbs, adjectives, and adverbs. <b>Kein/keine/kein</b> negates indefinite nouns (replaces <i>ein</i>) and nouns with no article.',
+  table:{headers:['Use kein','Use nicht'],rows:[['Ich habe <b>keinen</b> Hunger.','Ich esse <b>nicht</b>. (verb)'],['Das ist <b>kein</b> Brot.','Das Brot ist <b>nicht</b> gut. (adj)'],['Er trinkt <b>keinen</b> Kaffee.','Er trinkt <b>nicht</b> gern Kaffee.'],['Wir haben <b>keine</b> Zeit.','Wir kommen <b>nicht</b> morgen.']]},
+  examples:[{de:'Ich trinke keinen Wein, aber ich esse Käse.',en:'I don\'t drink wine, but I eat cheese.'},{de:'Das Brot ist nicht frisch.',en:'The bread is not fresh.'},{de:'Sie kocht nicht gern.',en:'She doesn\'t like to cook.'},{de:'Wir haben keine Kartoffeln mehr.',en:'We don\'t have any potatoes left.'}],
+  scenarios:[{title:'⚡ Kein takes article-like endings',text:'<i>kein-</i> inflects like <i>ein-</i>: nom. <i>kein/keine/kein</i>, acc. <i>keinen/keine/kein</i>, dat. <i>keinem/keiner/keinem</i>.'},{title:'⚡ Nicht position',text:'<b>Nicht</b> usually goes as late as possible: <i>Er kommt <b>nicht</b>.</i> To negate a specific element: <i>Er kommt <b>nicht</b> morgen</i> (negates "morgen").'},{title:'⚡ Negating definite nouns',text:'Use <b>nicht + den/die/das</b>: <i>Ich meine <b>nicht den</b> Käse, sondern das Brot.</i>'}]
+},
+'prepositional-phrases':{
+  title:'Two-Way Prepositions — Location vs. Direction',subtitle:'Wechselpräpositionen: an, auf, in, neben, über, vor, hinter, unter, zwischen',icon:'🔀',
+  explanation:'Nine prepositions take <b>dative</b> for location (Wo? Where?) and <b>accusative</b> for movement to a destination (Wohin? Where to?).',
+  table:{headers:['Question','Case','Example'],rows:[['Wo? (location)','Dative','Das Buch liegt <b>auf dem</b> Tisch.'],['Wohin? (destination)','Accusative','Ich lege das Buch <b>auf den</b> Tisch.'],['Wo?','Dative','Sie sitzt <b>in der</b> Küche.'],['Wohin?','Accusative','Sie geht <b>in die</b> Küche.']]},
+  examples:[{de:'Das Sofa steht im Wohnzimmer.',en:'The sofa stands in the living room. (location → dative)'},{de:'Ich stelle die Lampe ins Schlafzimmer.',en:'I put the lamp into the bedroom. (movement → accusative)'},{de:'Der Schlüssel liegt auf dem Tisch.',en:'The key is lying on the table.'},{de:'Sie hängt das Bild an die Wand.',en:'She hangs the picture on the wall. (movement)'}],
+  scenarios:[{title:'💡 Liegen/stehen vs. legen/stellen',text:'<i>Liegen, stehen, sitzen, hängen</i> = state/location → dative. <i>Legen, stellen, setzen, hängen</i> (transitive) = placing → accusative.'},{title:'💡 Common contractions',text:'<i>in dem → <b>im</b></i>, <i>in das → <b>ins</b></i>, <i>an dem → <b>am</b></i>, <i>an das → <b>ans</b></i>.'},{title:'💡 Figurative uses',text:'Fixed expressions can override the rule: <i>Ich freue mich <b>auf die</b> Party</i> (looking forward to) — always accusative with "freuen auf".'}]
+},
+'adjective-predicative':{
+  title:'Adjective Endings — Attributive vs. Predicative',subtitle:'Adjektivdeklination',icon:'🎨',
+  explanation:'Adjectives used <b>predicatively</b> (after sein/werden/bleiben) take <b>no ending</b>. Adjectives <b>before a noun</b> (attributive) agree in gender, case, and number.',
+  table:{headers:['After der/die/das','Nom.','Acc.'],rows:[['Masc. (der)','der rot<b>e</b> Rock','den rot<b>en</b> Rock'],['Fem. (die)','die rot<b>e</b> Jacke','die rot<b>e</b> Jacke'],['Neut. (das)','das rot<b>e</b> Kleid','das rot<b>e</b> Kleid'],['Plural','die rot<b>en</b> Schuhe','die rot<b>en</b> Schuhe']]},
+  examples:[{de:'Das Kleid ist schön. (predicative — no ending)',en:'The dress is beautiful.'},{de:'Sie trägt ein schönes Kleid. (attributive, -es)',en:'She wears a beautiful dress.'},{de:'Er kauft einen schwarzen Mantel.',en:'He buys a black coat.'},{de:'Die roten Schuhe passen gut.',en:'The red shoes fit well.'}],
+  scenarios:[{title:'⚡ Strong endings (no article)',text:'Without an article, the adjective carries the gender signal: <i>Ich trinke <b>kalten</b> Kaffee</i> (masc. acc. → -en).'},{title:'⚡ After ein-words',text:'After <i>ein, mein, dein…</i>, nom. masc./neut. adjective adds -er/-es: <i>ein rot<b>er</b> Rock</i> (nom. m.), <i>ein neues Kleid</i> (nom. n.).'},{title:'⚡ Multiple adjectives',text:'All adjectives before a noun take the same ending: <i>ein langer, dunkler Mantel</i>.'}]
+},
+'impersonal-verbs':{
+  title:'Impersonal Verbs & Weather Expressions',subtitle:'Unpersönliche Verben · es-Konstruktionen',icon:'🌦️',
+  explanation:'Weather and sensation verbs use a fixed <b>es</b> (it) subject. This is a grammatical placeholder — not a real noun. When the sentence is inverted, the <i>es</i> disappears.',
+  table:{headers:['Infinitive','Standard','Inverted'],rows:[['regnen','Es regnet.','Heute regnet es.'],['schneien','Es schneit.','Morgen schneit es.'],['donnern','Es donnert.','Laut donnert es.'],['es gibt','Es gibt Regen.','Heute gibt es Regen.']]},
+  examples:[{de:'Es regnet heute stark.',en:'It is raining hard today.'},{de:'Draußen schneit es.',en:'It is snowing outside.'},{de:'Es ist kalt und windig.',en:'It is cold and windy.'},{de:'Mir ist kalt. (NOT: Ich bin kalt)',en:'I am cold. (German uses dative — lit. "It is cold to me")'}],
+  scenarios:[{title:'⚡ Dative for sensations',text:'Physical states use dative: <i>Mir ist kalt / warm / schlecht / gut.</i> NOT <i>Ich bin kalt</i>!'},{title:'⚡ Es gibt (there is/are)',text:'<i>Es gibt</i> + accusative: <i>Es gibt einen Park in der Nähe.</i> It never changes form.'},{title:'⚡ Es geht',text:'<i>Wie geht es dir/Ihnen?</i> → <i>Es geht mir gut.</i> Note the dative pronoun.'}]
+},
+'modal-verbs-intro':{
+  title:'Modal Verbs — können, müssen, wollen',subtitle:'Modalverben im Präsens',icon:'🎭',
+  explanation:'Modal verbs express ability, obligation, or desire. They pair with an <b>infinitive at the end</b> of the clause. Their forms are irregular and must be memorised.',
+  table:{headers:['Person','können (can)','müssen (must)','wollen (want)'],rows:[['ich','kann','muss','will'],['du','kannst','musst','willst'],['er/sie/es','kann','muss','will'],['wir','können','müssen','wollen'],['ihr','könnt','müsst','wollt'],['sie/Sie','können','müssen','wollen']]},
+  examples:[{de:'Ich kann nicht mit dem Bus fahren.',en:'I cannot take the bus.'},{de:'Du musst links abbiegen.',en:'You must turn left.'},{de:'Wir wollen das Museum besichtigen.',en:'We want to visit the museum.'},{de:'Er kann gut navigieren.',en:'He can navigate well.'}],
+  scenarios:[{title:'⚡ Infinitive at the end',text:'The modal is conjugated in position 2; the infinitive sits at sentence end: <i>Ich <b>kann</b> morgen früh <b>kommen</b>.</i>'},{title:'⚡ Implied infinitive',text:'Conversationally, the infinitive is often omitted when implied: <i>Ich muss nach Hause</i> (gehen implied).'},{title:'⚡ All six modals',text:'<b>können, müssen, wollen, dürfen, sollen, mögen/möchten</b> — each has a unique meaning for expressing permission, obligation, ability, or desire.'}]
+},
+'irregular-verbs-sein-haben':{
+  title:'sein & haben — The Two Core Auxiliaries',subtitle:'Hilfsverben: sein & haben',icon:'⚡',
+  explanation:'<b>Sein</b> (to be) and <b>haben</b> (to have) are the most important verbs in German — they appear as main verbs and as auxiliaries to form the perfect tense. Both are highly irregular.',
+  table:{headers:['Person','sein','haben'],rows:[['ich','bin','habe'],['du','bist','hast'],['er/sie/es','ist','hat'],['wir','sind','haben'],['ihr','seid','habt'],['sie/Sie','sind','haben']]},
+  examples:[{de:'Ich bin Lehrerin. Er ist Arzt.',en:'I am a teacher. He is a doctor.'},{de:'Wir haben heute viel Arbeit.',en:'We have a lot of work today.'},{de:'Sie sind müde und haben Hunger.',en:'They are tired and hungry.'},{de:'Du bist gut, aber hast du Zeit?',en:'You are good, but do you have time?'}],
+  scenarios:[{title:'⚡ Sein as auxiliary (motion/state change)',text:'Verbs of motion or state change use <i>sein</i>: <i>Ich <b>bin</b> gegangen.</i> · <i>Er <b>ist</b> aufgestanden.</i>'},{title:'⚡ Haben as auxiliary (most other verbs)',text:'Most transitive verbs use <i>haben</i>: <i>Ich <b>habe</b> das Buch gelesen.</i>'},{title:'⚡ Predicative adjectives with sein',text:'Adjectives after <i>sein</i> take NO ending: <i>Der Weg ist <b>lang</b>.</i> vs. attributive: <i>ein <b>langer</b> Weg.</i>'}]
+},
+'modal-verbs-full':{
+  title:'All Six Modal Verbs — Full Reference',subtitle:'Alle Modalverben',icon:'🎛️',
+  explanation:'German has six modal verbs. They all share the same pattern: ich/er form are identical with no ending. They pair with an infinitive sent to the clause end.',
+  table:{headers:['Verb','ich/er','Meaning','du'],rows:[['können','kann','can / able to','kannst'],['müssen','muss','must / have to','musst'],['wollen','will','want to','willst'],['dürfen','darf','may / allowed to','darfst'],['sollen','soll','supposed to','sollst'],['mögen/möchten','mag/möchte','like / would like','magst/möchtest']]},
+  examples:[{de:'Er kann gut kochen, aber er mag nicht kochen.',en:'He can cook well, but he doesn\'t like to cook.'},{de:'Du darfst hier nicht rauchen.',en:'You are not allowed to smoke here.'},{de:'Ich soll um acht Uhr dort sein.',en:'I am supposed to be there at eight.'},{de:'Möchten Sie etwas trinken?',en:'Would you like something to drink?'}],
+  scenarios:[{title:'⚡ nicht dürfen ≠ nicht müssen',text:'<i>Nicht dürfen</i> = "must not" (forbidden). <i>Nicht müssen</i> = "don\'t have to": <i>Du <b>darfst</b> nicht gehen</i> vs. <i>Du <b>musst</b> nicht gehen.</i>'},{title:'⚡ Double infinitive in perfect',text:'Modals in the perfect use a double infinitive: <i>Ich habe kommen <b>müssen</b>.</i> NOT <i>gemusst</i> when paired with another infinitive.'},{title:'⚡ möchten is the polite modal',text:'<i>Ich möchte ein Wasser.</i> — most common polite "would like". Grammatically Konj. II of <i>mögen</i>.'}]
+},
+'comparative-adjectives':{
+  title:'Comparative & Superlative',subtitle:'Komparativ und Superlativ',icon:'📈',
+  explanation:'Add <b>-er</b> for comparative, and <b>am …-sten</b> or <b>der/die/das …-ste</b> for superlative. Many common adjectives add an umlaut.',
+  table:{headers:['Adjective','Comparative','Superlative'],rows:[['gut (good)','besser','am besten'],['groß (big)','größer','am größten'],['alt (old)','älter','am ältesten'],['schnell (fast)','schneller','am schnellsten'],['viel (many)','mehr','am meisten']]},
+  examples:[{de:'Berlin ist größer als München.',en:'Berlin is bigger than Munich.'},{de:'Das ist das billigste Geschäft hier.',en:'This is the cheapest shop here.'},{de:'Er ist älter als sie, aber sie ist schlauer.',en:'He is older than her, but she is smarter.'},{de:'Je mehr, desto besser!',en:'The more, the better!'}],
+  scenarios:[{title:'⚡ Common umlaut adjectives',text:'<i>alt→<b>ä</b>lter, groß→gr<b>ö</b>ßer, jung→j<b>ü</b>nger, kalt→k<b>ä</b>lter, warm→w<b>ä</b>rmer, lang→l<b>ä</b>nger, kurz→k<b>ü</b>rzer.</i>'},{title:'⚡ als vs. wie',text:'Use <b>als</b> with comparatives: <i>Er ist größer <b>als</b> ich.</i> Use <b>so…wie</b> for equality: <i>Er ist <b>so groß wie</b> ich.</i>'},{title:'⚡ Irregular forms',text:'Memorise: <i>gut → besser → am besten</i> · <i>viel → mehr → am meisten</i> · <i>gern → lieber → am liebsten</i>.'}]
+},
+'reflexive-verbs':{
+  title:'Reflexive Verbs with sich',subtitle:'Reflexive Verben',icon:'🔄',
+  explanation:'Reflexive verbs direct the action back at the subject. They use a reflexive pronoun (<b>mich, dich, sich…</b>). In German many more verbs are reflexive than in English.',
+  table:{headers:['Person','Accusative reflex.','Dative reflex.'],rows:[['ich','mich','mir'],['du','dich','dir'],['er/sie/es','sich','sich'],['wir','uns','uns'],['ihr','euch','euch'],['sie/Sie','sich','sich']]},
+  examples:[{de:'Ich wasche mich jeden Morgen.',en:'I wash myself every morning.'},{de:'Sie zieht sich schnell an.',en:'She gets dressed quickly.'},{de:'Wir treffen uns am Café.',en:'We meet each other at the café.'},{de:'Er ärgert sich über den Stau.',en:'He is annoyed about the traffic jam.'}],
+  scenarios:[{title:'⚡ Accusative vs. dative reflexive',text:'When there\'s already a direct object, the reflexive shifts to dative: <i>Ich wasche <b>mir</b> die Hände.</i> (lit. "I wash for myself the hands.")'},{title:'⚡ Reciprocal meaning',text:'With a plural subject, reflexive can mean "each other": <i>Wir sehen <b>uns</b> morgen.</i> = We see each other tomorrow.'},{title:'⚡ Many verbs are fixed reflexive',text:'<i>sich freuen, sich erholen, sich beeilen, sich vorstellen, sich ärgern</i> — always reflexive; learn <i>sich</i> as part of the verb.'}]
+},
+'perfect-tense':{
+  title:'Perfect Tense — haben or sein?',subtitle:'Das Perfekt · Partizip II',icon:'✅',
+  explanation:'The Perfekt describes completed actions in spoken German. It uses <b>haben</b> or <b>sein</b> + the past participle. Regular participles: <b>ge- + stem + -(e)t</b>. Irregular: must memorise.',
+  table:{headers:['Verb','Partizip II','Auxiliary'],rows:[['machen','gemacht','haben'],['lernen','gelernt','haben'],['gehen','gegangen','sein'],['kommen','gekommen','sein'],['bestehen','bestanden','haben'],['durchfallen','durchgefallen','sein']]},
+  examples:[{de:'Ich habe die Prüfung bestanden!',en:'I passed the exam!'},{de:'Wir haben Mathematik studiert.',en:'We studied mathematics.'},{de:'Er ist um acht Uhr angekommen.',en:'He arrived at eight o\'clock.'},{de:'Sie hat das Stipendium gewonnen.',en:'She won the scholarship.'}],
+  scenarios:[{title:'⚡ When to use sein',text:'Use <b>sein</b> with: verbs of motion reaching a destination (<i>gehen, fahren, kommen</i>), state changes (<i>aufwachen, werden</i>), and <i>sein, bleiben</i> themselves.'},{title:'⚡ Separable verb participles',text:'Separable verbs insert <b>ge-</b> between prefix and stem: <i>auf<b>ge</b>standen, durch<b>ge</b>fallen, an<b>ge</b>kommen.</i>'},{title:'⚡ Inseparable prefix = no ge-',text:'Prefixes be-, er-, ver-, zer-, ent-… never get <i>ge-</i>: <i>bestehen → bestan<b>den</b></i>, <i>verstehen → verstan<b>den</b></i>.'}]
+},
+'subordinate-clauses':{
+  title:'Subordinate Clauses — Verb to End',subtitle:'Nebensätze: weil, dass, obwohl, wenn…',icon:'🔗',
+  explanation:'In German subordinate clauses, the <b>conjugated verb moves to the very end</b>. The clause is always separated from the main clause by a comma.',
+  table:{headers:['Conjunction','Meaning'],rows:[['weil','because — verb → end'],['dass','that — verb → end'],['obwohl','although — verb → end'],['wenn','when / if — verb → end'],['damit','so that — verb → end'],['nachdem','after — verb → end']]},
+  examples:[{de:'Ich lerne Deutsch, weil es interessant ist.',en:'I learn German because it is interesting.'},{de:'Er bleibt zu Hause, obwohl er nicht krank ist.',en:'He stays home although he is not ill.'},{de:'Ich hoffe, dass du kommst.',en:'I hope that you come.'},{de:'Wenn ich Zeit habe, lese ich.',en:'When/if I have time, I read.'}],
+  scenarios:[{title:'⚡ Modal in subordinate clause',text:'With modal + infinitive, the modal comes LAST: <i>Ich bleibe, weil ich arbeiten <b>muss</b>.</i>'},{title:'⚡ Perfect in subordinate clause',text:'The auxiliary (haben/sein) goes to the very end: <i>Sie sagt, dass er <b>gegangen ist</b>.</i>'},{title:'⚡ Subordinate clause first',text:'If the subordinate clause leads, the main clause verb comes immediately after the comma: <i>Wenn er kommt, <b>machen</b> wir eine Party.</i>'}]
+},
+'imperative':{
+  title:'The Imperative — Commands',subtitle:'Der Imperativ',icon:'📣',
+  explanation:'German has three imperative forms: <b>du</b> (informal singular — just the stem), <b>ihr</b> (informal plural), and <b>Sie</b> (formal — infinitive + Sie).',
+  table:{headers:['Infinitive','du-form','ihr-form','Sie-form'],rows:[['kommen','Komm!','Kommt!','Kommen Sie!'],['gehen','Geh!','Geht!','Gehen Sie!'],['warten','Warte!','Wartet!','Warten Sie!'],['lesen','Lies!','Lest!','Lesen Sie!'],['sein','Sei!','Seid!','Seien Sie!']]},
+  examples:[{de:'Biegen Sie hier rechts ab!',en:'Turn right here! (formal)'},{de:'Geh geradeaus und dann links!',en:'Go straight ahead and then left!'},{de:'Kommt bitte pünktlich!',en:'Please come on time! (to a group)'},{de:'Sei nicht so nervös!',en:'Don\'t be so nervous!'}],
+  scenarios:[{title:'⚡ e→i changing verbs',text:'These keep the change in the du-imperative: <i>lesen → <b>Lies!</b></i> · <i>geben → <b>Gib!</b></i> · <i>sprechen → <b>Sprich!</b></i>'},{title:'⚡ Separable verbs',text:'Separable prefix goes to the end: <i>aufmachen → <b>Mach auf!</b></i> · <i>ankommen → <b>Komm pünktlich an!</b></i>'},{title:'⚡ Adding bitte',text:'<b>Bitte</b> (please) softens commands: <i>Bitte kommen Sie herein.</i> / <i>Komm <b>bitte</b> her.</i>'}]
+},
+'passive-voice':{
+  title:'Passive Voice — werden + Partizip II',subtitle:'Das Vorgangspassiv',icon:'🔁',
+  explanation:'The German <b>Vorgangspassiv</b> describes a process done to the subject. It uses <b>werden</b> + past participle. The agent (doer) is introduced with <b>von + dative</b>.',
+  table:{headers:['Tense','Formation','Example'],rows:[['Present','wird + P.II','Das Gesetz wird geändert.'],['Past','wurde + P.II','Das Gesetz wurde geändert.'],['Perfect','ist + P.II + worden','Das Gesetz ist geändert worden.'],['With agent','von + Dative','Es wird von der Regierung entschieden.']]},
+  examples:[{de:'Das Parlament wird gewählt.',en:'The parliament is elected.'},{de:'Der Bericht wurde analysiert.',en:'The report was analysed.'},{de:'Die Gesetze werden von der Regierung gemacht.',en:'The laws are made by the government.'},{de:'Das Problem wurde von Experten untersucht.',en:'The problem was investigated by experts.'}],
+  scenarios:[{title:'⚡ Zustandspassiv (state)',text:'Distinguish process from state: <i>Die Tür <b>wird geöffnet</b></i> (being opened) vs. <i>Die Tür <b>ist geöffnet</b></i> (is open — state).'},{title:'⚡ durch vs. von for agent',text:'<b>Von</b> = human agent: <i>von der Polizei</i>. <b>Durch</b> = impersonal means: <i>durch einen Sturm, durch Verhandlungen</i>.'},{title:'⚡ Man as alternative',text:'Informal active with <i>man</i> often replaces passive: <i>Man sagt…</i> = <i>Es wird gesagt…</i>'}]
+},
+'konjunktiv-II':{
+  title:'Konjunktiv II — Conditional & Polite Requests',subtitle:'Der Konjunktiv II',icon:'🌀',
+  explanation:'Konjunktiv II expresses hypothetical situations, wishes, and polite requests. For most verbs use <b>würde + infinitive</b>. For modals and haben/sein, use their own K-II forms.',
+  table:{headers:['Verb','Konjunktiv II','English'],rows:[['sein','wäre','would be / were'],['haben','hätte','would have / had'],['können','könnte','could'],['müssen','müsste','would have to'],['dürfen','dürfte','would be allowed to'],['other verbs','würde + inf.','would do']]},
+  examples:[{de:'Wenn ich Zeit hätte, würde ich reisen.',en:'If I had time, I would travel.'},{de:'Könnten Sie mir helfen?',en:'Could you help me? (polite)'},{de:'Ich wäre gern in Paris.',en:'I would love to be in Paris.'},{de:'Das wäre schön!',en:'That would be lovely!'}],
+  scenarios:[{title:'⚡ wenn-clause structure',text:'Real conditional: <i>Wenn ich Geld <b>hätte</b>, <b>würde</b> ich reisen.</i> No <i>würde</i> in the wenn-clause with modals/haben/sein.'},{title:'⚡ Polite distancing',text:'K-II for polite requests: <i>Ich <b>hätte</b> gern ein Zimmer.</i> · <i><b>Dürfte</b> ich fragen…?</i>'},{title:'⚡ Past conditional',text:'Would have done: <b>hätte/wäre</b> + P.II: <i>Wenn er früher gegangen <b>wäre</b>, <b>hätte</b> er den Zug <b>genommen</b>.</i>'}]
+},
+'relative-clauses':{
+  title:'Relative Clauses — der, die, das (who/which/that)',subtitle:'Relativsätze',icon:'🔍',
+  explanation:'Relative clauses describe a noun. The <b>relative pronoun</b> matches the gender of the noun it refers to, but its case depends on its role in the relative clause. Verb goes to end.',
+  table:{headers:['Antecedent','Nom.','Acc.','Dat.','Gen.'],rows:[['Masc. (der)','der','den','dem','dessen'],['Fem. (die)','die','die','der','deren'],['Neuter (das)','das','das','dem','dessen'],['Plural (die)','die','die','denen','deren']]},
+  examples:[{de:'Das Gemälde, das ich gesehen habe, war wunderschön.',en:'The painting that I saw was beautiful.'},{de:'Der Schriftsteller, den alle kennen, kommt heute.',en:'The writer that everyone knows is coming today.'},{de:'Das ist der Künstler, dessen Werk im Museum hängt.',en:'That is the artist whose work hangs in the museum.'},{de:'Die Kritik, mit der er nicht einverstanden war, war unfair.',en:'The review with which he disagreed was unfair.'}],
+  scenarios:[{title:'⚡ Gender = antecedent, case = function',text:'<i>Die Frau, <b>die</b> singt,</i> → fem. NOM (subject). <i>Die Frau, <b>die</b> ich sehe,</i> → fem. ACC (object). <i>Die Frau, <b>der</b> ich helfe,</i> → fem. DAT.'},{title:'⚡ Preposition + relative pronoun',text:'Prepositions precede the relative pronoun: <i>Der Regisseur, <b>über den</b> wir sprechen,…</i>'},{title:'⚡ wo-compounds for things',text:'For inanimate things with a preposition, use a <i>wo(r)-</i> compound: <i>Das Thema, <b>worüber</b> wir reden,…</i>'}]
+},
+'separable-verbs':{
+  title:'Separable Prefix Verbs (Trennbare Verben)',subtitle:'Trennbare Verben',icon:'✂️',
+  explanation:'Separable verbs have a prefix that splits off in main clauses and goes to the end. Stress falls on the PREFIX. In subordinate clauses, the verb reunites.',
+  table:{headers:['Infinitive','Main clause','Subord. clause'],rows:[['aufgeben','Ich gebe auf.','…weil ich aufgebe.'],['ausgehen','Er geht aus.','…dass er ausgeht.'],['vorbereiten','Wir bereiten vor.','…obwohl wir vorbereiten.'],['teilnehmen','Sie nimmt teil.','…wenn sie teilnimmt.']]},
+  examples:[{de:'Ich gebe das Projekt leider auf.',en:'I am unfortunately giving up the project.'},{de:'Er bereitet sich gut auf die Prüfung vor.',en:'He prepares himself well for the exam.'},{de:'Wir machen morgen weiter.',en:'We continue tomorrow.'},{de:'Sie nimmt an der Konferenz teil.',en:'She takes part in the conference.'}],
+  scenarios:[{title:'⚡ Infinitive & Partizip II stay together',text:'With a modal or in the perfect, the prefix stays: <i>Er <b>will aufgeben</b>.</i> · <i>Er hat <b>aufgegeben</b>.</i> (ge- goes between prefix and stem)'},{title:'⚡ Common separable prefixes',text:'an-, auf-, aus-, ein-, mit-, vor-, weg-, zu-, zurück- — always stressed: <b>AUF</b>geben, <b>AUS</b>gehen.'},{title:'⚡ Inseparable prefixes (never separate)',text:'be-, er-, ver-, zer-, ent-, ge-, miss- → NEVER separate, NEVER get ge-: <i>erklären → erklärt</i>, <i>beschreiben → beschrieben.</i>'}]
+},
+'genitive-case':{
+  title:'The Genitive Case — Possession & "of"',subtitle:'Der Genitiv',icon:'🔑',
+  explanation:'The genitive expresses possession and follows certain prepositions. Masc./neuter use <i>des/eines</i>, feminine uses <i>der/einer</i>. Masc./neuter nouns add <b>-(e)s</b>.',
+  table:{headers:['Gender','Definite','Indefinite','Noun ending'],rows:[['Masculine','des Mannes','eines Mannes','+(e)s'],['Feminine','der Frau','einer Frau','(no change)'],['Neuter','des Buches','eines Buches','+(e)s'],['Plural','der Kinder','—','(no change)']]},
+  examples:[{de:'Das ist das Büro des Unternehmens.',en:'That is the company\'s office.'},{de:'Der Umsatz der Firma ist gestiegen.',en:'The company\'s revenue has risen.'},{de:'Wegen des schlechten Wetters bleiben wir zu Hause.',en:'Because of the bad weather we stay at home.'},{de:'Der Gewinn des Unternehmens ist beeindruckend.',en:'The company\'s profit is impressive.'}],
+  scenarios:[{title:'⚡ Genitive prepositions',text:'Always take genitive: <b>wegen</b> (because of), <b>trotz</b> (despite), <b>während</b> (during), <b>statt</b> (instead of), <b>außerhalb/innerhalb</b> (outside/inside of).'},{title:'⚡ Informal von + dative',text:'In spoken German, genitive is often replaced: <i>das Auto <b>von meinem Vater</b></i> instead of <i>meines Vaters.</i>'},{title:'⚡ Proper names',text:'Add -s (no apostrophe!): <i>Maries Buch, Deutschlands Hauptstadt</i>. Exception: names ending in -s, -z, -x → apostrophe: <i>Lukas\' Buch</i>.'}]
+},
+'word-order-complex':{
+  title:'Word Order in Complex Sentences',subtitle:'Satzstellung: V2-Regel & Nebensatz',icon:'🔀',
+  explanation:'Two key rules: (1) The finite verb is always <b>second</b> in a main clause (V2). (2) In subordinate clauses the verb goes to the end. Conjunctive adverbs (deshalb, trotzdem) trigger inversion.',
+  table:{headers:['Clause type','Verb position','Example'],rows:[['Main clause','2nd','Ich lerne Deutsch.'],['Inverted (adv. first)','2nd','Heute <b>lerne</b> ich Deutsch.'],['Subordinate (weil/dass)','Last','…weil ich Deutsch <b>lerne</b>.'],['Coord. (aber/und)','2nd (no change)','Er kommt, aber sie <b>bleibt</b>.']]},
+  examples:[{de:'Ich vergleiche beide Ideen, aber ich kann keine Unterschiede finden.',en:'I compare both ideas, but I cannot find any differences.'},{de:'Es ist unklar, ob die Annahme richtig ist.',en:'It is unclear whether the assumption is correct.'},{de:'Die Bedeutung hängt davon ab, wie man es betrachtet.',en:'The meaning depends on how one looks at it.'},{de:'Ich glaube, dass die Perspektive subjektiv ist.',en:'I believe that the perspective is subjective.'}],
+  scenarios:[{title:'⚡ Coordinating conjunctions',text:'<b>und, aber, oder, denn, sondern</b> → NO word-order change: <i>Er kommt, <b>und</b> sie geht.</i>'},{title:'⚡ Conjunctive adverbs = inversion',text:'<i>Deshalb, trotzdem, außerdem, dann, danach</i> go to position 1 and trigger inversion: <i><b>Deshalb</b> lerne ich jeden Tag.</i>'},{title:'⚡ Two subordinate clauses',text:'Each subordinate clause has its verb at the end: <i>Ich denke, dass es wichtig ist, <b>obwohl</b> es schwierig <b>scheint</b>.</i>'}]
+},
+'indirect-speech':{
+  title:'Indirect Speech — Konjunktiv I',subtitle:'Indirekte Rede · Konjunktiv I',icon:'💬',
+  explanation:'Konjunktiv I is used in formal writing and journalism for <b>reported speech</b> — conveying what someone said without endorsing it. Formed from the infinitive stem + specific endings.',
+  table:{headers:['Verb','ich','er/sie','wir'],rows:[['sein','sei','sei','seien'],['haben','habe','habe','haben'],['kommen','komme','komme','kommen'],['können','könne','könne','können']]},
+  examples:[{de:'Er sagt, er sei müde.',en:'He says (that) he is tired. (K1 in formal reported speech)'},{de:'Die Expertin erklärte, das Ergebnis sei eindeutig.',en:'The expert explained the result was clear.'},{de:'Der Zeuge behauptete, er habe nichts gesehen.',en:'The witness claimed he had seen nothing.'},{de:'Laut Bericht werde die Reform umgesetzt.',en:'According to the report, the reform will be implemented.'}],
+  scenarios:[{title:'⚡ When K1 looks like indicative',text:'If K1 looks identical to the indicative (e.g. wir kommen), use <b>Konjunktiv II</b> instead: <i>Er sagte, sie <b>kämen</b> morgen.</i>'},{title:'⚡ dass optional',text:'In formal reported speech, <i>dass</i> is often omitted: <i>Er sagte, er <b>habe</b> Zeit.</i>'},{title:'⚡ laut / zufolge',text:'<b>Laut</b> + genitive/dative: <i>Laut Bericht.</i> <b>Zufolge</b> + dative (postpositional): <i>dem Bericht zufolge.</i>'}]
+},
+'infinitive-constructions':{
+  title:'Infinitive Constructions — um…zu, ohne…zu, anstatt…zu',subtitle:'Infinitivgruppen',icon:'♾️',
+  explanation:'German often uses an infinitive phrase with <b>zu</b> instead of a dass-clause. Three common constructions: <b>um…zu</b> (in order to), <b>ohne…zu</b> (without), <b>anstatt…zu</b> (instead of).',
+  table:{headers:['Construction','Meaning','Example'],rows:[['um … zu','in order to','Er fährt, um die Natur zu schützen.'],['ohne … zu','without (doing)','Sie handelt, ohne nachzudenken.'],['anstatt … zu','instead of (doing)','Anstatt zu recyceln, kauft er neu.']]},
+  examples:[{de:'Wir müssen Energie sparen, um die Umwelt zu schützen.',en:'We must save energy in order to protect the environment.'},{de:'Er fährt Auto, ohne an CO₂-Emissionen zu denken.',en:'He drives without thinking about CO₂ emissions.'},{de:'Anstatt Müll zu trennen, wirft er alles weg.',en:'Instead of sorting waste, he throws everything away.'},{de:'Es ist wichtig, nachhaltiger zu leben.',en:'It is important to live more sustainably.'}],
+  scenarios:[{title:'⚡ Same subject required',text:'<i>Um…zu</i> only works when both clauses share the same subject. Different subjects → use <i>damit</i>: <i>Ich erkläre es, <b>damit</b> du es verstehst.</i>'},{title:'⚡ Separable verbs with zu',text:'Insert <b>zu</b> between prefix and stem: <i>auf<b>zu</b>hören, an<b>zu</b>fangen, mit<b>zu</b>machen.</i>'},{title:'⚡ scheinen / hoffen + zu',text:'<i>Er scheint <b>zu wissen</b>.</i> · <i>Sie hofft, früher <b>zu kommen</b>.</i>'}]
+}
+};
+
+const DECK_GRAMMAR_MAP={
+  'Greetings & Phrases':'verb-conjugation-present',
+  'Numbers & Counting':'gender-articles',
+  'Days, Months & Time':'time-expressions',
+  'People & Family':'gender-articles',
+  'Body & Health':'accusative-case',
+  'Food & Drink':'kein-nicht-negation',
+  'House & Home':'prepositional-phrases',
+  'Clothes & Colours':'adjective-predicative',
+  'Weather & Nature':'impersonal-verbs',
+  'Transport & Directions':'modal-verbs-intro',
+  'Essential Verbs I':'irregular-verbs-sein-haben',
+  'Modal & High-Frequency Verbs':'modal-verbs-full',
+  'Core Adjectives':'comparative-adjectives',
+  'Places & City':'prepositional-phrases',
+  'Daily Life & Routines':'reflexive-verbs',
+  'Shopping & Money':'accusative-case',
+  'Clothing & Fashion':'adjective-predicative',
+  'Health & Medicine':'reflexive-verbs',
+  'Work & Jobs':'perfect-tense',
+  'Hobbies & Free Time':'reflexive-verbs',
+  'City & Directions':'imperative',
+  'Education & School':'perfect-tense',
+  'Feelings & Personality':'reflexive-verbs',
+  'Grammar & Connectors A2':'subordinate-clauses',
+  'Society & Current Affairs':'passive-voice',
+  'Environment & Climate':'infinitive-constructions',
+  'Technology & Media':'indirect-speech',
+  'Business & Economy':'genitive-case',
+  'Travel & Tourism':'konjunktiv-II',
+  'Health & Wellness B1':'reflexive-verbs',
+  'Abstract Concepts':'word-order-complex',
+  'Arts & Culture':'relative-clauses',
+  'Separable & Complex Verbs':'separable-verbs',
+  'B1 Connectors & Academic Language':'subordinate-clauses',
+  'Formal Register & Academic Writing':'indirect-speech',
+  'Advanced Verbs':'separable-verbs',
+  'Research & Science':'passive-voice',
+  'Law & Governance':'passive-voice',
+  'Philosophy & Ethics':'konjunktiv-II',
+};
+
+// ── RENDER GRAMMAR ───────────────────────────────────────────
+function renderGrammar(cards,el){
+  const deckName=cards[0]?.deck||'';
+  const ruleId=DECK_GRAMMAR_MAP[deckName];
+  const rule=ruleId?GRAMMAR_RULES[ruleId]:null;
+  if(!rule){finishSession();return;}
+
+  const tableHtml=rule.table?`<table class="gram-tbl">
+    <thead><tr>${rule.table.headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${rule.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table>`:'';
+
+  const exHtml=rule.examples.map(ex=>`<div class="gram-ex"><div class="gram-de">${escH(ex.de)}</div><div class="gram-en">${escH(ex.en)}</div></div>`).join('');
+  const scHtml=rule.scenarios.map(s=>`<div class="gram-sc"><div class="gram-sc-title">${s.title}</div><div class="gram-sc-text">${s.text}</div></div>`).join('');
+
+  // Build recall question from examples
+  const recallHtml=buildGramRecallHtml(rule);
+
+  el.innerHTML=`<div class="gram-card">
+    <div class="gram-header">
+      <div class="gram-icon">${rule.icon||'📚'}</div>
+      <div>
+        <div class="gram-title">${escH(rule.title)}</div>
+        <div class="gram-sub">${escH(rule.subtitle)}</div>
+      </div>
+    </div>
+    <div class="gram-expl">${rule.explanation}</div>
+    ${tableHtml?`<div class="gram-sect-label">Reference Table</div>${tableHtml}`:''}
+    <div class="gram-sect-label">Examples from this deck</div>
+    <div class="gram-exlist">${exHtml}</div>
+    <div class="gram-sect-label">When the rule changes</div>
+    <div>${scHtml}</div>
+  </div>
+  ${recallHtml}`;
+
+  document.getElementById('ses-act').innerHTML=`<button class="btn bsuc bfw" id="gram-done-btn" onclick="gramDone()" style="opacity:.35" disabled>✓ Got it! Finish session</button>`;
+}
+
+function buildGramRecallHtml(rule){
+  // Pick a random example to quiz on
+  const exs=rule.examples;
+  if(!exs||exs.length<2)return'';
+  const ex=exs[Math.floor(Math.random()*exs.length)];
+
+  // Find a quizzable word: ≥4 chars, not the first word, no punctuation-only tokens
+  const rawTokens=ex.de.split(/\s+/);
+  const candidates=rawTokens.map((tok,i)=>{
+    const clean=tok.replace(/[.,!?;:"'()]/g,'');
+    return{tok,clean,i};
+  }).filter(({clean,i})=>i>0&&clean.length>=4);
+
+  if(!candidates.length)return'';
+
+  const chosen=candidates[Math.floor(Math.random()*candidates.length)];
+  const answer=chosen.clean;
+
+  // Blank that token in the sentence (replace only first occurrence)
+  const blanked=ex.de.replace(chosen.tok,'___');
+
+  // Build distractors from other examples (different clean word, same min length)
+  const pool=[];
+  exs.forEach(e=>{
+    if(e===ex)return;
+    e.de.split(/\s+/).forEach(tok=>{
+      const c=tok.replace(/[.,!?;:"'()]/g,'');
+      if(c.length>=4&&c.toLowerCase()!==answer.toLowerCase()&&!pool.find(p=>p.toLowerCase()===c.toLowerCase()))
+        pool.push(c);
+    });
+  });
+  shuffle(pool);
+  const opts=shuffle([answer,...pool.slice(0,2)]);
+
+  const optsHtml=opts.map(o=>`<button class="gram-opt-btn" onclick="gradeGramRecall(this,'${escA(o)}','${escA(answer)}')">${escH(o)}</button>`).join('');
+  return`<div class="gram-recall" id="gram-recall">
+  <div class="gram-recall-label">Quick check — fill in the blank</div>
+  <div class="gram-recall-sent">${escH(blanked)}</div>
+  <div class="gram-recall-en">${escH(ex.en)}</div>
+  <div class="gram-recall-opts">${optsHtml}</div>
+  <div class="gram-recall-fb" id="gram-fb"></div>
+</div>`;}
+
+function gradeGramRecall(btn,chosen,correct){
+  document.querySelectorAll('.gram-opt-btn').forEach(b=>{b.disabled=true;});
+  const ok=chosen.toLowerCase()===correct.toLowerCase();
+  btn.classList.add(ok?'gram-ok':'gram-ng');
+  if(!ok){
+    document.querySelectorAll('.gram-opt-btn').forEach(b=>{
+      if(b.textContent.trim().toLowerCase()===correct.toLowerCase())b.classList.add('gram-ok');
+    });
+  }
+  document.getElementById('gram-fb').innerHTML=ok
+    ?`<div style="color:var(--success);font-weight:700">✓ Correct!</div>`
+    :`<div style="color:var(--danger);font-weight:700">✗ Answer: <span style="font-family:var(--mono);color:var(--cyan)">${escH(correct)}</span></div>`;
+  playSound(ok?'c':'w');
+  const card=ses.cards[0];
+  if(card){updateSRS(card,ok?4:2);recordResult(ok,1);}
+  const db=document.getElementById('gram-done-btn');
+  if(db){db.disabled=false;db.style.opacity='1';}
+}
+
+function gramDone(){finishSession();}
 
 // ── SRS ─────────────────────────────────────────────────────
 function updateSRS(card,quality){
@@ -2188,6 +2554,7 @@ function showXPPop(xp){
 }
 
 function nextCard(){
+  if(_autoNextTimer){clearTimeout(_autoNextTimer);_autoNextTimer=null;}
   clearInterval(ses.timer);
   if(ses._mkh){document.removeEventListener('keydown',ses._mkh);ses._mkh=null;}
   ses.idx++;showCard();
@@ -2397,8 +2764,8 @@ function showCardDetail(c){
   </div>
   <div class="divider"></div>
   <span class="gtag">${escH(c.grammar_note)}</span>
-  ${storyHook?`<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox">${escH(storyHook)}</div><div style="display:flex;gap:6px;margin-top:7px"><button class="btn bg bsm" onclick="editHook('${escA(c.id)}')">✏️ Edit</button><button class="btn bg bsm" onclick="genHook('${escA(c.id)}')">🤖 AI Generate</button></div>`:
-  `<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox" style="color:var(--dim)">No story hook yet</div><div style="display:flex;gap:6px;margin-top:7px"><button class="btn bp bsm" onclick="genHook('${escA(c.id)}')">🤖 AI Generate</button></div>`}
+  ${storyHook?`<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox">${escH(storyHook)}</div><div style="display:flex;gap:6px;margin-top:7px"><button class="btn bg bsm" onclick="editHook('${escA(c.id)}')">✏️ Edit</button></div>`:
+  `<div class="divider"></div><div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Story Hook</div><div class="sbox" id="shookbox" style="color:var(--dim)">No story hook yet</div>`}
   <div class="divider"></div>
   <div style="font-size:9.5px;color:var(--dim);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Emotion Tag</div>
   <div class="epick">${['😂','😢','😱','❤️','💀'].map(e=>`<button class="ebtn${c.emotion_tag===e?' active':''}" onclick="setEmotion('${escA(c.id)}','${e}',this)">${e}</button>`).join('')}</div>
@@ -2409,17 +2776,6 @@ function showCardDetail(c){
   <div style="margin-top:13px;text-align:right"><button class="btn bg bsm" onclick="closeMo()">Done</button></div>`);
 }
 
-async function genHook(cardId){
-  const proxyUrl=lsGet('aiProxyUrl','');if(!proxyUrl){toast('Add AI Proxy URL in Settings!');return;}
-  const p=parseId(cardId);const c=buildCard(p.lv,p.deck,p.idx);if(!c)return;
-  const el=document.getElementById('shookbox');if(el)el.innerHTML='<span class="ldots">Generating</span>';
-  try{
-    const r=await callClaude(proxyUrl,[{role:'user',content:`2-sentence mnemonic story for English speaker to remember German word '${c.word}' (${c.translation}). Grammar: ${c.grammar_note}. Return only the story, no intro.`}],180);
-    const hook=r.content[0].text.trim();
-    const srs=lsGet('srs:'+cardId,{});srs.story_hook=hook;lsSet('srs:'+cardId,srs);
-    if(el)el.textContent=hook;toast('Story generated!');
-  }catch(e){toast('AI failed.');if(el&&c.story_hook)el.textContent=c.story_hook;}
-}
 
 function editHook(cardId){
   const p=parseId(cardId);const c=buildCard(p.lv,p.deck,p.idx);if(!c)return;
@@ -2490,23 +2846,9 @@ function showAddCard(deckId){
   <div class="fg"><label>Grammar Note</label><input type="text" id="nc-g" placeholder="Noun · das · pl: die Versprechen"></div>
   <div class="fg"><label>Story Hook</label><textarea id="nc-s" placeholder="Mnemonic to remember it…" rows="2"></textarea></div>
   ${deckId?'':`<div class="fg"><label>Add to Deck</label><select id="nc-d"><option value="">No deck</option>${decks.map(d=>`<option value="${d.id}">${escH(d.name)}</option>`).join('')}</select></div>`}
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-    <button class="btn bp" onclick="addCustomCard('${deckId||''}')">Add Card</button>
-    <button class="btn bg" onclick="aiCardStory()">🤖 AI Story</button>
-  </div>`);
+  <button class="btn bp bfw" onclick="addCustomCard('${deckId||''}')">Add Card</button>`);
 }
 
-async function aiCardStory(){
-  const word=document.getElementById('nc-w')?.value.trim();
-  const trans=document.getElementById('nc-t')?.value.trim();
-  if(!word||!trans){toast('Enter word and translation first!');return;}
-  const proxyUrl=lsGet('aiProxyUrl','');if(!proxyUrl){toast('Add AI Proxy URL in Settings!');return;}
-  const ta=document.getElementById('nc-s');if(ta)ta.placeholder='Generating…';
-  try{
-    const r=await callClaude(proxyUrl,[{role:'user',content:`2-sentence mnemonic for English speaker to remember German '${word}' = '${trans}'. Return story only.`}],160);
-    if(ta)ta.value=r.content[0].text.trim();toast('Story done!');
-  }catch(e){toast('AI failed.');}
-}
 
 function addCustomCard(deckId){
   const word=document.getElementById('nc-w')?.value.trim();
@@ -2671,20 +3013,8 @@ function renderSettings(){
   const vs=document.getElementById('set-voice');
   const loadV=()=>{const voices=speechSynthesis.getVoices();vs.innerHTML=voices.map((v,i)=>`<option value="${i}"${s.ttsVoice===String(i)?' selected':''}>${v.name} (${v.lang})</option>`).join('');};
   if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=loadV;loadV();}
-  const proxyUrl=lsGet('aiProxyUrl','');
-  document.getElementById('set-key').value=proxyUrl;
-  const st=document.getElementById('keystatus');
-  st.textContent=proxyUrl?'✓ Proxy URL saved — AI features enabled':'No proxy URL — AI features disabled';
-  st.style.color=proxyUrl?'var(--success)':'var(--dim)';
 }
 
-let _kd;
-function debSaveKey(v){clearTimeout(_kd);_kd=setTimeout(()=>{
-  const val=(v||'').trim();
-  if(!val){lsSet('aiProxyUrl','');const st=document.getElementById('keystatus');if(st){st.textContent='No proxy URL — AI features disabled';st.style.color='var(--dim)';}return;}
-  if(!/^https?:\/\/.+/.test(val)){const st=document.getElementById('keystatus');if(st){st.textContent='⚠️ Enter a valid https:// URL';st.style.color='var(--danger)';}return;}
-  lsSet('aiProxyUrl',val);const st=document.getElementById('keystatus');if(st){st.textContent='✓ Proxy URL saved';st.style.color='var(--success)';}toast('Proxy URL saved!');
-},800);}
 function saveSetting(key,value){const user=getUser();if(!user.settings)user.settings={};user.settings[key]=value;setUser(user);}
 function testTTS(){speakTxt('Die Sehnsucht nach Hause ist groß. Ich lerne gern Deutsch!');}
 function reqNotif(){if(!('Notification' in window)){toast('Not supported.');return;}Notification.requestPermission().then(p=>toast(p==='granted'?'Reminders enabled 🔔':'Permission denied.'));}
@@ -2702,15 +3032,6 @@ function speakTxt(text,rateO=null){
   speechSynthesis.speak(u);
 }
 
-// ── CLAUDE API (via proxy) ────────────────────────────────────
-// No API key ever lives in this file or in localStorage. Instead, set up
-// a small server-side proxy (see worker.js) that holds the key as a
-// secret, then paste the proxy's URL into Settings → AI Proxy URL.
-async function callClaude(proxyUrl,messages,maxTokens=300){
-  if(!proxyUrl)throw new Error('No proxy URL configured');
-  const r=await fetch(proxyUrl,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages,max_tokens:maxTokens})});
-  if(!r.ok)throw new Error('API '+r.status);return r.json();
-}
 
 // ── HELPERS ─────────────────────────────────────────────────
 function getLvInfo(xp){let cur=LEVELS[0],nxt=LEVELS[1];for(let i=0;i<LEVELS.length;i++){if(xp>=LEVELS[i].xp){cur=LEVELS[i];nxt=LEVELS[i+1]||null;}}return{cur,nxt};}
