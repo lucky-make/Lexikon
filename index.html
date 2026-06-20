@@ -231,6 +231,49 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
 
 @media(max-width:360px){.wd{font-size:20px}.mgrid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.fc,.screen,.cp,.xp-pop{transition:none;animation:none}}
+
+/* ── NEW: LEECH ── */
+.leech-tag{display:inline-flex;align-items:center;gap:3px;background:rgba(255,71,87,.12);border:1.5px solid rgba(255,71,87,.4);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:700;color:var(--danger);letter-spacing:.5px}
+.leech-card{border-color:rgba(255,71,87,.35)!important;background:linear-gradient(135deg,rgba(255,71,87,.06),rgba(0,0,0,0) 60%)!important}
+.leech-banner{background:linear-gradient(135deg,rgba(255,71,87,.1),rgba(255,71,87,.04));border:1px solid rgba(255,71,87,.3);border-radius:var(--r);padding:12px 15px;margin-bottom:11px;cursor:pointer;transition:border-color .2s}
+.leech-banner:hover{border-color:rgba(255,71,87,.5)}
+
+/* ── NEW: CHAIN PROGRESS ── */
+.chain-steps{display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 0;margin-bottom:6px;flex-wrap:wrap}
+.cstep{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.cstep-dot{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .3s;flex-shrink:0}
+.cstep-dot.done{background:rgba(46,213,115,.2);border-color:var(--success)}
+.cstep-dot.active{background:rgba(0,212,255,.18);border-color:var(--cyan);box-shadow:0 0 10px rgba(0,212,255,.3)}
+.cstep-lbl{font-size:7px;color:var(--dim);font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.cstep-arr{font-size:8px;color:rgba(255,255,255,.2);align-self:center;margin-top:-10px}
+
+/* ── NEW: INTENSIVE MODE ── */
+.int-mode-btn{display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(255,171,0,.1),rgba(255,215,0,.04));border:1px solid rgba(255,171,0,.3);border-radius:var(--r);padding:11px 14px;margin-bottom:11px;cursor:pointer;transition:all .18s}
+.int-mode-btn:hover{border-color:rgba(255,171,0,.5);transform:translateY(-1px)}
+.int-mode-btn.active{background:linear-gradient(135deg,rgba(255,171,0,.2),rgba(255,215,0,.08));border-color:rgba(255,215,0,.6);box-shadow:0 0 16px rgba(255,171,0,.2)}
+.int-badge{background:rgba(255,171,0,.2);border:1px solid rgba(255,171,0,.4);border-radius:12px;padding:2px 8px;font-size:9.5px;font-weight:700;color:var(--gold2);letter-spacing:.5px}
+
+/* ── NEW: STRICT MODE ── */
+.strict-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(155,89,182,.15);border:1px solid rgba(155,89,182,.4);border-radius:12px;padding:2px 8px;font-size:9.5px;font-weight:700;color:var(--purple)}
+.char-hint{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;margin-bottom:9px}
+.char-box{width:22px;height:26px;border-bottom:2px solid rgba(255,255,255,.15);display:flex;align-items:flex-end;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;padding-bottom:1px;transition:all .2s}
+.char-box.hit{color:var(--success);border-color:var(--success)}
+.char-box.miss{color:var(--danger);border-color:var(--danger)}
+.char-box.space{border-bottom-color:transparent;width:10px}
+
+/* ── NEW: DAY SPREAD ── */
+.day-spread-row{display:flex;align-items:center;gap:9px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:var(--rs);padding:9px 12px;margin-bottom:9px}
+.spread-pip{width:7px;height:7px;border-radius:50%;background:var(--panel2);flex-shrink:0;transition:background .3s}
+.spread-pip.done{background:var(--success)}.spread-pip.today{background:var(--cyan)}.spread-pip.future{background:var(--panel2)}
+
+/* ── NEW: TYPING HINT BUTTON ── */
+.hint-btn{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.3);border-radius:var(--rs);padding:5px 11px;font-size:11px;color:var(--purple);cursor:pointer;transition:all .15s}
+.hint-btn:hover{background:rgba(155,89,182,.2)}
+
+/* ── NEW: LEECH REVIEW MODE ── */
+.mcard[data-mode=leeches]{border-color:rgba(255,71,87,.25)}
+.mcard[data-mode=leeches]:hover{border-color:rgba(255,71,87,.5)}
+.mcard[data-mode=leeches].sel{border-color:var(--danger);background:rgba(255,71,87,.07)}
 </style>
 </head>
 <body>
@@ -295,6 +338,28 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
     <div class="card" style="margin:0;text-align:center;padding:13px 7px"><div id="htotal" style="font-family:var(--mono);font-size:21px;font-weight:700;color:var(--gold)">0</div><div style="font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:1px;text-transform:uppercase">Total Words</div></div>
   </div>
 
+  <!-- INTENSIVE MODE TOGGLE -->
+  <div class="int-mode-btn" id="int-mode-btn" onclick="toggleIntensiveMode()">
+    <div style="font-size:22px">⚡</div>
+    <div style="flex:1">
+      <div style="font-size:12.5px;font-weight:700;color:var(--gold)">Intensive Mode <span id="int-badge" class="int-badge" style="display:none">ACTIVE</span></div>
+      <div style="font-size:10px;color:var(--dim);margin-top:1px" id="int-desc">Lift daily cap for this session — compress your timeline</div>
+    </div>
+    <div style="font-size:18px" id="int-icon">○</div>
+  </div>
+
+  <!-- LEECH ALERT -->
+  <div class="leech-banner" id="leech-banner" style="display:none" onclick="studyLeeches()">
+    <div style="display:flex;align-items:center;gap:9px">
+      <div style="font-size:22px">🔴</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:var(--danger)">Leeches Detected <span id="leech-count-badge" class="leech-tag" style="margin-left:4px">0</span></div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px">Words you keep forgetting — tap to drill them now</div>
+      </div>
+      <div style="font-size:11px;color:var(--danger)">→</div>
+    </div>
+  </div>
+
   <div id="hbadges"></div>
 </div>
 
@@ -306,28 +371,38 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
     <div class="fg"><label>Deck</label><select id="ss-deck"></select></div>
     <div class="slabel" style="margin-top:14px">Mode</div>
     <div class="mgrid" id="mgrid">
-      <div class="mcard sel" data-mode="flashcard" onclick="selMode('flashcard',this)"><div style="font-size:24px;margin-bottom:6px">🃏</div><div style="font-size:11.5px;font-weight:700">Flashcard</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Swipe to rate</div></div>
-      <div class="mcard" data-mode="mcq" onclick="selMode('mcq',this)"><div style="font-size:24px;margin-bottom:6px">🎯</div><div style="font-size:11.5px;font-weight:700">Multiple Choice</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">4-option quiz</div></div>
-      <div class="mcard" data-mode="typing" onclick="selMode('typing',this)"><div style="font-size:24px;margin-bottom:6px">⌨️</div><div style="font-size:11.5px;font-weight:700">Typing</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Active recall</div></div>
-      <div class="mcard" data-mode="build" onclick="selMode('build',this)"><div style="font-size:24px;margin-bottom:6px">✍️</div><div style="font-size:11.5px;font-weight:700">Build Sentence</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">AI-evaluated</div></div>
-      <div class="mcard" data-mode="story" onclick="selMode('story',this)"><div style="font-size:24px;margin-bottom:6px">📖</div><div style="font-size:11.5px;font-weight:700">Fill-the-Story</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Cloze passage</div></div>
-      <div class="mcard" data-mode="listen" onclick="selMode('listen',this)"><div style="font-size:24px;margin-bottom:6px">🎧</div><div style="font-size:11.5px;font-weight:700">Listening</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Dictation mode</div></div>
-      <div class="mcard" data-mode="boss" onclick="selMode('boss',this)" style="grid-column:span 2;border-color:rgba(255,71,87,.2)"><div style="font-size:24px;margin-bottom:6px">💀</div><div style="font-size:11.5px;font-weight:700;color:var(--danger)">Boss Round</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">10 cards · 8s timer · 2× XP</div></div>
-      <div class="mcard" data-mode="chain" onclick="selMode('chain',this)" style="grid-column:span 2;border-color:rgba(0,212,255,.22)"><div style="font-size:24px;margin-bottom:6px">🔁</div><div style="font-size:11.5px;font-weight:700;color:var(--cyan)">Full Review</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Whole deck as Flashcards → then Typing → then MCQ</div></div>
+      <div class="mcard sel" data-mode="chain" onclick="selMode('chain',this)" style="grid-column:span 2;border-color:rgba(0,212,255,.22)"><div style="font-size:24px;margin-bottom:6px">🔗</div><div style="font-size:11.5px;font-weight:700;color:var(--cyan)">Full Chain (All 6)</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Flash → MCQ → Type → Build → Story → Listen — linked automatically</div></div>
+      <div class="mcard" data-mode="leeches" onclick="selMode('leeches',this)" style="grid-column:span 2;border-color:rgba(255,71,87,.25)"><div style="font-size:24px;margin-bottom:6px">🔴</div><div style="font-size:11.5px;font-weight:700;color:var(--danger)">Leech Drill</div><div style="font-size:9.5px;color:var(--dim);margin-top:2px">Target only words you keep forgetting — intensive recall</div></div>
     </div>
     <div class="fg" style="margin-top:14px"><label>Cards per session</label>
       <select id="ss-limit">
-        <option value="10">10 cards</option><option value="20" selected>20 cards</option><option value="30">30 cards</option><option value="50">50 cards</option><option value="0">All due cards</option>
+        <option value="10">10 cards</option><option value="20" selected>20 cards</option><option value="30">30 cards</option><option value="50">50 cards</option><option value="0">All due / all leeches</option>
       </select>
     </div>
-    <button class="btn bp bfw blg" onclick="beginSession()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Begin Session</button>
+    <!-- DAY SPREAD INDICATOR -->
+    <div id="day-spread-wrap" style="margin-bottom:11px;display:none">
+      <div class="day-spread-row">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;flex-shrink:0">Today's New</div>
+        <div id="day-spread-pips" style="display:flex;gap:4px;flex-wrap:wrap;flex:1"></div>
+        <div id="day-spread-txt" style="font-family:var(--mono);font-size:10.5px;color:var(--cyan);flex-shrink:0">0/0</div>
+      </div>
+    </div>
+    <button class="btn bp bfw blg" id="begin-btn" onclick="beginSession()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Begin Session</button>
   </div>
 
   <div id="ss-session" style="display:none;flex-direction:column;flex:1;gap:9px">
     <div style="display:flex;align-items:center;justify-content:space-between">
       <button class="btn bg bsm" onclick="endSession()" style="padding:6px 9px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
       <div id="ses-prog" style="font-size:11.5px;color:var(--dim);font-family:var(--mono)">1/20</div>
-      <div id="ses-xp" style="font-family:var(--mono);font-size:12.5px;color:var(--gold);font-weight:700">0 XP</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span id="ses-strict-badge" class="strict-badge" style="display:none">STRICT</span>
+        <span id="ses-int-badge" class="int-badge" style="display:none">⚡ INTENSIVE</span>
+        <div id="ses-xp" style="font-family:var(--mono);font-size:12.5px;color:var(--gold);font-weight:700">0 XP</div>
+      </div>
+    </div>
+    <!-- CHAIN PROGRESS (shown only during chain mode) -->
+    <div id="chain-progress-wrap" style="display:none">
+      <div class="chain-steps" id="chain-steps"></div>
     </div>
     <div class="pb" style="height:4px"><div class="pf" id="ses-pfill" style="width:0%"></div></div>
     <div id="boss-wrap" style="display:none;align-items:center;gap:11px;padding:7px 11px;background:rgba(255,71,87,.07);border:1px solid rgba(255,71,87,.2);border-radius:var(--rs)">
@@ -430,19 +505,36 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
   <div class="slabel" style="margin-top:4px">Badges</div>
   <div id="pbadges" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:15px"></div>
 
+  <!-- LEECH PANEL -->
+  <div class="slabel" style="margin-top:4px">Leech Report <span id="pleech-count" class="leech-tag" style="margin-left:5px">0</span></div>
+  <div id="pleech-panel" style="margin-bottom:13px"></div>
+
   <div class="slabel">Recent Sessions</div>
   <div id="phist"></div>
 
   <div class="slabel">Level Roadmap</div>
   <div class="card" id="proadmap"></div>
+
+  <!-- EXPORT -->
+  <div class="slabel" style="margin-top:4px">Export Data</div>
+  <div class="card" style="display:flex;flex-direction:column;gap:10px">
+    <div style="font-size:11.5px;color:var(--dim);line-height:1.6">Download your full vocabulary progress as a CSV — open in Excel, Google Sheets, or Anki.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bp bsm" onclick="exportCSV('all')" style="flex:1">📥 All Words</button>
+      <button class="btn bg bsm" onclick="exportCSV('studied')" style="flex:1">📊 Studied Only</button>
+      <button class="btn bg bsm" onclick="exportCSV('leeches')" style="flex:1;border-color:rgba(255,71,87,.4);color:var(--danger)">🔴 Leeches</button>
+    </div>
+    <div id="export-status" style="font-size:10.5px;color:var(--dim);min-height:14px"></div>
+  </div>
 </div>
 
 <!-- SETTINGS -->
 <div class="screen" id="screen-settings">
   <div class="stitle">Settings</div>
   <div class="card"><div class="slabel">Study</div>
-    <div class="fg"><label>Daily Goal (new cards)</label><input type="number" id="set-nl" min="1" max="200" value="20" onchange="saveSetting('newLimit',+this.value)"></div>
-    <div class="fg"><label>Default Mode</label><select id="set-dm" onchange="saveSetting('defaultMode',this.value)"><option value="mixed">Mixed (Auto-rotate)</option><option value="flashcard">Flashcard</option><option value="mcq">Multiple Choice</option><option value="typing">Typing</option><option value="build">Build-a-Sentence</option><option value="story">Fill-the-Story</option><option value="listen">Listening</option></select></div>
+    <div class="fg"><label>Daily Goal (new cards per day)</label><input type="number" id="set-nl" min="1" max="200" value="20" onchange="saveSetting('newLimit',+this.value)"></div>
+    <div class="fg"><label style="display:flex;align-items:center;gap:9px;cursor:pointer"><input type="checkbox" id="set-strict" onchange="saveSetting('strictTyping',this.checked)" style="width:auto;accent-color:var(--purple)"><span>Strict Typing Mode <span class="strict-badge" style="margin-left:4px">EXACT</span></span></label><div style="font-size:10.5px;color:var(--dim);margin-top:4px;line-height:1.55">No fuzzy matching — must type the German word exactly right. Builds stronger recall. Accents (ä, ö, ü, ß) are still flexible.</div></div>
+    <div class="fg"><label style="display:flex;align-items:center;gap:9px;cursor:pointer"><input type="checkbox" id="set-spread" onchange="saveSetting('daySpread',this.checked)" style="width:auto;accent-color:var(--cyan)"><span>Day-Spread new words</span></label><div style="font-size:10.5px;color:var(--dim);margin-top:4px;line-height:1.55">Spread new introductions across days using your daily goal limit. Prevents overload.</div></div>
     <div class="fg" style="margin:0"><label style="display:flex;align-items:center;gap:9px;cursor:pointer"><input type="checkbox" id="set-sound" onchange="saveSetting('sound',this.checked)" style="width:auto;accent-color:var(--cyan)"><span>Sound effects</span></label></div>
   </div>
   <div class="card"><div class="slabel">Text-to-Speech</div>
@@ -450,9 +542,9 @@ label{font-size:11.5px;color:var(--mid);display:block;margin-bottom:4px;font-wei
     <div class="fg"><label>Speed</label><select id="set-spd" onchange="saveSetting('ttsSpeed',this.value)"><option value="1">Normal</option><option value="0.6">Slow</option><option value="1.4">Fast</option></select></div>
     <button class="btn bg bsm" onclick="testTTS()">🔊 Test Voice</button>
   </div>
-  <div class="card"><div class="slabel">Claude API — AI Features</div>
-    <div style="font-size:11.5px;color:var(--mid);margin-bottom:11px;line-height:1.6">Enables AI story hook generation and sentence evaluation. Key stored only in your browser.</div>
-    <div class="fg"><label>API Key</label><input type="password" id="set-key" placeholder="sk-ant-…" oninput="debSaveKey(this.value)"></div>
+  <div class="card"><div class="slabel">AI Features (via your own proxy)</div>
+    <div style="font-size:11.5px;color:var(--mid);margin-bottom:11px;line-height:1.6">Enables AI story hooks and sentence evaluation, without putting an API key in this file. Set up a small proxy once (see worker.js) and paste its URL below — it's safe to sync this URL across devices.</div>
+    <div class="fg"><label>AI Proxy URL</label><input type="text" id="set-key" placeholder="https://your-proxy.workers.dev" oninput="debSaveKey(this.value)"></div>
     <div id="keystatus" style="font-size:11.5px;margin-top:3px"></div>
   </div>
   <div class="card"><div class="slabel">Notifications</div><button class="btn bg bsm bfw" onclick="reqNotif()">🔔 Enable Study Reminders</button></div>
@@ -1492,6 +1584,21 @@ function renderHome(){
     bEl.innerHTML='<div class="slabel">Recent Badges</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px">'+user.badges.slice(-4).map(bid=>{const bd=BADGES.find(b=>b.id===bid);return bd?`<div class="lvlbadge">${bd.label}</div>`:''}).join('')+'</div>';
   } else bEl.innerHTML='';
 
+  // Leech banner
+  const leeches=getAllLeeches();
+  const lb=document.getElementById('leech-banner');
+  const lc=document.getElementById('leech-count-badge');
+  if(lb){lb.style.display=leeches.length>0?'flex':'none';}
+  if(lc){lc.textContent=leeches.length+' leech'+(leeches.length===1?'':'es');}
+
+  // Intensive mode icon state
+  const btn=document.getElementById('int-mode-btn');
+  const icon=document.getElementById('int-icon');
+  const badge=document.getElementById('int-badge');
+  if(btn)btn.classList.toggle('active',intensiveMode);
+  if(icon)icon.textContent=intensiveMode?'●':'○';
+  if(badge)badge.style.display=intensiveMode?'inline-flex':'none';
+
   // Daily Challenge banner
   renderDCBanner();
 }
@@ -1501,7 +1608,7 @@ function quickStudyLv(lv){showScreen('study');setTimeout(()=>{const sel=document
 function startStudyHome(){showScreen('study');}
 
 // ── STUDY SETUP ──────────────────────────────────────────────
-let selModeVal='flashcard';
+let selModeVal='chain';
 
 function renderStudySetup(){
   document.getElementById('ss-setup').style.cssText='display:flex;flex-direction:column';
@@ -1518,9 +1625,18 @@ function renderStudySetup(){
   onLvlChange();
 
   const user=getUser();
-  const dm=user.settings?.defaultMode||'mixed';
-  selModeVal=dm==='mixed'?'flashcard':dm;
+  selModeVal='chain';
   document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('sel',c.dataset.mode===selModeVal));
+
+  // Render day spread indicator
+  renderDaySpread();
+
+  // Show leech count on leech mode card
+  const leeches=getAllLeeches();
+  if(leeches.length>0){
+    const lc=document.querySelector('.mcard[data-mode="leeches"] .leech-mode-count');
+    if(lc)lc.textContent=leeches.length+' words';
+  }
 }
 
 function onLvlChange(){
@@ -1533,13 +1649,101 @@ function onLvlChange(){
 
 function selMode(mode,el){selModeVal=mode;document.querySelectorAll('.mcard').forEach(c=>c.classList.remove('sel'));if(el)el.classList.add('sel');}
 
+// ── INTENSIVE MODE ───────────────────────────────────────────
+let intensiveMode=false;
+function toggleIntensiveMode(){
+  intensiveMode=!intensiveMode;
+  const btn=document.getElementById('int-mode-btn');
+  const badge=document.getElementById('int-badge');
+  const icon=document.getElementById('int-icon');
+  const desc=document.getElementById('int-desc');
+  if(btn)btn.classList.toggle('active',intensiveMode);
+  if(badge)badge.style.display=intensiveMode?'inline-flex':'none';
+  if(icon)icon.textContent=intensiveMode?'●':'○';
+  if(desc)desc.textContent=intensiveMode?'ACTIVE — daily cap lifted, studying all available cards':'Lift daily cap for this session — compress your timeline';
+  toast(intensiveMode?'⚡ Intensive Mode ON — no daily cap!':'Intensive Mode off');
+}
+
+// ── LEECH DETECTION ──────────────────────────────────────────
+function isLeech(card){
+  const rh=(card.review_history||[]);
+  if(rh.length<4)return false;
+  const recent=rh.slice(-8);
+  const fails=recent.filter(r=>!r.correct).length;
+  return fails>=4;
+}
+
+function getAllLeeches(){
+  return getAllCards().filter(c=>isLeech(c));
+}
+
+function markLeech(cardId,flag){
+  const srs=lsGet('srs:'+cardId,{});
+  srs.leech=flag;
+  lsSet('srs:'+cardId,srs);
+}
+
+// ── DAY-SPREAD ───────────────────────────────────────────────
+function getTodayNewCount(){return lsGet('tnew:'+today(),0);}
+function incTodayNewCount(){lsSet('tnew:'+today(),getTodayNewCount()+1);}
+function getDaySpreadCards(lv,deck,limit){
+  const user=getUser();
+  if(!user.settings?.daySpread||intensiveMode)return null;// null = no restriction
+  const dailyGoal=user.settings?.newLimit||20;
+  const todaySeen=getTodayNewCount();
+  const remaining=Math.max(0,dailyGoal-todaySeen);
+  return remaining; // how many new cards allowed today
+}
+
+function renderDaySpread(){
+  const user=getUser();
+  const wrap=document.getElementById('day-spread-wrap');
+  if(!wrap)return;
+  if(!user.settings?.daySpread){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const limit=user.settings?.newLimit||20;
+  const done=getTodayNewCount();
+  const pips=document.getElementById('day-spread-pips');
+  const txt=document.getElementById('day-spread-txt');
+  if(pips){
+    const show=Math.min(limit,20);
+    pips.innerHTML=Array.from({length:show},(_,i)=>{
+      const cls=i<done?'done':i===done?'today':'future';
+      return `<div class="spread-pip ${cls}"></div>`;
+    }).join('');
+  }
+  if(txt)txt.textContent=done+'/'+limit;
+}
+
 // ── SESSION STATE ────────────────────────────────────────────
 let ses={cards:[],idx:0,mode:'flashcard',isBoss:false,correct:0,total:0,xp:0,mastered:0,t0:0,ct0:0,timer:null,badges:[],spd:0,curMode:'flashcard',_mkh:null};
+
+const FULL_CHAIN_MODES=['flashcard','mcq','typing','build','story','listen'];
+const CHAIN_ICONS={flashcard:'🃏',mcq:'🎯',typing:'⌨️',build:'✍️',story:'📖',listen:'🎧'};
 
 function beginSession(){
   const lv=document.getElementById('ss-lv').value;
   const deckName=document.getElementById('ss-deck').value;
   const limitSel=parseInt(document.getElementById('ss-limit').value)||20;
+  const user=getUser();
+
+  // Leech mode
+  if(selModeVal==='leeches'){
+    let leeches=getAllLeeches();
+    if(leeches.length===0){toast('No leeches yet! Keep studying to find difficult words.');return;}
+    if(limitSel>0)leeches=shuffle(leeches).slice(0,limitSel);
+    ses={cards:leeches,idx:0,mode:'typing',isBoss:false,isLeechDrill:true,
+      correct:0,total:0,xp:0,mastered:0,t0:Date.now(),ct0:Date.now(),
+      timer:null,badges:[],spd:0,curMode:'typing',_mkh:null,
+      chain:null,chainIdx:0,origMode:'leeches'};
+    document.getElementById('ss-setup').style.display='none';
+    document.getElementById('ss-session').style.cssText='display:flex;flex-direction:column;flex:1;gap:9px';
+    document.getElementById('ss-sum').style.display='none';
+    document.getElementById('boss-wrap').style.display='none';
+    document.getElementById('chain-progress-wrap').style.display='none';
+    toast('🔴 Leech Drill — '+leeches.length+' words');
+    showCard();return;
+  }
 
   let pool;
   if(deckName==='__all__') pool=getCardsForLevel(lv);
@@ -1550,28 +1754,69 @@ function beginSession(){
     sessionCards=shuffle(pool).slice(0,10);
   } else {
     const overdue=pool.filter(c=>c.next_review<=today()&&c.review_history.length>0);
-    const fresh=shuffle(pool.filter(c=>c.review_history.length===0));
+    let fresh=shuffle(pool.filter(c=>c.review_history.length===0));
+    // Apply day-spread if enabled and not intensive mode
+    if(user.settings?.daySpread&&!intensiveMode){
+      const dailyGoal=user.settings?.newLimit||20;
+      const todaySeen=getTodayNewCount();
+      const allowed=Math.max(0,dailyGoal-todaySeen);
+      fresh=fresh.slice(0,allowed);
+    }
     sessionCards=[...overdue,...fresh];
+    if(intensiveMode){
+      // Intensive: include ALL cards (not just due) up to a large limit
+      const all=shuffle(pool);
+      sessionCards=[...new Map([...sessionCards,...all].map(c=>[c.id,c])).values()];
+    }
     if(limitSel>0) sessionCards=sessionCards.slice(0,limitSel);
+    // Track new card introductions
+    sessionCards.filter(c=>c.review_history.length===0).forEach(()=>incTodayNewCount());
   }
 
-  if(sessionCards.length===0){toast('No cards due! Great job 🎉 — come back tomorrow.');return;}
+  if(sessionCards.length===0){
+    if(intensiveMode)toast('No cards in this deck!');
+    else toast('No cards due! Great job 🎉 — enable Intensive Mode for more.');
+    return;
+  }
 
   const isChain=selModeVal==='chain';
-  const chainModes=['flashcard','typing','mcq'];
-  ses={cards:sessionCards,idx:0,mode:isChain?chainModes[0]:selModeVal,isBoss:selModeVal==='boss',
+  const chainModes=FULL_CHAIN_MODES;
+  ses={cards:sessionCards,idx:0,mode:isChain?chainModes[0]:selModeVal,isBoss:selModeVal==='boss',isLeechDrill:false,
     correct:0,total:0,xp:0,mastered:0,t0:Date.now(),ct0:Date.now(),
     timer:null,badges:[],spd:0,curMode:isChain?chainModes[0]:selModeVal,_mkh:null,
-    chain:isChain?chainModes:null,chainIdx:0,origMode:selModeVal};
+    chain:isChain?chainModes:null,chainIdx:0,origMode:selModeVal,intensive:intensiveMode};
 
   document.getElementById('ss-setup').style.display='none';
   document.getElementById('ss-session').style.cssText='display:flex;flex-direction:column;flex:1;gap:9px';
   document.getElementById('ss-sum').style.display='none';
   document.getElementById('boss-wrap').style.display=ses.isBoss?'flex':'none';
+
+  // Show badges in session header
+  const sb=document.getElementById('ses-strict-badge');if(sb)sb.style.display=user.settings?.strictTyping?'inline-flex':'none';
+  const ib=document.getElementById('ses-int-badge');if(ib)ib.style.display=intensiveMode?'inline-flex':'none';
+
+  // Chain progress indicator
+  if(isChain){
+    document.getElementById('chain-progress-wrap').style.display='block';
+    renderChainProgress(chainModes,0);
+  } else {
+    document.getElementById('chain-progress-wrap').style.display='none';
+  }
   showCard();
 }
 
-const CHAIN_LABELS={flashcard:'Flashcards',typing:'Typing',mcq:'Multiple Choice'};
+const CHAIN_LABELS={flashcard:'Flashcards',mcq:'Multiple Choice',typing:'Typing',build:'Build Sentence',story:'Fill-the-Story',listen:'Listening'};
+function renderChainProgress(modes,activeIdx){
+  const el=document.getElementById('chain-steps');if(!el)return;
+  let html='';
+  modes.forEach((m,i)=>{
+    if(i>0)html+=`<div class="cstep-arr">→</div>`;
+    const cls=i<activeIdx?'done':i===activeIdx?'active':'';
+    html+=`<div class="cstep"><div class="cstep-dot ${cls}">${CHAIN_ICONS[m]||'?'}</div><div class="cstep-lbl">${m.toUpperCase().slice(0,4)}</div></div>`;
+  });
+  el.innerHTML=html;
+}
+
 function showCard(){
   if(ses.idx>=ses.cards.length){
     if(ses.chain&&ses.chainIdx<ses.chain.length-1){
@@ -1579,7 +1824,9 @@ function showCard(){
       ses.mode=ses.chain[ses.chainIdx];
       ses.idx=0;
       ses.cards=shuffle(ses.cards);
-      toast(`Round ${ses.chainIdx+1}/${ses.chain.length}: ${CHAIN_LABELS[ses.mode]||ses.mode}`);
+      renderChainProgress(ses.chain,ses.chainIdx);
+      const roundName=CHAIN_LABELS[ses.mode]||ses.mode;
+      toast(`${CHAIN_ICONS[ses.mode]||''} Round ${ses.chainIdx+1}/${ses.chain.length}: ${roundName}`);
       showCard();
       return;
     }
@@ -1703,16 +1950,47 @@ function gradeMCQ(chosen,correct,btn){
 
 // ── TYPING ──────────────────────────────────────────────────
 function renderTyping(card,el){
+  const user=getUser();
+  const strict=!!user.settings?.strictTyping;
+  const strictBadge=strict?`<span class="strict-badge" style="margin-left:7px">STRICT</span>`:'';
+  const hintRow=`<div id="char-hint-row" class="char-hint" style="min-height:30px"></div>`;
   el.innerHTML=`<div class="card">
-    <div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700">Type the German word</div>
+    <div style="font-size:10.5px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700">Type the German word${strictBadge}</div>
     <div style="font-size:16px;font-weight:600;margin-bottom:5px">${escH(card.translation)}</div>
     <span class="gtag">${escH(card.grammar_note)}</span>
   </div>
+  ${hintRow}
   <input type="text" class="tans" id="typans" placeholder="Type your answer…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
   <div id="typfb" style="margin-top:9px"></div>`;
-  document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="gradeTyping()">Check <kbd class="kbd" style="border-color:rgba(0,0,0,.2);color:#000">↵</kbd></button>`;
-  setTimeout(()=>document.getElementById('typans')?.focus(),80);
-  document.getElementById('typans').addEventListener('keydown',e=>{if(e.key==='Enter')gradeTyping();});
+  document.getElementById('ses-act').innerHTML=`<div style="display:flex;gap:7px"><button class="hint-btn" onclick="showTypingHint()" id="hint-btn">💡 Hint (−2 XP)</button><button class="btn bp" style="flex:1" onclick="gradeTyping()">Check <kbd class="kbd" style="border-color:rgba(0,0,0,.2);color:#000">↵</kbd></button></div>`;
+  const inp=document.getElementById('typans');
+  setTimeout(()=>inp?.focus(),80);
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')gradeTyping();});
+  inp.addEventListener('input',()=>updateCharHint(inp.value,card.word));
+}
+
+let _hintUsed=false;
+function showTypingHint(){
+  const card=ses.cards[ses.idx];if(!card)return;
+  _hintUsed=true;
+  const hb=document.getElementById('hint-btn');if(hb)hb.style.display='none';
+  // Show first letter + word length
+  const hint=card.word[0]+'_'.repeat(Math.max(0,card.word.length-1));
+  const inp=document.getElementById('typans');
+  if(inp&&inp.value===''){inp.value=card.word[0];inp.dispatchEvent(new Event('input'));}
+  toast(`Hint: starts with "${card.word[0]}" · ${card.word.length} letters`);
+}
+
+function updateCharHint(typed,target){
+  const el=document.getElementById('char-hint-row');if(!el)return;
+  if(!typed){el.innerHTML='';return;}
+  const boxes=target.split('').map((ch,i)=>{
+    const typedCh=typed[i]||'';
+    const correct=typedCh.toLowerCase()===ch.toLowerCase()||normalizeUmlauts(typedCh.toLowerCase())===normalizeUmlauts(ch.toLowerCase());
+    const cls=!typedCh?'':(correct?'hit':'miss');
+    return ch===' '?`<div class="char-box space"></div>`:`<div class="char-box ${cls}">${escH(typedCh||'·')}</div>`;
+  }).join('');
+  el.innerHTML=boxes;
 }
 
 function gradeTyping(){
@@ -1723,18 +2001,34 @@ function gradeTyping(){
   const ok=fuzzy(typed.toLowerCase(),card.word.toLowerCase());
   inp.classList.add(ok?'ok':'ng');inp.disabled=true;
   playSound(ok?'c':'w');
+  // Show full char-by-char diff on wrong
+  if(!ok){
+    const el=document.getElementById('char-hint-row');
+    if(el)updateCharHint(typed,card.word);
+  }
   let fb=ok?`<div style="color:var(--success);font-weight:700;font-size:13.5px;margin-bottom:5px">✓ Correct!</div>`:
     `<div style="color:var(--danger);font-weight:700;margin-bottom:5px">✗ Answer: <span style="font-family:var(--mono);color:var(--cyan)">${escH(card.word)}</span></div>`;
   fb+=`<div class="csm" style="margin-top:9px"><span class="gtag">${escH(card.grammar_note)}</span>${card.story_hook?`<div class="sbox" style="margin-top:7px">${escH(card.story_hook)}</div>`:''}</div>`;
   document.getElementById('typfb').innerHTML=fb;
   const elapsed=(Date.now()-ses.ct0)/1000;
+  const xpMult=_hintUsed?0.5:1;
   updateSRS(card,ok?(3+Math.min(1,5/elapsed)):1);
-  recordResult(ok,1);
-  if(ok&&elapsed<3)ses.spd++;
+  recordResult(ok,1,xpMult);
+  if(ok&&elapsed<3&&!_hintUsed)ses.spd++;
+  _hintUsed=false;
   document.getElementById('ses-act').innerHTML=`<button class="btn bp bfw" onclick="nextCard()">Next →</button>`;
 }
 
-function fuzzy(a,b){if(a===b)return true;if(Math.abs(a.length-b.length)>2)return false;let d=0;const ml=Math.max(a.length,b.length);for(let i=0;i<ml;i++)if(a[i]!==b[i])d++;return d<=1;}
+function normalizeUmlauts(s){return s.replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/Ä/g,'Ae').replace(/Ö/g,'Oe').replace(/Ü/g,'Ue');}
+function fuzzy(a,b){
+  const user=getUser();
+  if(a===b)return true;
+  // Always allow umlaut substitution (ae/oe/ue/ss)
+  if(normalizeUmlauts(a)===normalizeUmlauts(b))return true;
+  if(user.settings?.strictTyping)return false;
+  if(Math.abs(a.length-b.length)>2)return false;
+  let d=0;const ml=Math.max(a.length,b.length);for(let i=0;i<ml;i++)if(a[i]!==b[i])d++;return d<=1;
+}
 
 // ── BUILD-A-SENTENCE ────────────────────────────────────────
 function renderBuild(card,el){
@@ -1761,15 +2055,15 @@ async function gradeBuild(){
   const fb=document.getElementById('buildfb');
   fb.innerHTML=`<div style="color:var(--dim);font-size:12.5px" class="ldots">Evaluating</div>`;
   document.getElementById('ses-act').innerHTML='';
-  const apiKey=lsGet('apiKey','');
+  const proxyUrl=lsGet('aiProxyUrl','');
   let res={correct:null,feedback:'',suggested_improvement:''};
-  if(apiKey){
+  if(proxyUrl){
     try{
-      const r=await callClaude(apiKey,[{role:'user',content:`German teacher. Word: '${card.word}' (${card.translation}). Grammar: ${card.grammar_note}. Student: '${sentence}'. Is it correct? JSON only: {"correct":bool,"feedback":"string","suggested_improvement":"string"}`}],300);
+      const r=await callClaude(proxyUrl,[{role:'user',content:`German teacher. Word: '${card.word}' (${card.translation}). Grammar: ${card.grammar_note}. Student: '${sentence}'. Is it correct? JSON only: {"correct":bool,"feedback":"string","suggested_improvement":"string"}`}],300);
       res=JSON.parse(r.content[0].text.replace(/```json\n?|\n?```/g,'').trim());
     }catch(e){res={correct:null,feedback:'AI unavailable. Practice recorded!',suggested_improvement:''};}
   } else {
-    res={correct:null,feedback:'Add Claude API key in Settings for AI evaluation.',suggested_improvement:''};
+    res={correct:null,feedback:'Add AI Proxy URL in Settings for AI evaluation.',suggested_improvement:''};
   }
   const ok=res.correct===true;
   playSound(ok?'c':'w');
@@ -1869,7 +2163,14 @@ function updateSRS(card,quality){
   }
   saveSRS(card.id,{ml:newML,nr:newNR,rh:newRH.slice(-20),ef,iv:newIv,emotion_tag:card.emotion_tag||''});
   card.mastery_level=newML;card.next_review=newNR;card.ease_factor=ef;card.interval=newIv;
+  card.review_history=newRH.slice(-20);
   if(newML>=4&&!wasMastered)ses.mastered++;
+  // Leech detection: mark/unmark after update
+  if(isLeech(card)){
+    markLeech(card.id,true);
+  } else {
+    markLeech(card.id,false);
+  }
 }
 
 function recordResult(ok,modDiff,xpMult=1){
@@ -2109,11 +2410,11 @@ function showCardDetail(c){
 }
 
 async function genHook(cardId){
-  const apiKey=lsGet('apiKey','');if(!apiKey){toast('Add Claude API key in Settings!');return;}
+  const proxyUrl=lsGet('aiProxyUrl','');if(!proxyUrl){toast('Add AI Proxy URL in Settings!');return;}
   const p=parseId(cardId);const c=buildCard(p.lv,p.deck,p.idx);if(!c)return;
   const el=document.getElementById('shookbox');if(el)el.innerHTML='<span class="ldots">Generating</span>';
   try{
-    const r=await callClaude(apiKey,[{role:'user',content:`2-sentence mnemonic story for English speaker to remember German word '${c.word}' (${c.translation}). Grammar: ${c.grammar_note}. Return only the story, no intro.`}],180);
+    const r=await callClaude(proxyUrl,[{role:'user',content:`2-sentence mnemonic story for English speaker to remember German word '${c.word}' (${c.translation}). Grammar: ${c.grammar_note}. Return only the story, no intro.`}],180);
     const hook=r.content[0].text.trim();
     const srs=lsGet('srs:'+cardId,{});srs.story_hook=hook;lsSet('srs:'+cardId,srs);
     if(el)el.textContent=hook;toast('Story generated!');
@@ -2199,10 +2500,10 @@ async function aiCardStory(){
   const word=document.getElementById('nc-w')?.value.trim();
   const trans=document.getElementById('nc-t')?.value.trim();
   if(!word||!trans){toast('Enter word and translation first!');return;}
-  const apiKey=lsGet('apiKey','');if(!apiKey){toast('Add Claude API key in Settings!');return;}
+  const proxyUrl=lsGet('aiProxyUrl','');if(!proxyUrl){toast('Add AI Proxy URL in Settings!');return;}
   const ta=document.getElementById('nc-s');if(ta)ta.placeholder='Generating…';
   try{
-    const r=await callClaude(apiKey,[{role:'user',content:`2-sentence mnemonic for English speaker to remember German '${word}' = '${trans}'. Return story only.`}],160);
+    const r=await callClaude(proxyUrl,[{role:'user',content:`2-sentence mnemonic for English speaker to remember German '${word}' = '${trans}'. Return story only.`}],160);
     if(ta)ta.value=r.content[0].text.trim();toast('Story done!');
   }catch(e){toast('AI failed.');}
 }
@@ -2327,6 +2628,22 @@ function renderProgress(){
   const bEl=document.getElementById('pbadges');
   bEl.innerHTML=user.badges?.length>0?user.badges.map(bid=>{const bd=BADGES.find(b=>b.id===bid);return bd?`<div class="lvlbadge" title="${bd.desc}">${bd.label}</div>`:''}).join(''):'<div style="color:var(--dim);font-size:12.5px">No badges yet — keep studying!</div>';
 
+  // Leech panel
+  const leeches=getAllLeeches();
+  const lc=document.getElementById('pleech-count');if(lc)lc.textContent=leeches.length;
+  const lp=document.getElementById('pleech-panel');
+  if(lp){
+    if(leeches.length===0){
+      lp.innerHTML='<div style="color:var(--dim);font-size:12.5px;padding:7px 0">No leeches — great job! Words you struggle with will appear here.</div>';
+    } else {
+      lp.innerHTML='<div class="leech-banner" style="margin-bottom:10px;cursor:pointer" onclick="showScreen(\'study\')">'
+        +'<div style="font-weight:700;font-size:12.5px;color:var(--danger);margin-bottom:5px">🔴 '+leeches.length+' leech'+(leeches.length===1?'':'es')+' detected</div>'
+        +'<div style="display:flex;flex-wrap:wrap;gap:5px">'+leeches.map(c=>`<span class="leech-tag">${escH(c.word)}</span>`).join('')+'</div>'
+        +'<div style="font-size:10.5px;color:var(--dim);margin-top:7px">Tap to start a Leech Drill session →</div>'
+        +'</div>';
+    }
+  }
+
   // History
   const hEl=document.getElementById('phist');
   hEl.innerHTML=hist.length===0?'<div style="color:var(--dim);font-size:12.5px;padding:7px 0">No sessions yet.</div>':
@@ -2347,21 +2664,27 @@ function renderProgress(){
 function renderSettings(){
   const user=getUser();const s=user.settings||{};
   document.getElementById('set-nl').value=s.newLimit||20;
-  document.getElementById('set-dm').value=s.defaultMode||'mixed';
   document.getElementById('set-spd').value=s.ttsSpeed||'1';
   document.getElementById('set-sound').checked=s.sound!==false;
+  const sc=document.getElementById('set-strict');if(sc)sc.checked=!!s.strictTyping;
+  const sp=document.getElementById('set-spread');if(sp)sp.checked=!!s.daySpread;
   const vs=document.getElementById('set-voice');
   const loadV=()=>{const voices=speechSynthesis.getVoices();vs.innerHTML=voices.map((v,i)=>`<option value="${i}"${s.ttsVoice===String(i)?' selected':''}>${v.name} (${v.lang})</option>`).join('');};
   if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=loadV;loadV();}
-  const apiKey=lsGet('apiKey','');
-  document.getElementById('set-key').value=apiKey?'•'.repeat(24):'';
+  const proxyUrl=lsGet('aiProxyUrl','');
+  document.getElementById('set-key').value=proxyUrl;
   const st=document.getElementById('keystatus');
-  st.textContent=apiKey?'✓ API key saved — AI features enabled':'No API key — AI features disabled';
-  st.style.color=apiKey?'var(--success)':'var(--dim)';
+  st.textContent=proxyUrl?'✓ Proxy URL saved — AI features enabled':'No proxy URL — AI features disabled';
+  st.style.color=proxyUrl?'var(--success)':'var(--dim)';
 }
 
 let _kd;
-function debSaveKey(v){clearTimeout(_kd);_kd=setTimeout(()=>{if(v&&!v.startsWith('•')&&v.length>10){lsSet('apiKey',v);const st=document.getElementById('keystatus');if(st){st.textContent='✓ API key saved';st.style.color='var(--success)';}toast('API key saved!');}},800);}
+function debSaveKey(v){clearTimeout(_kd);_kd=setTimeout(()=>{
+  const val=(v||'').trim();
+  if(!val){lsSet('aiProxyUrl','');const st=document.getElementById('keystatus');if(st){st.textContent='No proxy URL — AI features disabled';st.style.color='var(--dim)';}return;}
+  if(!/^https?:\/\/.+/.test(val)){const st=document.getElementById('keystatus');if(st){st.textContent='⚠️ Enter a valid https:// URL';st.style.color='var(--danger)';}return;}
+  lsSet('aiProxyUrl',val);const st=document.getElementById('keystatus');if(st){st.textContent='✓ Proxy URL saved';st.style.color='var(--success)';}toast('Proxy URL saved!');
+},800);}
 function saveSetting(key,value){const user=getUser();if(!user.settings)user.settings={};user.settings[key]=value;setUser(user);}
 function testTTS(){speakTxt('Die Sehnsucht nach Hause ist groß. Ich lerne gern Deutsch!');}
 function reqNotif(){if(!('Notification' in window)){toast('Not supported.');return;}Notification.requestPermission().then(p=>toast(p==='granted'?'Reminders enabled 🔔':'Permission denied.'));}
@@ -2379,9 +2702,13 @@ function speakTxt(text,rateO=null){
   speechSynthesis.speak(u);
 }
 
-// ── CLAUDE API ───────────────────────────────────────────────
-async function callClaude(apiKey,messages,maxTokens=800){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':apiKey,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:maxTokens,messages})});
+// ── CLAUDE API (via proxy) ────────────────────────────────────
+// No API key ever lives in this file or in localStorage. Instead, set up
+// a small server-side proxy (see worker.js) that holds the key as a
+// secret, then paste the proxy's URL into Settings → AI Proxy URL.
+async function callClaude(proxyUrl,messages,maxTokens=300){
+  if(!proxyUrl)throw new Error('No proxy URL configured');
+  const r=await fetch(proxyUrl,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages,max_tokens:maxTokens})});
   if(!r.ok)throw new Error('API '+r.status);return r.json();
 }
 
@@ -2588,6 +2915,73 @@ self.addEventListener('fetch',e=>{
     const url=URL.createObjectURL(blob);
     navigator.serviceWorker.register(url,{scope:'./'}).catch(()=>{});
   }catch(e){}
+}
+
+// ── CSV EXPORT ───────────────────────────────────────────────
+function exportCSV(filter){
+  const allCards=getAllCards();
+  let cards;
+  if(filter==='studied') cards=allCards.filter(c=>c.review_history.length>0);
+  else if(filter==='leeches') cards=getAllLeeches();
+  else cards=allCards;
+
+  if(cards.length===0){
+    const st=document.getElementById('export-status');
+    if(st)st.textContent='No cards to export for this filter.';
+    return;
+  }
+
+  const ESC=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+
+  const headers=['word','translation','grammar_note','example','level','deck',
+    'mastery_level','ease_factor','interval_days','next_review',
+    'reviews_total','reviews_correct','accuracy_pct','streak_correct',
+    'is_leech','emotion_tag','story_hook'];
+
+  const rows=cards.map(c=>{
+    const rh=c.review_history||[];
+    const total=rh.length;
+    const correct=rh.filter(r=>r.correct).length;
+    const acc=total>0?Math.round((correct/total)*100):0;
+    // consecutive correct streak from end
+    let streak=0;
+    for(let i=rh.length-1;i>=0;i--){if(rh[i].correct)streak++;else break;}
+    return [
+      ESC(c.word), ESC(c.translation), ESC(c.grammar_note), ESC(c.example||''),
+      ESC(c.level||''), ESC(c.deck||''),
+      c.mastery_level||0,
+      (c.ease_factor||2.5).toFixed(2),
+      c.interval||0,
+      ESC(c.next_review||''),
+      total, correct, acc, streak,
+      isLeech(c)?1:0,
+      ESC(c.emotion_tag||''), ESC(c.story_hook||'')
+    ].join(',');
+  });
+
+  const csv=[headers.join(','),...rows].join('\r\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});// BOM for Excel
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const date=new Date().toISOString().slice(0,10);
+  a.href=url;
+  a.download=`lexikon-${filter}-${date}.csv`;
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
+
+  const st=document.getElementById('export-status');
+  if(st)st.textContent=`✓ Exported ${cards.length} word${cards.length===1?'':'s'} · ${date}`;
+  toast(`📥 Exported ${cards.length} words as CSV`);
+}
+
+// ── LEECH SHORTCUT ───────────────────────────────────────────
+function studyLeeches(){
+  showScreen('study');
+  setTimeout(()=>{
+    selModeVal='leeches';
+    document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('sel',c.dataset.mode==='leeches'));
+    toast('🔴 Leech mode selected — tap Begin Session');
+  },120);
 }
 
 // ── BOOT ─────────────────────────────────────────────────────
